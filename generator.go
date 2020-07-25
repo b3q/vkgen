@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"fmt"
 	"go/format"
 	"io/ioutil"
 	"strconv"
@@ -75,7 +74,7 @@ func (g Generator) writeSource(name string, b *bytes.Buffer) error {
 	return ioutil.WriteFile(name, src, 0677)
 }
 
-type callback = func(b *bytes.Buffer, parser *schema.Parser, values gjson.Result) error
+type callback = func(b *bytes.Buffer, values gjson.Result) error
 
 func (g Generator) generate(schemaFile, outputName string, cb callback) error {
 	sch, err := ioutil.ReadFile(schemaFile)
@@ -84,11 +83,10 @@ func (g Generator) generate(schemaFile, outputName string, cb callback) error {
 	}
 
 	objects := gjson.ParseBytes(sch)
-	parser := schema.NewParser()
 	b := bytes.NewBuffer(nil)
 	b.WriteString(genPrefix + "\n\npackage " + pkgName + "\n")
 
-	err = cb(b, parser, objects)
+	err = cb(b, objects)
 	if err != nil {
 		return err
 	}
@@ -98,12 +96,15 @@ func (g Generator) generate(schemaFile, outputName string, cb callback) error {
 
 func (g Generator) generateObjects() error {
 	return g.generate("objects.json", pkgName+"/objects.gen.go",
-		func(b *bytes.Buffer, parser *schema.Parser, objects gjson.Result) error {
-			objects.Get("definitions").ForEach(func(defName, definition gjson.Result) bool {
-				def := parser.ParseDefinition(defName.String(), definition)
-				b.WriteString(g.rootDefToString(def))
-				return true
-			})
+		func(b *bytes.Buffer, objects gjson.Result) error {
+			defs, err := schema.ParseObjects(objects)
+			if err != nil {
+				return err
+			}
+
+			for _, def := range defs {
+				b.WriteString(g.ObjectDefinitionToGolang(def) + "\n")
+			}
 
 			return nil
 		})
@@ -111,73 +112,69 @@ func (g Generator) generateObjects() error {
 
 func (g Generator) generateResponses() error {
 	return g.generate("responses.json", pkgName+"/responses.gen.go",
-		func(b *bytes.Buffer, parser *schema.Parser, responses gjson.Result) error {
-			responses.Get("definitions").ForEach(func(defName, definition gjson.Result) bool {
-				def := parser.ParseDefinition(defName.String(), definition.Get("properties.response"))
-				if req := definition.Get("properties.response.required"); req.Exists() && req.IsArray() {
-					requiredFields := make(map[string]struct{})
-					for _, field := range req.Array() {
-						requiredFields[field.String()] = struct{}{}
-					}
+		func(b *bytes.Buffer, responses gjson.Result) error {
+			defs, err := schema.ParseResponses(responses)
+			if err != nil {
+				return err
+			}
 
-					for _, prop := range def.Properties {
-						if _, found := requiredFields[*prop.Name]; !found {
-							prop.IsOptional = true
-						}
-					}
-				}
-				b.WriteString(g.rootDefToString(def))
-				return true
-			})
-
+			for _, response := range defs {
+				b.WriteString(g.ResponseDefinitionToGolang(response) + "\n")
+			}
 			return nil
 		})
 }
 
 func (g Generator) generateMethods() error {
 	return g.generate("methods.json", pkgName+"/methods.gen.go",
-		func(b *bytes.Buffer, parser *schema.Parser, methods gjson.Result) error {
-			for _, method := range methods.Get("methods").Array() {
-				methodName := method.Get("name").String()
-				if len(method.Get("responses").Map()) == 1 {
-					def := parser.ParseDefinition(methodName, method.Get("responses.response"))
-					if desc := method.Get("description"); desc.Exists() {
-						b.WriteString("// " + desc.String())
+		func(b *bytes.Buffer, methods gjson.Result) error {
+			defs, err := schema.ParseMethods(methods)
+			if err != nil {
+				return err
+			}
+
+			for _, method := range defs {
+				if len(method.Responses) == 1 {
+					resp := method.Responses[0]
+					if method.Description != nil {
+						b.WriteString("// " + *method.Description)
 					}
+
 					b.WriteString(`
-			func (vk *VK) ` + g.goify(methodName) + `(params Params) (response ` + g.defWithoutProps(def) + `, err error) {
-				err = vk.RequestUnmarshal("` + methodName + `", params, &response)
+			func (vk *VK) ` + g.goify(method.Name) + `(params Params) (response ` + g.objectExprToGolang(resp.Expr) + `, err error) {
+				err = vk.RequestUnmarshal("` + method.Name + `", params, &response)
 				return
 			}` + "\n\n")
 					continue
 				}
 
-				fmt.Fprintln(b, `
-			func (vk *VK) `+g.goify(methodName)+`Raw(params Params) ([]byte, error) {
-				return vk.Request("`+methodName+`", params)
-			}`)
+				b.WriteString(`
+			func (vk *VK) ` + g.goify(method.Name) + `Raw(params Params) ([]byte, error) {
+				return vk.Request("` + method.Name + `", params)
+			}` + "\n\n")
 			}
-
 			return nil
 		})
 }
 
 func (g Generator) generateBuilders() error {
 	return g.generate("methods.json", pkgName+"/builders.gen.go",
-		func(b *bytes.Buffer, parser *schema.Parser, methods gjson.Result) error {
-			for _, method := range methods.Get("methods").Array() {
-				methodName := method.Get("name").String()
-
+		func(b *bytes.Buffer, methods gjson.Result) error {
+			defs, err := schema.ParseMethods(methods)
+			if err != nil {
+				return err
+			}
+			for _, method := range defs {
 				// define struct
-				builderName := g.goify(methodName) + `Builder`
+				builderName := g.goify(method.Name) + `Builder`
 				b.WriteString("// " + builderName + " builder.\n")
 				b.WriteString("// \n")
-				if desc := method.Get("description"); desc.Exists() {
-					b.WriteString("// " + desc.String() + "\n")
+				if method.Description != nil {
+					b.WriteString("// " + *method.Description + "\n")
 					b.WriteString("// \n")
 				}
-				
-				b.WriteString("// https://vk.com/dev/" + methodName + "\n")
+
+				b.WriteString("// https://vk.com/dev/" + method.Name + "\n")
 				b.WriteString(`type ` + builderName + ` struct {` + "\n")
 				b.WriteString("\tapi.Params\n")
 				b.WriteString("}\n\n")
@@ -188,15 +185,13 @@ func (g Generator) generateBuilders() error {
 				b.WriteString("\treturn &" + builderName + "{api.Params{}}\n")
 				b.WriteString("}\n\n")
 
-				for _, parameter := range method.Get("parameters").Array() {
-					parameterName := g.goify(parameter.Get("name").String())
-					def := parser.ParseDefinition(parameterName, parameter)
-
-					if desc := parameter.Get("description"); desc.Exists() {
-						b.WriteString("// " + desc.String() + "\n")
+				for _, parameter := range method.Parameters {
+					if parameter.Description != nil {
+						b.WriteString("// " + *parameter.Description + "\n")
 					}
-					b.WriteString("func (b *" + builderName + ") " + parameterName + "(v " + g.defWithoutProps(def) + ") *" + builderName + " {\n")
-					b.WriteString("\tb.Params[\"" + parameter.Get("name").String() + "\"] = v\n")
+
+					b.WriteString("func (b *" + builderName + ") " + g.goify(parameter.Name) + "(v " + g.objectExprToGolang(parameter.ObjectExpr) + ") *" + builderName + " {\n")
+					b.WriteString("\tb.Params[\"" + parameter.Name + "\"] = v\n")
 					b.WriteString("\treturn b\n")
 					b.WriteString("}\n\n")
 				}
@@ -217,299 +212,291 @@ func (g Generator) goify(name string) string {
 	return g.goifyReplacer.Replace(string(runes))
 }
 
-func (g Generator) enumToString(enum schema.Enum) string {
+func (g Generator) ObjectDefinitionToGolang(obj schema.ObjectDefinition) string {
 	var sb strings.Builder
-	if enum.Description != nil {
-		sb.WriteString("\n// " + *enum.Description)
-	}
-	sb.WriteString("\ntype " + g.goify(enum.Name) + " ")
-	switch enum.DataType {
-	case schema.IntegerType:
-		sb.WriteString("int64\n")
-		if len(enum.IntegerValues) == 0 {
-			return sb.String()
-		}
-
-		sb.WriteString("\nconst (\n")
-		for idx, value := range enum.IntegerValues {
-			s := strconv.FormatInt(value, 10)
-			fieldName := enum.Name + "_" + s
-			if len(enum.Names) > 0 {
-				fieldName = enum.Name + "_" + enum.Names[idx]
-			}
-			sb.WriteString("\t" + g.goify(fieldName) + " " + g.goify(enum.Name) + " = " + s + "\n")
-		}
-		sb.WriteString(")\n")
-	case schema.NumberType:
-		sb.WriteString("float64\n")
-		if len(enum.NumberValues) == 0 {
-			return sb.String()
-		}
-
-		sb.WriteString("\nconst (\n")
-		for idx, value := range enum.NumberValues {
-			s := strconv.FormatFloat(value, 'g', 10, 64)
-			fieldName := enum.Name + "_" + s
-			if len(enum.Names) > 0 {
-				fieldName = enum.Name + "_" + enum.Names[idx]
-			}
-			sb.WriteString("\t" + g.goify(fieldName) + " " + g.goify(enum.Name) + " = " + s + "\n")
-		}
-		sb.WriteString(")\n")
-	case schema.StringType:
-		sb.WriteString("string\n")
-		if len(enum.StringValues) == 0 {
-			return sb.String()
-		}
-
-		sb.WriteString("\nconst (\n")
-		for idx, value := range enum.StringValues {
-			fieldName := enum.Name + "_" + value
-			if len(enum.Names) > 0 {
-				fieldName = enum.Name + "_" + enum.Names[idx]
-			}
-			sb.WriteString("\t" + g.goify(fieldName) + " " + g.goify(enum.Name) + " = \"" + value + "\"\n")
-		}
-		sb.WriteString(")\n")
-	case schema.BooleanType:
-		sb.WriteString("boolXXX")
-	case schema.ObjectType:
-		sb.WriteString("interface{}\n")
-	default:
-		sb.WriteString("wtf " + string(enum.DataType))
+	if obj.Expr.Description != nil {
+		sb.WriteString("// " + *obj.Expr.Description + "\n")
 	}
 
+	if obj.Expr.IsBaseType || obj.Expr.IsReference {
+		sb.WriteString("type " + g.goify(obj.Name) + " " + g.objectExprToGolang(obj.Expr) + "\n")
+		return sb.String()
+	}
+
+	if obj.Expr.IsEnum {
+		// if obj.Expr.Description == nil{
+		// 	sb.WriteString("// enum " + obj.Name + "\n")
+		// }
+		sb.WriteString("type " + g.goify(obj.Name) + " " + g.objectExprToGolang(obj.Expr) + "\n")
+		if len(obj.Expr.Enum) == 0 {
+			return sb.String()
+		}
+
+		sb.WriteString("\nconst (\n")
+		for idx, item := range obj.Expr.Enum {
+			val := "undefined"
+			isString := false
+			switch obj.Expr.Type {
+			case "number":
+				val = strconv.FormatFloat(item.(float64), 'g', 10, 64)
+			case "integer":
+				val = strconv.FormatInt(item.(int64), 10)
+			case "string":
+				val = item.(string)
+				isString = true
+			default:
+				panic("unsupported enum type")
+			}
+
+			fieldNamePostfix := val
+			if len(obj.Expr.EnumNames) > 0 {
+				fieldNamePostfix = obj.Expr.EnumNames[idx]
+			}
+
+			if isString {
+				val = `"` + val + `"`
+			}
+
+			fieldName := g.goify(obj.Name) + g.goify(fieldNamePostfix)
+			sb.WriteString("\t" + fieldName + " " + g.goify(obj.Name) + " = " + val + "\n")
+		}
+		sb.WriteString(")\n")
+		return sb.String()
+	}
+
+	if obj.Expr.IsAllOf || obj.Expr.IsOneOf {
+		var values []schema.ObjectExpr
+		if obj.Expr.IsAllOf {
+			if obj.Expr.Description == nil {
+				sb.WriteString("// allof " + obj.Name + "\n")
+			}
+			values = obj.Expr.AllOf
+		}
+		if obj.Expr.IsOneOf {
+			if obj.Expr.Description == nil {
+				sb.WriteString("// oneof " + obj.Name + "\n")
+			}
+			values = obj.Expr.OneOf
+		}
+
+		sb.WriteString("type " + g.goify(obj.Name) + " struct {\n")
+		for _, val := range values {
+			if val.IsReference {
+				jtag := "`json:\"" + *val.RefTo + ",omitempty\"`"
+				sb.WriteString("\t*" + g.objectExprToGolang(val) + " " + jtag + "\n")
+				continue
+			}
+
+			for _, prop := range val.Properties {
+				jtag := "`json:\"" + prop.Name + ",omitempty\"`"
+				sb.WriteString("\t" + g.goify(prop.Name) + "*" + g.objectExprToGolang(prop.Expr) + " " + jtag + "\n")
+			}
+		}
+		sb.WriteString("}\n")
+		return sb.String()
+	}
+
+	sb.WriteString("type " + g.goify(obj.Name) + " struct {\n")
+	for _, prop := range obj.Expr.Properties {
+		jsonTag := "`json:\"" + prop.Name
+		jsonTag += "\"`"
+		goType := g.objectExprToGolang(prop.Expr)
+
+		if prop.Expr.IsReference {
+			if obj.Name == *prop.Expr.RefTo {
+				goType = "*" + goType
+			}
+		}
+
+		if prop.Expr.Description != nil {
+			jsonTag += " // " + *prop.Expr.Description
+		}
+
+		sb.WriteString("\t" + g.goify(prop.Name) + " " + goType + " " + jsonTag + "\n")
+	}
+
+	sb.WriteString("}\n")
 	return sb.String()
 }
 
-func (g Generator) arrayToString(array schema.Array) string {
-	switch array.DataType {
-	case schema.IntegerType:
+func (g Generator) objectExprToGolang(expr schema.ObjectExpr) string {
+	if expr.IsReference {
+		return g.goify(*expr.RefTo)
+	}
+
+	if expr.IsAllOf {
+		if len(expr.AllOf) > 0 {
+			var sb strings.Builder
+			sb.WriteString("struct{\n")
+			for _, val := range expr.AllOf {
+				if val.IsReference {
+					sb.WriteString("\t*" + g.goify(*val.RefTo) + "\n")
+					continue
+				}
+
+				if len(val.Properties) == 0 {
+					panic("wtf")
+				}
+
+				sb.WriteString("*struct{\n")
+				for _, prop := range val.Properties {
+					sb.WriteString("\t*" + g.goify(prop.Name) + "\n")
+				}
+				sb.WriteString("}\n")
+			}
+			sb.WriteString("}")
+			return sb.String()
+		}
+	}
+
+	switch expr.Type {
+	case "integer":
+		return "int64"
+	case "number":
+		return "float64"
+	case "string":
+		return "string"
+	case "boolean":
+		return "bool"
+	case "array":
+		return "[]" + g.objectExprToGolang(*expr.ArrayOf)
+	case "object":
+		if len(expr.Properties) > 0 {
+			var sb strings.Builder
+			sb.WriteString("struct{\n")
+			for _, prop := range expr.Properties {
+				jtag := "`json:\"" + prop.Name + "\"`"
+				sb.WriteString("\t" + g.goify(prop.Name) + " " + g.objectExprToGolang(prop.Expr) + " " + jtag + "\n")
+			}
+			sb.WriteString("}\n")
+			return sb.String()
+		}
 		fallthrough
-	case schema.NumberType:
-		return "[]int64"
-	case schema.BooleanType:
-		return "[]bool"
-	case schema.StringType:
-		return "[]string"
-	case schema.ArrayType:
-		return "[]" + g.arrayToString(*array.Ref.Array)
-	case schema.ReferenceType:
-		return "[]" + g.goify(*array.Ref.Name)
-	case schema.AllofType:
-		str := "[]struct{\n"
-		for _, item := range array.AllOf.PossibleValues {
-			switch item.DataType {
-			case schema.ReferenceType:
-				str += "\t\t*" + g.goify(*item.Name) + "\n"
-			case schema.NumberType:
-				fallthrough
-			case schema.IntegerType:
-				fallthrough
-			default:
-				panic("unsupported array type: " + string(item.DataType))
-			}
-		}
-		str += "\t}"
-		return str
 	default:
-		return "[]interface{} //hz"
-		//panic("unsupported array data type: " + string(array.DataType))
+		return "interface{}"
 	}
 }
 
-func (g Generator) oneofToString(oneof schema.OneOf) string {
-	var sb strings.Builder
-	sb.WriteString("\n// oneof " + oneof.Name)
-	sb.WriteString("\ntype " + g.goify(oneof.Name) + " struct{\n")
+var responseRules = map[string]string{
+	"messages_delete_response": "map[string]int64",
+}
 
-	for _, value := range oneof.PossibleValues {
-		if value.Name != nil {
-			jsonPrefix := "`json:\"" + *value.Name + ",omitempty\"`"
-			sb.WriteString("\t*" + g.goify(*value.Name) + jsonPrefix + "\n")
-			continue
+func (g Generator) ResponseDefinitionToGolang(resp schema.ResponseDefinition) string {
+	var sb strings.Builder
+	if resp.Expr.Description != nil {
+		sb.WriteString("// " + *resp.Expr.Description + "\n")
+	}
+
+	if forcedType, ok := responseRules[resp.Name]; ok {
+		sb.WriteString("type " + g.goify(resp.Name) + " " + forcedType + "\n")
+		return sb.String()
+	}
+
+	if resp.Expr.IsBaseType || resp.Expr.IsReference {
+		sb.WriteString("type " + g.goify(resp.Name) + " " + g.objectExprToGolang(resp.Expr.ObjectExpr) + "\n")
+		return sb.String()
+	}
+
+	if resp.Expr.IsEnum {
+		// if obj.Expr.Description == nil{
+		// 	sb.WriteString("// enum " + obj.Name + "\n")
+		// }
+		sb.WriteString("type " + g.goify(resp.Name) + " " + g.objectExprToGolang(resp.Expr.ObjectExpr) + "\n")
+		if len(resp.Expr.Enum) == 0 {
+			return sb.String()
 		}
 
-		//sb.WriteString("\t*struct{\n")
-		for _, prop := range value.Properties {
-			jsonPrefix := "`json:\"" + *prop.Name + ",omitempty\"`"
-			sb.WriteString("\t" + g.goify(*prop.Name) + " ")
-			switch prop.DataType {
-			case schema.IntegerType:
-				sb.WriteString("int64")
-			case schema.NumberType:
-				sb.WriteString("float64")
-			case schema.StringType:
-				sb.WriteString("string")
-			case schema.BooleanType:
-				sb.WriteString("bool")
-			case schema.ReferenceType:
-				sb.WriteString(g.goify(*prop.RefTo))
+		sb.WriteString("\nconst (\n")
+		for idx, item := range resp.Expr.Enum {
+			val := "undefined"
+			isString := false
+			switch resp.Expr.ObjectExpr.Type {
+			case "number":
+				val = strconv.FormatFloat(item.(float64), 'g', 10, 64)
+			case "integer":
+				val = strconv.FormatInt(item.(int64), 10)
+			case "string":
+				val = item.(string)
+				isString = true
 			default:
-				sb.WriteString("unknown:" + string(prop.DataType))
+				panic("unsupported enum type")
 			}
-			sb.WriteString(jsonPrefix + "\n")
-		}
-		//sb.WriteString("\t}\n")
-	}
 
-	sb.WriteString("}\n")
-	return sb.String()
-}
-
-func (g Generator) allofToString(allof schema.AllOf) string {
-	var sb strings.Builder
-	sb.WriteString("\n// allof " + allof.Name)
-	sb.WriteString("\ntype " + g.goify(allof.Name) + " struct{\n")
-	for _, value := range allof.PossibleValues {
-		if value.Name != nil {
-			jsonPrefix := "`json:\"" + *value.Name + ",omitempty\"`"
-			sb.WriteString("\t*" + g.goify(*value.Name) + jsonPrefix + "\n")
-			continue
-		}
-
-		//sb.WriteString("\t*struct{\n")
-		for _, prop := range value.Properties {
-			jsonPrefix := "`json:\"" + *prop.Name + ",omitempty\"`"
-			sb.WriteString("\t" + g.goify(*prop.Name) + " ")
-			switch prop.DataType {
-			case schema.IntegerType:
-				sb.WriteString("*int64")
-			case schema.NumberType:
-				sb.WriteString("*float64")
-			case schema.StringType:
-				sb.WriteString("*string")
-			case schema.BooleanType:
-				sb.WriteString("*bool")
-			case schema.ReferenceType:
-				sb.WriteString("*" + g.goify(*prop.RefTo))
-			case schema.ArrayType:
-				sb.WriteString("*" + g.arrayToString(*prop.Array))
-			default:
-				sb.WriteString("unknown:" + string(prop.DataType))
+			fieldNamePostfix := val
+			if len(resp.Expr.EnumNames) > 0 {
+				fieldNamePostfix = resp.Expr.EnumNames[idx]
 			}
-			sb.WriteString(jsonPrefix + "\n")
+
+			if isString {
+				val = `"` + val + `"`
+			}
+
+			fieldName := g.goify(resp.Name) + g.goify(fieldNamePostfix)
+			sb.WriteString("\t" + fieldName + " " + g.goify(resp.Name) + " = " + val + "\n")
 		}
-		//sb.WriteString("\t}\n")
+		sb.WriteString(")\n")
+		return sb.String()
 	}
 
-	sb.WriteString("}\n")
-	return sb.String()
-}
-
-func (g Generator) rootDefToString(def *schema.Definition) string {
-	if def.Enum != nil {
-		return g.enumToString(*def.Enum)
-	}
-
-	if def.OneOf != nil {
-		return g.oneofToString(*def.OneOf)
-	}
-
-	if def.AllOf != nil {
-		return g.allofToString(*def.AllOf)
-	}
-
-	// если нет полей, походу это филд
-	if len(def.Properties) == 0 {
-		s := "\ntype " + g.goify(*def.Name) + " " + g.defWithoutProps(def) + "\n"
-		if def.Description != nil {
-			s = "\n// " + *def.Description + s
+	if resp.Expr.IsAllOf || resp.Expr.IsOneOf {
+		var values []schema.ObjectExpr
+		if resp.Expr.IsAllOf {
+			// if obj.Expr.Description == nil{
+			// 	sb.WriteString("// allof " + obj.Name + "\n")
+			// }
+			values = resp.Expr.AllOf
 		}
-		return s
+		if resp.Expr.IsOneOf {
+			// if obj.Expr.Description == nil{
+			// 	sb.WriteString("// oneof " + obj.Name + "\n")
+			// }
+			values = resp.Expr.OneOf
+		}
+
+		sb.WriteString("type " + g.goify(resp.Name) + " struct {\n")
+		for _, val := range values {
+			if val.IsReference {
+				jtag := "`json:\"" + *val.RefTo + ",omitempty\"`"
+				sb.WriteString("\t*" + g.objectExprToGolang(val) + " " + jtag + "\n")
+				continue
+			}
+
+			for _, prop := range val.Properties {
+				jtag := "`json:\"" + prop.Name + ",omitempty\"`"
+				sb.WriteString("\t" + g.goify(prop.Name) + "*" + g.objectExprToGolang(prop.Expr) + " " + jtag + "\n")
+			}
+		}
+		sb.WriteString("}\n")
+		return sb.String()
 	}
 
-	if def.DataType != schema.ObjectType {
-		panic("unexpected definition data type: " + string(def.DataType))
+	requiredFields := make(map[string]struct{})
+	for _, field := range resp.Expr.Required {
+		requiredFields[field] = struct{}{}
 	}
-
-	var sb strings.Builder
-	if def.Description != nil {
-		sb.WriteString("\n// " + *def.Description)
-	}
-	sb.WriteString("\ntype " + g.goify(*def.Name) + " struct{\n")
-	for _, prop := range def.Properties {
-		jsonTag := "`json:\"" + *prop.Name
+	allFieldsRequired := len(requiredFields) == 0
+	sb.WriteString("type " + g.goify(resp.Name) + " struct {\n")
+	for _, prop := range resp.Expr.Properties {
+		jsonTag := "`json:\"" + prop.Name
 		ptr := false
-		if prop.IsOptional {
+		if _, required := requiredFields[prop.Name]; !required && !allFieldsRequired {
 			jsonTag += ",omitempty"
 			ptr = true
 		}
 		jsonTag += "\"`"
-		propertyType := g.defWithoutProps(prop)
+		goType := g.objectExprToGolang(prop.Expr)
 
-		if prop.DataType == schema.ReferenceType {
-			if propertyType == g.goify(*def.Name) || ptr {
-				propertyType = "*" + propertyType
+		if prop.Expr.IsReference {
+			if resp.Name == *prop.Expr.RefTo || ptr {
+				goType = "*" + goType
 			}
 		}
 
-		if prop.Description != nil {
-			jsonTag += " // " + *prop.Description
+		if prop.Expr.Description != nil {
+			jsonTag += " // " + *prop.Expr.Description
 		}
 
-		sb.WriteString("\t" + g.goify(*prop.Name) + " " + propertyType + " " + jsonTag + "\n")
-	}
-
-	sb.WriteString("}\n")
-	return sb.String()
-}
-
-func (g Generator) defWithoutProps(def *schema.Definition) string {
-	switch def.DataType {
-	case schema.ReferenceType:
-		return g.goify(*def.RefTo)
-	case schema.ArrayType:
-		return g.arrayToString(*def.Array)
-	case schema.EnumType:
-		return g.goify(def.Enum.Name)
-	case schema.OneofType:
-		return g.goify(def.OneOf.Name)
-	case schema.AllofType:
-		return g.goify(def.AllOf.Name)
-	case schema.BooleanType:
-		return "bool"
-	case schema.IntegerType:
-		return "int64"
-	case schema.NumberType:
-		return "float64"
-	case schema.StringType:
-		return "string"
-	case schema.ObjectType:
-		//sb.WriteString("interface{} //hz")
-		//str := rootDefToString(prop)
-		//fmt.Println("kek:" + str + ":kek")
-		// sb.Reset()
-		// sb.WriteString("\ntype " + g.goify(*def.Name) + " struct{\n")
-		// for _, prop := range def.Properties {
-		// 	sb.WriteString("\t" + rootDefToString(prop) + "\n")
-		// }
-		// sb.WriteString("}\n")
-		fallthrough
-	case schema.UnsupportedType:
-		return "interface{}"
-	default:
-		panic("unsupported datatype: " + string(def.DataType))
-	}
-}
-
-func (g Generator) methodResponseDefToString(def *schema.Definition) string {
-	var sb strings.Builder
-	sb.WriteString("\ntype " + g.goify(*def.Name) + " struct{\n")
-	for _, prop := range def.Properties {
-		ptr := false
-		if prop.IsOptional {
-			ptr = true
-		}
-		propertyType := g.defWithoutProps(prop)
-
-		if prop.DataType == schema.ReferenceType {
-			if propertyType == g.goify(*def.Name) || ptr {
-				propertyType = "*" + propertyType
-			}
-		}
-
-		sb.WriteString("\t*" + propertyType + "\n")
+		sb.WriteString("\t" + g.goify(prop.Name) + " " + goType + " " + jsonTag + "\n")
 	}
 
 	sb.WriteString("}\n")
