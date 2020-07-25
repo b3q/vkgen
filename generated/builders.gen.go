@@ -4,7 +4,6 @@ package generated
 
 // AccountBanBuilder builder.
 //
-//
 // https://vk.com/dev/account.ban
 type AccountBanBuilder struct {
 	api.Params
@@ -519,7 +518,6 @@ func (b *AccountSetSilenceModeBuilder) Sound(v int64) *AccountSetSilenceModeBuil
 }
 
 // AccountUnbanBuilder builder.
-//
 //
 // https://vk.com/dev/account.unban
 type AccountUnbanBuilder struct {
@@ -1224,7 +1222,6 @@ func (b *AdsGetFloodStatsBuilder) AccountID(v int64) *AdsGetFloodStatsBuilder {
 
 // AdsGetLookalikeRequestsBuilder builder.
 //
-//
 // https://vk.com/dev/ads.getLookalikeRequests
 type AdsGetLookalikeRequestsBuilder struct {
 	api.Params
@@ -1266,7 +1263,6 @@ func (b *AdsGetLookalikeRequestsBuilder) SortBy(v string) *AdsGetLookalikeReques
 }
 
 // AdsGetMusiciansBuilder builder.
-//
 //
 // https://vk.com/dev/ads.getMusicians
 type AdsGetMusiciansBuilder struct {
@@ -2098,7 +2094,6 @@ func (b *AppsGetScoreBuilder) UserID(v int64) *AppsGetScoreBuilder {
 
 // AppsPromoHasActiveGiftBuilder builder.
 //
-//
 // https://vk.com/dev/apps.promoHasActiveGift
 type AppsPromoHasActiveGiftBuilder struct {
 	api.Params
@@ -2121,7 +2116,6 @@ func (b *AppsPromoHasActiveGiftBuilder) UserID(v int64) *AppsPromoHasActiveGiftB
 }
 
 // AppsPromoUseGiftBuilder builder.
-//
 //
 // https://vk.com/dev/apps.promoUseGift
 type AppsPromoUseGiftBuilder struct {
@@ -3462,7 +3456,6 @@ func (b *DocsSearchBuilder) ReturnTags(v bool) *DocsSearchBuilder {
 
 // DownloadedGamesGetPaidStatusBuilder builder.
 //
-//
 // https://vk.com/dev/downloadedGames.getPaidStatus
 type DownloadedGamesGetPaidStatusBuilder struct {
 	api.Params
@@ -3479,7 +3472,6 @@ func (b *DownloadedGamesGetPaidStatusBuilder) UserID(v int64) *DownloadedGamesGe
 }
 
 // FaveAddArticleBuilder builder.
-//
 //
 // https://vk.com/dev/fave.addArticle
 type FaveAddArticleBuilder struct {
@@ -3518,7 +3510,6 @@ func (b *FaveAddLinkBuilder) Link(v string) *FaveAddLinkBuilder {
 
 // FaveAddPageBuilder builder.
 //
-//
 // https://vk.com/dev/fave.addPage
 type FaveAddPageBuilder struct {
 	api.Params
@@ -3540,7 +3531,6 @@ func (b *FaveAddPageBuilder) GroupID(v int64) *FaveAddPageBuilder {
 }
 
 // FaveAddPostBuilder builder.
-//
 //
 // https://vk.com/dev/fave.addPost
 type FaveAddPostBuilder struct {
@@ -3569,7 +3559,6 @@ func (b *FaveAddPostBuilder) AccessKey(v string) *FaveAddPostBuilder {
 
 // FaveAddProductBuilder builder.
 //
-//
 // https://vk.com/dev/fave.addProduct
 type FaveAddProductBuilder struct {
 	api.Params
@@ -3597,7 +3586,6 @@ func (b *FaveAddProductBuilder) AccessKey(v string) *FaveAddProductBuilder {
 
 // FaveAddTagBuilder builder.
 //
-//
 // https://vk.com/dev/fave.addTag
 type FaveAddTagBuilder struct {
 	api.Params
@@ -3619,7 +3607,6 @@ func (b *FaveAddTagBuilder) Position(v string) *FaveAddTagBuilder {
 }
 
 // FaveAddVideoBuilder builder.
-//
 //
 // https://vk.com/dev/fave.addVideo
 type FaveAddVideoBuilder struct {
@@ -3648,7 +3635,6 @@ func (b *FaveAddVideoBuilder) AccessKey(v string) *FaveAddVideoBuilder {
 
 // FaveEditTagBuilder builder.
 //
-//
 // https://vk.com/dev/fave.editTag
 type FaveEditTagBuilder struct {
 	api.Params
@@ -3670,7 +3656,6 @@ func (b *FaveEditTagBuilder) Name(v string) *FaveEditTagBuilder {
 }
 
 // FaveGetBuilder builder.
-//
 //
 // https://vk.com/dev/fave.get
 type FaveGetBuilder struct {
@@ -3723,7 +3708,6 @@ func (b *FaveGetBuilder) IsFromSnackbar(v bool) *FaveGetBuilder {
 
 // FaveGetPagesBuilder builder.
 //
-//
 // https://vk.com/dev/fave.getPages
 type FaveGetPagesBuilder struct {
 	api.Params
@@ -3761,7 +3745,6 @@ func (b *FaveGetPagesBuilder) TagID(v int64) *FaveGetPagesBuilder {
 
 // FaveGetTagsBuilder builder.
 //
-//
 // https://vk.com/dev/fave.getTags
 type FaveGetTagsBuilder struct {
 	api.Params
@@ -3774,7 +3757,6 @@ func NewFaveGetTagsBuilder() *FaveGetTagsBuilder {
 
 // FaveMarkSeenBuilder builder.
 //
-//
 // https://vk.com/dev/fave.markSeen
 type FaveMarkSeenBuilder struct {
 	api.Params
@@ -3786,7 +3768,6 @@ func NewFaveMarkSeenBuilder() *FaveMarkSeenBuilder {
 }
 
 // FaveRemoveArticleBuilder builder.
-//
 //
 // https://vk.com/dev/fave.removeArticle
 type FaveRemoveArticleBuilder struct {
@@ -3836,7 +3817,6 @@ func (b *FaveRemoveLinkBuilder) Link(v string) *FaveRemoveLinkBuilder {
 
 // FaveRemovePageBuilder builder.
 //
-//
 // https://vk.com/dev/fave.removePage
 type FaveRemovePageBuilder struct {
 	api.Params
@@ -3858,7 +3838,6 @@ func (b *FaveRemovePageBuilder) GroupID(v int64) *FaveRemovePageBuilder {
 }
 
 // FaveRemovePostBuilder builder.
-//
 //
 // https://vk.com/dev/fave.removePost
 type FaveRemovePostBuilder struct {
@@ -3882,7 +3861,6 @@ func (b *FaveRemovePostBuilder) ID(v int64) *FaveRemovePostBuilder {
 
 // FaveRemoveProductBuilder builder.
 //
-//
 // https://vk.com/dev/fave.removeProduct
 type FaveRemoveProductBuilder struct {
 	api.Params
@@ -3905,7 +3883,6 @@ func (b *FaveRemoveProductBuilder) ID(v int64) *FaveRemoveProductBuilder {
 
 // FaveRemoveTagBuilder builder.
 //
-//
 // https://vk.com/dev/fave.removeTag
 type FaveRemoveTagBuilder struct {
 	api.Params
@@ -3923,7 +3900,6 @@ func (b *FaveRemoveTagBuilder) ID(v int64) *FaveRemoveTagBuilder {
 
 // FaveReorderTagsBuilder builder.
 //
-//
 // https://vk.com/dev/fave.reorderTags
 type FaveReorderTagsBuilder struct {
 	api.Params
@@ -3940,7 +3916,6 @@ func (b *FaveReorderTagsBuilder) IDs(v []int64) *FaveReorderTagsBuilder {
 }
 
 // FaveSetPageTagsBuilder builder.
-//
 //
 // https://vk.com/dev/fave.setPageTags
 type FaveSetPageTagsBuilder struct {
@@ -3968,7 +3943,6 @@ func (b *FaveSetPageTagsBuilder) TagIDs(v []int64) *FaveSetPageTagsBuilder {
 }
 
 // FaveSetTagsBuilder builder.
-//
 //
 // https://vk.com/dev/fave.setTags
 type FaveSetTagsBuilder struct {
@@ -4011,7 +3985,6 @@ func (b *FaveSetTagsBuilder) LinkURL(v string) *FaveSetTagsBuilder {
 }
 
 // FaveTrackPageInteractionBuilder builder.
-//
 //
 // https://vk.com/dev/fave.trackPageInteraction
 type FaveTrackPageInteractionBuilder struct {
@@ -4693,7 +4666,6 @@ func (b *GiftsGetBuilder) Offset(v int64) *GiftsGetBuilder {
 
 // GroupsAddAddressBuilder builder.
 //
-//
 // https://vk.com/dev/groups.addAddress
 type GroupsAddAddressBuilder struct {
 	api.Params
@@ -4770,7 +4742,6 @@ func (b *GroupsAddAddressBuilder) IsMainAddress(v bool) *GroupsAddAddressBuilder
 }
 
 // GroupsAddCallbackServerBuilder builder.
-//
 //
 // https://vk.com/dev/groups.addCallbackServer
 type GroupsAddCallbackServerBuilder struct {
@@ -4862,7 +4833,6 @@ func (b *GroupsApproveRequestBuilder) UserID(v int64) *GroupsApproveRequestBuild
 
 // GroupsBanBuilder builder.
 //
-//
 // https://vk.com/dev/groups.ban
 type GroupsBanBuilder struct {
 	api.Params
@@ -4949,7 +4919,6 @@ func (b *GroupsCreateBuilder) Subtype(v int64) *GroupsCreateBuilder {
 
 // GroupsDeleteCallbackServerBuilder builder.
 //
-//
 // https://vk.com/dev/groups.deleteCallbackServer
 type GroupsDeleteCallbackServerBuilder struct {
 	api.Params
@@ -4997,7 +4966,6 @@ func (b *GroupsDeleteLinkBuilder) LinkID(v int64) *GroupsDeleteLinkBuilder {
 }
 
 // GroupsDisableOnlineBuilder builder.
-//
 //
 // https://vk.com/dev/groups.disableOnline
 type GroupsDisableOnlineBuilder struct {
@@ -5296,7 +5264,6 @@ func (b *GroupsEditBuilder) City(v int64) *GroupsEditBuilder {
 
 // GroupsEditAddressBuilder builder.
 //
-//
 // https://vk.com/dev/groups.editAddress
 type GroupsEditAddressBuilder struct {
 	api.Params
@@ -5378,7 +5345,6 @@ func (b *GroupsEditAddressBuilder) IsMainAddress(v bool) *GroupsEditAddressBuild
 }
 
 // GroupsEditCallbackServerBuilder builder.
-//
 //
 // https://vk.com/dev/groups.editCallbackServer
 type GroupsEditCallbackServerBuilder struct {
@@ -5504,7 +5470,6 @@ func (b *GroupsEditManagerBuilder) ContactEmail(v string) *GroupsEditManagerBuil
 }
 
 // GroupsEnableOnlineBuilder builder.
-//
 //
 // https://vk.com/dev/groups.enableOnline
 type GroupsEnableOnlineBuilder struct {
@@ -5721,7 +5686,6 @@ func (b *GroupsGetCallbackConfirmationCodeBuilder) GroupID(v int64) *GroupsGetCa
 }
 
 // GroupsGetCallbackServersBuilder builder.
-//
 //
 // https://vk.com/dev/groups.getCallbackServers
 type GroupsGetCallbackServersBuilder struct {
@@ -6046,7 +6010,6 @@ func (b *GroupsGetSettingsBuilder) GroupID(v int64) *GroupsGetSettingsBuilder {
 }
 
 // GroupsGetTokenPermissionsBuilder builder.
-//
 //
 // https://vk.com/dev/groups.getTokenPermissions
 type GroupsGetTokenPermissionsBuilder struct {
@@ -6852,7 +6815,6 @@ func (b *GroupsSetLongPollSettingsBuilder) MessageEvent(v bool) *GroupsSetLongPo
 }
 
 // GroupsUnbanBuilder builder.
-//
 //
 // https://vk.com/dev/groups.unban
 type GroupsUnbanBuilder struct {
@@ -8686,7 +8648,6 @@ func (b *MessagesGetByIDBuilder) GroupID(v int64) *MessagesGetByIDBuilder {
 
 // MessagesGetChatPreviewBuilder builder.
 //
-//
 // https://vk.com/dev/messages.getChatPreview
 type MessagesGetChatPreviewBuilder struct {
 	api.Params
@@ -8975,7 +8936,6 @@ func (b *MessagesGetHistoryAttachmentsBuilder) MaxForwardsLevel(v int64) *Messag
 
 // MessagesGetInviteLinkBuilder builder.
 //
-//
 // https://vk.com/dev/messages.getInviteLink
 type MessagesGetInviteLinkBuilder struct {
 	api.Params
@@ -9166,7 +9126,6 @@ func (b *MessagesIsMessagesFromGroupAllowedBuilder) UserID(v int64) *MessagesIsM
 }
 
 // MessagesJoinChatByInviteLinkBuilder builder.
-//
 //
 // https://vk.com/dev/messages.joinChatByInviteLink
 type MessagesJoinChatByInviteLinkBuilder struct {
@@ -9638,7 +9597,6 @@ func (b *MessagesSendBuilder) SubscribeID(v int64) *MessagesSendBuilder {
 
 // MessagesSendMessageEventAnswerBuilder builder.
 //
-//
 // https://vk.com/dev/messages.sendMessageEventAnswer
 type MessagesSendMessageEventAnswerBuilder struct {
 	api.Params
@@ -9729,7 +9687,6 @@ func (b *MessagesSetChatPhotoBuilder) File(v string) *MessagesSetChatPhotoBuilde
 
 // MessagesUnpinBuilder builder.
 //
-//
 // https://vk.com/dev/messages.unpin
 type MessagesUnpinBuilder struct {
 	api.Params
@@ -9799,7 +9756,6 @@ func (b *NewsfeedDeleteBanBuilder) GroupIDs(v []int64) *NewsfeedDeleteBanBuilder
 }
 
 // NewsfeedDeleteListBuilder builder.
-//
 //
 // https://vk.com/dev/newsfeed.deleteList
 type NewsfeedDeleteListBuilder struct {
@@ -10746,7 +10702,6 @@ func NewNotificationsMarkAsViewedBuilder() *NotificationsMarkAsViewedBuilder {
 
 // NotificationsSendMessageBuilder builder.
 //
-//
 // https://vk.com/dev/notifications.sendMessage
 type NotificationsSendMessageBuilder struct {
 	api.Params
@@ -10783,7 +10738,6 @@ func (b *NotificationsSendMessageBuilder) RandomID(v int64) *NotificationsSendMe
 }
 
 // OrdersCancelSubscriptionBuilder builder.
-//
 //
 // https://vk.com/dev/orders.cancelSubscription
 type OrdersCancelSubscriptionBuilder struct {
@@ -10881,7 +10835,6 @@ func (b *OrdersGetBuilder) TestMode(v bool) *OrdersGetBuilder {
 
 // OrdersGetAmountBuilder builder.
 //
-//
 // https://vk.com/dev/orders.getAmount
 type OrdersGetAmountBuilder struct {
 	api.Params
@@ -10936,7 +10889,6 @@ func (b *OrdersGetByIDBuilder) TestMode(v bool) *OrdersGetByIDBuilder {
 
 // OrdersGetUserSubscriptionByIDBuilder builder.
 //
-//
 // https://vk.com/dev/orders.getUserSubscriptionById
 type OrdersGetUserSubscriptionByIDBuilder struct {
 	api.Params
@@ -10959,7 +10911,6 @@ func (b *OrdersGetUserSubscriptionByIDBuilder) SubscriptionID(v int64) *OrdersGe
 
 // OrdersGetUserSubscriptionsBuilder builder.
 //
-//
 // https://vk.com/dev/orders.getUserSubscriptions
 type OrdersGetUserSubscriptionsBuilder struct {
 	api.Params
@@ -10976,7 +10927,6 @@ func (b *OrdersGetUserSubscriptionsBuilder) UserID(v int64) *OrdersGetUserSubscr
 }
 
 // OrdersUpdateSubscriptionBuilder builder.
-//
 //
 // https://vk.com/dev/orders.updateSubscription
 type OrdersUpdateSubscriptionBuilder struct {
@@ -13411,7 +13361,6 @@ func (b *PollsGetVotersBuilder) NameCase(v string) *PollsGetVotersBuilder {
 
 // PrettyCardsCreateBuilder builder.
 //
-//
 // https://vk.com/dev/prettyCards.create
 type PrettyCardsCreateBuilder struct {
 	api.Params
@@ -13459,7 +13408,6 @@ func (b *PrettyCardsCreateBuilder) Button(v string) *PrettyCardsCreateBuilder {
 
 // PrettyCardsDeleteBuilder builder.
 //
-//
 // https://vk.com/dev/prettyCards.delete
 type PrettyCardsDeleteBuilder struct {
 	api.Params
@@ -13481,7 +13429,6 @@ func (b *PrettyCardsDeleteBuilder) CardID(v int64) *PrettyCardsDeleteBuilder {
 }
 
 // PrettyCardsEditBuilder builder.
-//
 //
 // https://vk.com/dev/prettyCards.edit
 type PrettyCardsEditBuilder struct {
@@ -13535,7 +13482,6 @@ func (b *PrettyCardsEditBuilder) Button(v string) *PrettyCardsEditBuilder {
 
 // PrettyCardsGetBuilder builder.
 //
-//
 // https://vk.com/dev/prettyCards.get
 type PrettyCardsGetBuilder struct {
 	api.Params
@@ -13563,7 +13509,6 @@ func (b *PrettyCardsGetBuilder) Count(v int64) *PrettyCardsGetBuilder {
 
 // PrettyCardsGetByIDBuilder builder.
 //
-//
 // https://vk.com/dev/prettyCards.getById
 type PrettyCardsGetByIDBuilder struct {
 	api.Params
@@ -13585,7 +13530,6 @@ func (b *PrettyCardsGetByIDBuilder) CardIDs(v []int64) *PrettyCardsGetByIDBuilde
 }
 
 // PrettyCardsGetUploadURLBuilder builder.
-//
 //
 // https://vk.com/dev/prettyCards.getUploadURL
 type PrettyCardsGetUploadURLBuilder struct {
@@ -14019,7 +13963,6 @@ func (b *StatsGetPostReachBuilder) PostIDs(v []int64) *StatsGetPostReachBuilder 
 }
 
 // StatsTrackVisitorBuilder builder.
-//
 //
 // https://vk.com/dev/stats.trackVisitor
 type StatsTrackVisitorBuilder struct {
@@ -14588,7 +14531,6 @@ func (b *StoriesHideReplyBuilder) StoryID(v int64) *StoriesHideReplyBuilder {
 
 // StoriesSearchBuilder builder.
 //
-//
 // https://vk.com/dev/stories.search
 type StoriesSearchBuilder struct {
 	api.Params
@@ -14679,7 +14621,6 @@ func NewStreamingGetServerURLBuilder() *StreamingGetServerURLBuilder {
 }
 
 // StreamingSetSettingsBuilder builder.
-//
 //
 // https://vk.com/dev/streaming.setSettings
 type StreamingSetSettingsBuilder struct {
@@ -15293,7 +15234,6 @@ func (b *VideoAddAlbumBuilder) Privacy(v []string) *VideoAddAlbumBuilder {
 
 // VideoAddToAlbumBuilder builder.
 //
-//
 // https://vk.com/dev/video.addToAlbum
 type VideoAddToAlbumBuilder struct {
 	api.Params
@@ -15730,7 +15670,6 @@ func (b *VideoGetAlbumsBuilder) NeedSystem(v bool) *VideoGetAlbumsBuilder {
 
 // VideoGetAlbumsByVideoBuilder builder.
 //
-//
 // https://vk.com/dev/video.getAlbumsByVideo
 type VideoGetAlbumsByVideoBuilder struct {
 	api.Params
@@ -15827,7 +15766,6 @@ func (b *VideoGetCommentsBuilder) Fields(v []string) *VideoGetCommentsBuilder {
 }
 
 // VideoRemoveFromAlbumBuilder builder.
-//
 //
 // https://vk.com/dev/video.removeFromAlbum
 type VideoRemoveFromAlbumBuilder struct {
@@ -16251,7 +16189,6 @@ func (b *VideoSearchBuilder) Extended(v bool) *VideoSearchBuilder {
 }
 
 // WallCloseCommentsBuilder builder.
-//
 //
 // https://vk.com/dev/wall.closeComments
 type WallCloseCommentsBuilder struct {
@@ -16863,7 +16800,6 @@ func (b *WallGetRepostsBuilder) Count(v int64) *WallGetRepostsBuilder {
 }
 
 // WallOpenCommentsBuilder builder.
-//
 //
 // https://vk.com/dev/wall.openComments
 type WallOpenCommentsBuilder struct {
