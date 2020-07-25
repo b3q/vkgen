@@ -3,12 +3,11 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"go/format"
 	"io/ioutil"
 	"strconv"
 	"strings"
 	"unicode"
-
-	"go/format"
 
 	"github.com/b3q/vkgen/schema"
 	"github.com/tidwall/gjson"
@@ -55,6 +54,11 @@ func (g Generator) Generate() (err error) {
 	}
 
 	err = g.generateMethods()
+	if err != nil {
+		return err
+	}
+
+	err = g.generateBuilders()
 	if err != nil {
 		return err
 	}
@@ -154,6 +158,48 @@ func (g Generator) generateMethods() error {
 			}`)
 			}
 
+			return nil
+		})
+}
+
+func (g Generator) generateBuilders() error {
+	return g.generate("methods.json", pkgName+"/builders.gen.go",
+		func(b *bytes.Buffer, parser *schema.Parser, methods gjson.Result) error {
+			for _, method := range methods.Get("methods").Array() {
+				methodName := method.Get("name").String()
+
+				// define struct
+				builderName := g.goify(methodName) + `Builder`
+				b.WriteString("// " + builderName + " builder.\n")
+				b.WriteString("// \n")
+				if desc := method.Get("description"); desc.Exists() {
+					b.WriteString("// " + desc.String() + "\n")
+				}
+				b.WriteString("// \n")
+				b.WriteString("// https://vk.com/dev/" + methodName + "\n")
+				b.WriteString(`type ` + builderName + ` struct {` + "\n")
+				b.WriteString("\tapi.Params\n")
+				b.WriteString("}\n\n")
+
+				// define constructor
+				b.WriteString("// " + builderName + " func.\n")
+				b.WriteString("func New" + builderName + "() *" + builderName + " {\n")
+				b.WriteString("\treturn &" + builderName + "{api.Params{}}\n")
+				b.WriteString("}\n\n")
+
+				for _, parameter := range method.Get("parameters").Array() {
+					parameterName := g.goify(parameter.Get("name").String())
+					def := parser.ParseDefinition(parameterName, parameter)
+
+					if desc := parameter.Get("description"); desc.Exists() {
+						b.WriteString("// " + desc.String() + "\n")
+					}
+					b.WriteString("func (b *" + builderName + ") " + parameterName + "(v " + g.defWithoutProps(def) + ") *" + builderName + " {\n")
+					b.WriteString("\tb.Params[\"" + parameter.Get("name").String() + "\"] = v\n")
+					b.WriteString("\treturn b\n")
+					b.WriteString("}\n\n")
+				}
+			}
 			return nil
 		})
 }
