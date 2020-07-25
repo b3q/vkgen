@@ -4726,7 +4726,7 @@ func (b *GroupsAddAddressBuilder) Phone(v string) *GroupsAddAddressBuilder {
 	return b
 }
 
-func (b *GroupsAddAddressBuilder) WorkInfoStatus(v string) *GroupsAddAddressBuilder {
+func (b *GroupsAddAddressBuilder) WorkInfoStatus(v GroupsAddressWorkInfoStatus) *GroupsAddAddressBuilder {
 	b.Params["work_info_status"] = v
 	return b
 }
@@ -5021,7 +5021,7 @@ func (b *GroupsEditBuilder) ScreenName(v string) *GroupsEditBuilder {
 }
 
 // Community type. Possible values: *'0' – open,, *'1' – closed,, *'2' – private.
-func (b *GroupsEditBuilder) Access(v int64) *GroupsEditBuilder {
+func (b *GroupsEditBuilder) Access(v GroupsGroupAccess) *GroupsEditBuilder {
 	b.Params["access"] = v
 	return b
 }
@@ -5033,7 +5033,7 @@ func (b *GroupsEditBuilder) Website(v string) *GroupsEditBuilder {
 }
 
 // Community subject. Possible values: , *'1' – auto/moto,, *'2' – activity holidays,, *'3' – business,, *'4' – pets,, *'5' – health,, *'6' – dating and communication, , *'7' – games,, *'8' – IT (computers and software),, *'9' – cinema,, *'10' – beauty and fashion,, *'11' – cooking,, *'12' – art and culture,, *'13' – literature,, *'14' – mobile services and internet,, *'15' – music,, *'16' – science and technology,, *'17' – real estate,, *'18' – news and media,, *'19' – security,, *'20' – education,, *'21' – home and renovations,, *'22' – politics,, *'23' – food,, *'24' – industry,, *'25' – travel,, *'26' – work,, *'27' – entertainment,, *'28' – religion,, *'29' – family,, *'30' – sports,, *'31' – insurance,, *'32' – television,, *'33' – goods and services,, *'34' – hobbies,, *'35' – finance,, *'36' – photo,, *'37' – esoterics,, *'38' – electronics and appliances,, *'39' – erotic,, *'40' – humor,, *'41' – society, humanities,, *'42' – design and graphics.
-func (b *GroupsEditBuilder) Subject(v string) *GroupsEditBuilder {
+func (b *GroupsEditBuilder) Subject(v GroupsGroupSubject) *GroupsEditBuilder {
 	b.Params["subject"] = v
 	return b
 }
@@ -5093,31 +5093,31 @@ func (b *GroupsEditBuilder) PublicDate(v string) *GroupsEditBuilder {
 }
 
 // Wall settings. Possible values: *'0' – disabled,, *'1' – open,, *'2' – limited (groups and events only),, *'3' – closed (groups and events only).
-func (b *GroupsEditBuilder) Wall(v int64) *GroupsEditBuilder {
+func (b *GroupsEditBuilder) Wall(v GroupsGroupWall) *GroupsEditBuilder {
 	b.Params["wall"] = v
 	return b
 }
 
 // Board topics settings. Possbile values: , *'0' – disabled,, *'1' – open,, *'2' – limited (for groups and events only).
-func (b *GroupsEditBuilder) Topics(v int64) *GroupsEditBuilder {
+func (b *GroupsEditBuilder) Topics(v GroupsGroupTopics) *GroupsEditBuilder {
 	b.Params["topics"] = v
 	return b
 }
 
 // Photos settings. Possible values: *'0' – disabled,, *'1' – open,, *'2' – limited (for groups and events only).
-func (b *GroupsEditBuilder) Photos(v int64) *GroupsEditBuilder {
+func (b *GroupsEditBuilder) Photos(v GroupsGroupPhotos) *GroupsEditBuilder {
 	b.Params["photos"] = v
 	return b
 }
 
 // Video settings. Possible values: *'0' – disabled,, *'1' – open,, *'2' – limited (for groups and events only).
-func (b *GroupsEditBuilder) Video(v int64) *GroupsEditBuilder {
+func (b *GroupsEditBuilder) Video(v GroupsGroupVideo) *GroupsEditBuilder {
 	b.Params["video"] = v
 	return b
 }
 
 // Audio settings. Possible values: *'0' – disabled,, *'1' – open,, *'2' – limited (for groups and events only).
-func (b *GroupsEditBuilder) Audio(v int64) *GroupsEditBuilder {
+func (b *GroupsEditBuilder) Audio(v GroupsGroupAudio) *GroupsEditBuilder {
 	b.Params["audio"] = v
 	return b
 }
@@ -5147,13 +5147,13 @@ func (b *GroupsEditBuilder) Contacts(v bool) *GroupsEditBuilder {
 }
 
 // Documents settings. Possible values: *'0' – disabled,, *'1' – open,, *'2' – limited (for groups and events only).
-func (b *GroupsEditBuilder) Docs(v int64) *GroupsEditBuilder {
+func (b *GroupsEditBuilder) Docs(v GroupsGroupDocs) *GroupsEditBuilder {
 	b.Params["docs"] = v
 	return b
 }
 
 // Wiki pages settings. Possible values: *'0' – disabled,, *'1' – open,, *'2' – limited (for groups and events only).
-func (b *GroupsEditBuilder) Wiki(v int64) *GroupsEditBuilder {
+func (b *GroupsEditBuilder) Wiki(v GroupsGroupWiki) *GroupsEditBuilder {
 	b.Params["wiki"] = v
 	return b
 }
@@ -5175,7 +5175,7 @@ func (b *GroupsEditBuilder) Addresses(v bool) *GroupsEditBuilder {
 }
 
 // Community age limits. Possible values: *'1' — no limits,, *'2' — 16+,, *'3' — 18+.
-func (b *GroupsEditBuilder) AgeLimits(v int64) *GroupsEditBuilder {
+func (b *GroupsEditBuilder) AgeLimits(v GroupsGroupAgeLimits) *GroupsEditBuilder {
 	b.Params["age_limits"] = v
 	return b
 }
@@ -5205,7 +5205,7 @@ func (b *GroupsEditBuilder) MarketCity(v []int64) *GroupsEditBuilder {
 }
 
 // Market currency settings. Possbile values: , *'643' – Russian rubles,, *'980' – Ukrainian hryvnia,, *'398' – Kazakh tenge,, *'978' – Euro,, *'840' – US dollars
-func (b *GroupsEditBuilder) MarketCurrency(v int64) *GroupsEditBuilder {
+func (b *GroupsEditBuilder) MarketCurrency(v GroupsGroupMarketCurrency) *GroupsEditBuilder {
 	b.Params["market_currency"] = v
 	return b
 }
@@ -5329,7 +5329,7 @@ func (b *GroupsEditAddressBuilder) Phone(v string) *GroupsEditAddressBuilder {
 	return b
 }
 
-func (b *GroupsEditAddressBuilder) WorkInfoStatus(v string) *GroupsEditAddressBuilder {
+func (b *GroupsEditAddressBuilder) WorkInfoStatus(v GroupsAddressWorkInfoStatus) *GroupsEditAddressBuilder {
 	b.Params["work_info_status"] = v
 	return b
 }
@@ -5440,7 +5440,7 @@ func (b *GroupsEditManagerBuilder) UserID(v int64) *GroupsEditManagerBuilder {
 }
 
 // Manager role. Possible values: *'moderator',, *'editor',, *'administrator',, *'advertiser'.
-func (b *GroupsEditManagerBuilder) Role(v string) *GroupsEditManagerBuilder {
+func (b *GroupsEditManagerBuilder) Role(v GroupsGroupRole) *GroupsEditManagerBuilder {
 	b.Params["role"] = v
 	return b
 }
@@ -7085,7 +7085,7 @@ func NewLikesAddBuilder() *LikesAddBuilder {
 }
 
 // Object type: 'post' — post on user or community wall, 'comment' — comment on a wall post, 'photo' — photo, 'audio' — audio, 'video' — video, 'note' — note, 'photo_comment' — comment on the photo, 'video_comment' — comment on the video, 'topic_comment' — comment in the discussion, 'sitepage' — page of the site where the [vk.com/dev/Like|Like widget] is installed
-func (b *LikesAddBuilder) Type(v string) *LikesAddBuilder {
+func (b *LikesAddBuilder) Type(v LikesType) *LikesAddBuilder {
 	b.Params["type"] = v
 	return b
 }
@@ -7123,7 +7123,7 @@ func NewLikesDeleteBuilder() *LikesDeleteBuilder {
 }
 
 // Object type: 'post' — post on user or community wall, 'comment' — comment on a wall post, 'photo' — photo, 'audio' — audio, 'video' — video, 'note' — note, 'photo_comment' — comment on the photo, 'video_comment' — comment on the video, 'topic_comment' — comment in the discussion, 'sitepage' — page of the site where the [vk.com/dev/Like|Like widget] is installed
-func (b *LikesDeleteBuilder) Type(v string) *LikesDeleteBuilder {
+func (b *LikesDeleteBuilder) Type(v LikesType) *LikesDeleteBuilder {
 	b.Params["type"] = v
 	return b
 }
@@ -7161,7 +7161,7 @@ func NewLikesGetListBuilder() *LikesGetListBuilder {
 }
 
 // , Object type: 'post' — post on user or community wall, 'comment' — comment on a wall post, 'photo' — photo, 'audio' — audio, 'video' — video, 'note' — note, 'photo_comment' — comment on the photo, 'video_comment' — comment on the video, 'topic_comment' — comment in the discussion, 'sitepage' — page of the site where the [vk.com/dev/Like|Like widget] is installed
-func (b *LikesGetListBuilder) Type(v string) *LikesGetListBuilder {
+func (b *LikesGetListBuilder) Type(v LikesType) *LikesGetListBuilder {
 	b.Params["type"] = v
 	return b
 }
@@ -7240,7 +7240,7 @@ func (b *LikesIsLikedBuilder) UserID(v int64) *LikesIsLikedBuilder {
 }
 
 // Object type: 'post' — post on user or community wall, 'comment' — comment on a wall post, 'photo' — photo, 'audio' — audio, 'video' — video, 'note' — note, 'photo_comment' — comment on the photo, 'video_comment' — comment on the video, 'topic_comment' — comment in the discussion
-func (b *LikesIsLikedBuilder) Type(v string) *LikesIsLikedBuilder {
+func (b *LikesIsLikedBuilder) Type(v LikesType) *LikesIsLikedBuilder {
 	b.Params["type"] = v
 	return b
 }
@@ -9565,7 +9565,7 @@ func (b *MessagesSendBuilder) GroupID(v int64) *MessagesSendBuilder {
 	return b
 }
 
-func (b *MessagesSendBuilder) Keyboard(v string) *MessagesSendBuilder {
+func (b *MessagesSendBuilder) Keyboard(v MessagesKeyboard) *MessagesSendBuilder {
 	b.Params["keyboard"] = v
 	return b
 }
@@ -10111,7 +10111,7 @@ func NewNewsfeedIgnoreItemBuilder() *NewsfeedIgnoreItemBuilder {
 }
 
 // Item type. Possible values: *'wall' – post on the wall,, *'tag' – tag on a photo,, *'profilephoto' – profile photo,, *'video' – video,, *'audio' – audio.
-func (b *NewsfeedIgnoreItemBuilder) Type(v string) *NewsfeedIgnoreItemBuilder {
+func (b *NewsfeedIgnoreItemBuilder) Type(v NewsfeedIgnoreItemType) *NewsfeedIgnoreItemBuilder {
 	b.Params["type"] = v
 	return b
 }
@@ -10248,7 +10248,7 @@ func NewNewsfeedUnignoreItemBuilder() *NewsfeedUnignoreItemBuilder {
 }
 
 // Item type. Possible values: *'wall' – post on the wall,, *'tag' – tag on a photo,, *'profilephoto' – profile photo,, *'video' – video,, *'audio' – audio.
-func (b *NewsfeedUnignoreItemBuilder) Type(v string) *NewsfeedUnignoreItemBuilder {
+func (b *NewsfeedUnignoreItemBuilder) Type(v NewsfeedIgnoreItemType) *NewsfeedUnignoreItemBuilder {
 	b.Params["type"] = v
 	return b
 }
@@ -14287,7 +14287,7 @@ func (b *StoriesGetPhotoUploadServerBuilder) ReplyToStory(v string) *StoriesGetP
 }
 
 // Link text (for community's stories only).
-func (b *StoriesGetPhotoUploadServerBuilder) LinkText(v string) *StoriesGetPhotoUploadServerBuilder {
+func (b *StoriesGetPhotoUploadServerBuilder) LinkText(v StoriesUploadLinkText) *StoriesGetPhotoUploadServerBuilder {
 	b.Params["link_text"] = v
 	return b
 }
@@ -14412,7 +14412,7 @@ func (b *StoriesGetVideoUploadServerBuilder) ReplyToStory(v string) *StoriesGetV
 }
 
 // Link text (for community's stories only).
-func (b *StoriesGetVideoUploadServerBuilder) LinkText(v string) *StoriesGetVideoUploadServerBuilder {
+func (b *StoriesGetVideoUploadServerBuilder) LinkText(v StoriesUploadLinkText) *StoriesGetVideoUploadServerBuilder {
 	b.Params["link_text"] = v
 	return b
 }

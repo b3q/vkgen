@@ -255,7 +255,7 @@ type DatabaseGetRegionsResponse struct {
 	Items []DatabaseRegion `json:"items"`
 }
 
-type DatabaseGetSchoolClassesResponse [][]interface{} //hz
+type DatabaseGetSchoolClassesResponse [][]interface{}
 
 type DatabaseGetSchoolsResponse struct {
 	Count int64            `json:"count"` // Total number
@@ -705,7 +705,7 @@ type MessagesDeleteConversationResponse struct {
 	LastDeletedID int64 `json:"last_deleted_id"` // Id of the last message, that was deleted
 }
 
-type MessagesDeleteResponse interface{}
+type MessagesDeleteResponse map[string]int64
 
 // Result
 type MessagesEditResponse BaseBoolInt
@@ -825,7 +825,11 @@ type MessagesSearchResponse struct {
 // Message ID
 type MessagesSendResponse int64
 
-type MessagesSendUserIDsResponse []interface{} //hz
+type MessagesSendUserIDsResponse []struct {
+	PeerID    int64            `json:"peer_id"`
+	MessageID int64            `json:"message_id"`
+	Error     BaseMessageError `json:"error"`
+}
 
 type MessagesSetChatPhotoResponse struct {
 	MessageID int64        `json:"message_id"` // Service message ID
@@ -1159,7 +1163,10 @@ type SecureGetTransactionsHistoryResponse []SecureTransaction
 
 type SecureGetUserLevelResponse []SecureLevel
 
-type SecureGiveEventStickerResponse []interface{} //hz
+type SecureGiveEventStickerResponse []struct {
+	UserID int64  `json:"user_id"`
+	Status string `json:"status"`
+}
 
 type SecureSendNotificationResponse []int64
 
