@@ -174,8 +174,9 @@ func (g Generator) generateBuilders() error {
 				b.WriteString("// \n")
 				if desc := method.Get("description"); desc.Exists() {
 					b.WriteString("// " + desc.String() + "\n")
+					b.WriteString("// \n")
 				}
-				b.WriteString("// \n")
+				
 				b.WriteString("// https://vk.com/dev/" + methodName + "\n")
 				b.WriteString(`type ` + builderName + ` struct {` + "\n")
 				b.WriteString("\tapi.Params\n")
