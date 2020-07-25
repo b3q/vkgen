@@ -61,18 +61,18 @@ const (
 )
 
 type AccountOffer struct {
-	Description      string `json:"description"`       // Offer description
-	ID               int64  `json:"id"`                // Offer ID
-	Img              string `json:"img"`               // URL of the preview image
-	Instruction      string `json:"instruction"`       // Instruction how to process the offer
-	InstructionHtml  string `json:"instruction_html"`  // Instruction how to process the offer (HTML format)
-	Price            int64  `json:"price"`             // Offer price
-	ShortDescription string `json:"short_description"` // Offer short description
-	Tag              string `json:"tag"`               // Offer tag
-	Title            string `json:"title"`             // Offer title
-	CurrencyAmount   int64  `json:"currency_amount"`   // Currency amount
-	LinkID           int64  `json:"link_id"`           // Link id
-	LinkType         string `json:"link_type"`         // Link type
+	Description      string  `json:"description"`       // Offer description
+	ID               int64   `json:"id"`                // Offer ID
+	Img              string  `json:"img"`               // URL of the preview image
+	Instruction      string  `json:"instruction"`       // Instruction how to process the offer
+	InstructionHtml  string  `json:"instruction_html"`  // Instruction how to process the offer (HTML format)
+	Price            int64   `json:"price"`             // Offer price
+	ShortDescription string  `json:"short_description"` // Offer short description
+	Tag              string  `json:"tag"`               // Offer tag
+	Title            string  `json:"title"`             // Offer title
+	CurrencyAmount   float64 `json:"currency_amount"`   // Currency amount
+	LinkID           int64   `json:"link_id"`           // Link id
+	LinkType         string  `json:"link_type"`         // Link type
 }
 
 type AccountPushConversations struct {
@@ -470,16 +470,16 @@ type AdsStats struct {
 }
 
 type AdsStatsAge struct {
-	ClicksRate      int64  `json:"clicks_rate"`      // Clicks rate
-	ImpressionsRate int64  `json:"impressions_rate"` // Impressions rate
-	Value           string `json:"value"`            // Age interval
+	ClicksRate      float64 `json:"clicks_rate"`      // Clicks rate
+	ImpressionsRate float64 `json:"impressions_rate"` // Impressions rate
+	Value           string  `json:"value"`            // Age interval
 }
 
 type AdsStatsCities struct {
-	ClicksRate      int64  `json:"clicks_rate"`      // Clicks rate
-	ImpressionsRate int64  `json:"impressions_rate"` // Impressions rate
-	Name            string `json:"name"`             // City name
-	Value           int64  `json:"value"`            // City ID
+	ClicksRate      float64 `json:"clicks_rate"`      // Clicks rate
+	ImpressionsRate float64 `json:"impressions_rate"` // Impressions rate
+	Name            string  `json:"name"`             // City name
+	Value           int64   `json:"value"`            // City ID
 }
 
 type AdsStatsFormat struct {
@@ -498,15 +498,15 @@ type AdsStatsFormat struct {
 }
 
 type AdsStatsSex struct {
-	ClicksRate      int64            `json:"clicks_rate"`      // Clicks rate
-	ImpressionsRate int64            `json:"impressions_rate"` // Impressions rate
+	ClicksRate      float64          `json:"clicks_rate"`      // Clicks rate
+	ImpressionsRate float64          `json:"impressions_rate"` // Impressions rate
 	Value           AdsStatsSexValue `json:"value"`
 }
 
 type AdsStatsSexAge struct {
-	ClicksRate      int64  `json:"clicks_rate"`      // Clicks rate
-	ImpressionsRate int64  `json:"impressions_rate"` // Impressions rate
-	Value           string `json:"value"`            // Sex and age interval
+	ClicksRate      float64 `json:"clicks_rate"`      // Clicks rate
+	ImpressionsRate float64 `json:"impressions_rate"` // Impressions rate
+	Value           string  `json:"value"`            // Sex and age interval
 }
 
 // Sex
@@ -539,15 +539,15 @@ type AdsTargSettings struct {
 }
 
 type AdsTargStats struct {
-	AudienceCount    int64 `json:"audience_count"`     // Audience
-	RecommendedCpc   int64 `json:"recommended_cpc"`    // Recommended CPC value for 50% reach (old format)
-	RecommendedCpm   int64 `json:"recommended_cpm"`    // Recommended CPM value for 50% reach (old format)
-	RecommendedCpc50 int64 `json:"recommended_cpc_50"` // Recommended CPC value for 50% reach
-	RecommendedCpm50 int64 `json:"recommended_cpm_50"` // Recommended CPM value for 50% reach
-	RecommendedCpc70 int64 `json:"recommended_cpc_70"` // Recommended CPC value for 70% reach
-	RecommendedCpm70 int64 `json:"recommended_cpm_70"` // Recommended CPM value for 70% reach
-	RecommendedCpc90 int64 `json:"recommended_cpc_90"` // Recommended CPC value for 90% reach
-	RecommendedCpm90 int64 `json:"recommended_cpm_90"` // Recommended CPM value for 90% reach
+	AudienceCount    int64   `json:"audience_count"`     // Audience
+	RecommendedCpc   float64 `json:"recommended_cpc"`    // Recommended CPC value for 50% reach (old format)
+	RecommendedCpm   float64 `json:"recommended_cpm"`    // Recommended CPM value for 50% reach (old format)
+	RecommendedCpc50 float64 `json:"recommended_cpc_50"` // Recommended CPC value for 50% reach
+	RecommendedCpm50 float64 `json:"recommended_cpm_50"` // Recommended CPM value for 50% reach
+	RecommendedCpc70 float64 `json:"recommended_cpc_70"` // Recommended CPC value for 70% reach
+	RecommendedCpm70 float64 `json:"recommended_cpm_70"` // Recommended CPM value for 70% reach
+	RecommendedCpc90 float64 `json:"recommended_cpc_90"` // Recommended CPC value for 90% reach
+	RecommendedCpm90 float64 `json:"recommended_cpm_90"` // Recommended CPM value for 90% reach
 }
 
 type AdsTargSuggestions struct {
@@ -717,17 +717,17 @@ type BaseCropPhoto struct {
 }
 
 type BaseCropPhotoCrop struct {
-	X  int64 `json:"x"`  // Coordinate X of the left upper corner
-	Y  int64 `json:"y"`  // Coordinate Y of the left upper corner
-	X2 int64 `json:"x2"` // Coordinate X of the right lower corner
-	Y2 int64 `json:"y2"` // Coordinate Y of the right lower corner
+	X  float64 `json:"x"`  // Coordinate X of the left upper corner
+	Y  float64 `json:"y"`  // Coordinate Y of the left upper corner
+	X2 float64 `json:"x2"` // Coordinate X of the right lower corner
+	Y2 float64 `json:"y2"` // Coordinate Y of the right lower corner
 }
 
 type BaseCropPhotoRect struct {
-	X  int64 `json:"x"`  // Coordinate X of the left upper corner
-	Y  int64 `json:"y"`  // Coordinate Y of the left upper corner
-	X2 int64 `json:"x2"` // Coordinate X of the right lower corner
-	Y2 int64 `json:"y2"` // Coordinate Y of the right lower corner
+	X  float64 `json:"x"`  // Coordinate X of the left upper corner
+	Y  float64 `json:"y"`  // Coordinate Y of the left upper corner
+	X2 float64 `json:"x2"` // Coordinate X of the right lower corner
+	Y2 float64 `json:"y2"` // Coordinate Y of the right lower corner
 }
 
 type BaseError struct {
@@ -745,13 +745,13 @@ type BaseGeo struct {
 }
 
 type BaseGeoCoordinates struct {
-	Latitude  int64 `json:"latitude"`
-	Longitude int64 `json:"longitude"`
+	Latitude  float64 `json:"latitude"`
+	Longitude float64 `json:"longitude"`
 }
 
 type BaseGradientPoint struct {
-	Color    string `json:"color"`    // Hex color code without #
-	Position int64  `json:"position"` // Point position
+	Color    string  `json:"color"`    // Hex color code without #
+	Position float64 `json:"position"` // Point position
 }
 
 type BaseImage struct {
@@ -793,13 +793,13 @@ type BaseLink struct {
 }
 
 type BaseLinkApplication struct {
-	AppID int64                    `json:"app_id"` // Application Id
+	AppID float64                  `json:"app_id"` // Application Id
 	Store BaseLinkApplicationStore `json:"store"`
 }
 
 type BaseLinkApplicationStore struct {
-	ID   int64  `json:"id"`   // Store Id
-	Name string `json:"name"` // Store name
+	ID   float64 `json:"id"`   // Store Id
+	Name string  `json:"name"` // Store name
 }
 
 type BaseLinkButton struct {
@@ -835,8 +835,8 @@ type BaseLinkProduct struct {
 }
 
 type BaseLinkRating struct {
-	ReviewsCount int64 `json:"reviews_count"` // Count of reviews
-	Stars        int64 `json:"stars"`         // Count of stars
+	ReviewsCount int64   `json:"reviews_count"` // Count of reviews
+	Stars        float64 `json:"stars"`         // Count of stars
 }
 
 type BaseMessageError struct {
@@ -859,17 +859,17 @@ type BaseObjectWithName struct {
 }
 
 type BasePlace struct {
-	Address   string `json:"address"`   // Place address
-	Checkins  int64  `json:"checkins"`  // Checkins number
-	City      string `json:"city"`      // City name
-	Country   string `json:"country"`   // Country name
-	Created   int64  `json:"created"`   // Date of the place creation in Unixtime
-	Icon      string `json:"icon"`      // URL of the place's icon
-	ID        int64  `json:"id"`        // Place ID
-	Latitude  int64  `json:"latitude"`  // Place latitude
-	Longitude int64  `json:"longitude"` // Place longitude
-	Title     string `json:"title"`     // Place title
-	Type      string `json:"type"`      // Place type
+	Address   string  `json:"address"`   // Place address
+	Checkins  int64   `json:"checkins"`  // Checkins number
+	City      string  `json:"city"`      // City name
+	Country   string  `json:"country"`   // Country name
+	Created   int64   `json:"created"`   // Date of the place creation in Unixtime
+	Icon      string  `json:"icon"`      // URL of the place's icon
+	ID        int64   `json:"id"`        // Place ID
+	Latitude  float64 `json:"latitude"`  // Place latitude
+	Longitude float64 `json:"longitude"` // Place longitude
+	Title     string  `json:"title"`     // Place title
+	Type      string  `json:"type"`      // Place type
 }
 
 type BasePropertyExists int64
@@ -1555,8 +1555,8 @@ type GroupsAddress struct {
 	CountryID         int64                       `json:"country_id"`         // Country id of address
 	Distance          int64                       `json:"distance"`           // Distance from the point
 	ID                int64                       `json:"id"`                 // Address id
-	Latitude          int64                       `json:"latitude"`           // Address latitude
-	Longitude         int64                       `json:"longitude"`          // Address longitude
+	Latitude          float64                     `json:"latitude"`           // Address latitude
+	Longitude         float64                     `json:"longitude"`          // Address longitude
 	MetroStationID    int64                       `json:"metro_station_id"`   // Metro id of address
 	Phone             string                      `json:"phone"`              // Address phone
 	TimeOffset        int64                       `json:"time_offset"`        // Time offset int minutes from utc time
@@ -2965,7 +2965,7 @@ type NewsfeedItemWallpost struct {
 	SignerID          *int64                        `json:"signer_id,omitempty"`
 	Text              *string                       `json:"text,omitempty"`
 	Views             *WallViews                    `json:"views,omitempty"`
-	ShortTextRate     *int64                        `json:"short_text_rate,omitempty"`
+	ShortTextRate     *float64                      `json:"short_text_rate,omitempty"`
 }
 
 type NewsfeedItemWallpostFeedback struct {
@@ -3307,8 +3307,8 @@ type PhotosPhoto struct {
 	Height       int64              `json:"height"`     // Original photo height
 	ID           int64              `json:"id"`         // Photo ID
 	Images       []PhotosImage      `json:"images"`
-	Lat          int64              `json:"lat"`         // Latitude
-	Long         int64              `json:"long"`        // Longitude
+	Lat          float64            `json:"lat"`         // Latitude
+	Long         float64            `json:"long"`        // Longitude
 	OwnerID      int64              `json:"owner_id"`    // Photo owner's ID
 	Photo256     string             `json:"photo_256"`   // URL of image with 2560 px width
 	CanComment   BaseBoolInt        `json:"can_comment"` // Information whether current user can comment the photo
@@ -3359,9 +3359,9 @@ type PhotosPhotoFull struct {
 	Height     int64           `json:"height"` // Original photo height
 	ID         int64           `json:"id"`     // Photo ID
 	Images     []PhotosImage   `json:"images"`
-	Lat        int64           `json:"lat"` // Latitude
+	Lat        float64         `json:"lat"` // Latitude
 	Likes      BaseLikes       `json:"likes"`
-	Long       int64           `json:"long"`     // Longitude
+	Long       float64         `json:"long"`     // Longitude
 	OwnerID    int64           `json:"owner_id"` // Photo owner's ID
 	PostID     int64           `json:"post_id"`  // Post ID
 	Reposts    BaseObjectCount `json:"reposts"`
@@ -3380,9 +3380,9 @@ type PhotosPhotoFullXtrRealOffset struct {
 	Height     int64              `json:"height"` // Original photo height
 	Hidden     BasePropertyExists `json:"hidden"` // Returns if the photo is hidden above the wall
 	ID         int64              `json:"id"`     // Photo ID
-	Lat        int64              `json:"lat"`    // Latitude
+	Lat        float64            `json:"lat"`    // Latitude
 	Likes      BaseLikes          `json:"likes"`
-	Long       int64              `json:"long"`        // Longitude
+	Long       float64            `json:"long"`        // Longitude
 	OwnerID    int64              `json:"owner_id"`    // Photo owner's ID
 	Photo1280  string             `json:"photo_1280"`  // URL of image with 1280 px width
 	Photo130   string             `json:"photo_130"`   // URL of image with 130 px width
@@ -3434,10 +3434,10 @@ type PhotosPhotoTag struct {
 	TaggedName string      `json:"tagged_name"` // Tag description
 	UserID     int64       `json:"user_id"`     // Tagged user ID
 	Viewed     BaseBoolInt `json:"viewed"`      // Information whether the tag is reviewed
-	X          int64       `json:"x"`           // Coordinate X of the left upper corner
-	X2         int64       `json:"x2"`          // Coordinate X of the right lower corner
-	Y          int64       `json:"y"`           // Coordinate Y of the left upper corner
-	Y2         int64       `json:"y2"`          // Coordinate Y of the right lower corner
+	X          float64     `json:"x"`           // Coordinate X of the left upper corner
+	X2         float64     `json:"x2"`          // Coordinate X of the right lower corner
+	Y          float64     `json:"y"`           // Coordinate Y of the left upper corner
+	Y2         float64     `json:"y2"`          // Coordinate Y of the right lower corner
 }
 
 type PhotosPhotoUpload struct {
@@ -3462,8 +3462,8 @@ type PhotosPhotoXtrRealOffset struct {
 	Height     int64              `json:"height"`      // Original photo height
 	Hidden     BasePropertyExists `json:"hidden"`      // Returns if the photo is hidden above the wall
 	ID         int64              `json:"id"`          // Photo ID
-	Lat        int64              `json:"lat"`         // Latitude
-	Long       int64              `json:"long"`        // Longitude
+	Lat        float64            `json:"lat"`         // Latitude
+	Long       float64            `json:"long"`        // Longitude
 	OwnerID    int64              `json:"owner_id"`    // Photo owner's ID
 	Photo1280  string             `json:"photo_1280"`  // URL of image with 1280 px width
 	Photo130   string             `json:"photo_130"`   // URL of image with 130 px width
@@ -3485,8 +3485,8 @@ type PhotosPhotoXtrTagInfo struct {
 	Date       int64              `json:"date"`       // Date when uploaded
 	Height     int64              `json:"height"`     // Original photo height
 	ID         int64              `json:"id"`         // Photo ID
-	Lat        int64              `json:"lat"`        // Latitude
-	Long       int64              `json:"long"`       // Longitude
+	Lat        float64            `json:"lat"`        // Latitude
+	Long       float64            `json:"long"`       // Longitude
 	OwnerID    int64              `json:"owner_id"`   // Photo owner's ID
 	Photo1280  string             `json:"photo_1280"` // URL of image with 1280 px width
 	Photo130   string             `json:"photo_130"`  // URL of image with 130 px width
@@ -3525,10 +3525,10 @@ type PhotosWallUploadResponse struct {
 }
 
 type PollsAnswer struct {
-	ID    int64  `json:"id"`    // Answer ID
-	Rate  int64  `json:"rate"`  // Answer rate in percents
-	Text  string `json:"text"`  // Answer text
-	Votes int64  `json:"votes"` // Votes number
+	ID    int64   `json:"id"`    // Answer ID
+	Rate  float64 `json:"rate"`  // Answer rate in percents
+	Text  string  `json:"text"`  // Answer text
+	Votes int64   `json:"votes"` // Votes number
 }
 
 type PollsBackground struct {
@@ -4688,7 +4688,7 @@ type WallWallpostFull struct {
 	IsPinned          *int64            `json:"is_pinned,omitempty"`
 	Comments          *BaseCommentsInfo `json:"comments,omitempty"`
 	MarkedAsAds       *BaseBoolInt      `json:"marked_as_ads,omitempty"`
-	ShortTextRate     *int64            `json:"short_text_rate,omitempty"`
+	ShortTextRate     *float64          `json:"short_text_rate,omitempty"`
 }
 
 type WallWallpostToID struct {

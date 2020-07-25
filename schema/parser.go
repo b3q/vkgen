@@ -227,7 +227,8 @@ type Enum struct {
 	Description   *string
 	DataType      DataType
 	StringValues  []string
-	NumericValues []int64
+	IntegerValues []int64
+	NumberValues  []float64
 	BooleanValues []bool
 	ObjectValues  []*Definition
 	Names         []string
@@ -256,10 +257,12 @@ func (p *Parser) parseEnum(name string, enum gjson.Result) Enum {
 
 	switch enumDataType.String() {
 	case "integer":
-		fallthrough
+		for _, value := range values.Array() {
+			genum.IntegerValues = append(genum.IntegerValues, value.Int())
+		}
 	case "number":
 		for _, value := range values.Array() {
-			genum.NumericValues = append(genum.NumericValues, value.Int())
+			genum.NumberValues = append(genum.NumberValues, value.Float())
 		}
 	case "boolean":
 		for _, value := range values.Array() {

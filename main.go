@@ -164,16 +164,30 @@ func enumToString(enum schema.Enum) string {
 	sb.WriteString("\ntype " + goify(enum.Name) + " ")
 	switch enum.DataType {
 	case schema.IntegerType:
-		fallthrough
-	case schema.NumberType:
 		sb.WriteString("int64\n")
-		if len(enum.NumericValues) == 0 {
+		if len(enum.IntegerValues) == 0 {
 			return sb.String()
 		}
 
 		sb.WriteString("\nconst (\n")
-		for idx, value := range enum.NumericValues {
+		for idx, value := range enum.IntegerValues {
 			s := strconv.FormatInt(value, 10)
+			fieldName := enum.Name + "_" + s
+			if len(enum.Names) > 0 {
+				fieldName = enum.Name + "_" + enum.Names[idx]
+			}
+			sb.WriteString("\t" + goify(fieldName) + " " + goify(enum.Name) + " = " + s + "\n")
+		}
+		sb.WriteString(")\n")
+	case schema.NumberType:
+		sb.WriteString("float64\n")
+		if len(enum.NumberValues) == 0 {
+			return sb.String()
+		}
+
+		sb.WriteString("\nconst (\n")
+		for idx, value := range enum.NumberValues {
+			s := strconv.FormatFloat(value, 'g', 10, 64)
 			fieldName := enum.Name + "_" + s
 			if len(enum.Names) > 0 {
 				fieldName = enum.Name + "_" + enum.Names[idx]
@@ -210,9 +224,9 @@ func enumToString(enum schema.Enum) string {
 func arrayToString(array schema.Array) string {
 	switch array.DataType {
 	case schema.IntegerType:
-		fallthrough
-	case schema.NumberType:
 		return "[]int64"
+	case schema.NumberType:
+		return "[]float64"
 	case schema.BooleanType:
 		return "[]bool"
 	case schema.StringType:
@@ -261,9 +275,9 @@ func oneofToString(oneof schema.OneOf) string {
 			sb.WriteString("\t" + goify(*prop.Name) + " ")
 			switch prop.DataType {
 			case schema.IntegerType:
-				fallthrough
-			case schema.NumberType:
 				sb.WriteString("int64")
+			case schema.NumberType:
+				sb.WriteString("float64")
 			case schema.StringType:
 				sb.WriteString("string")
 			case schema.BooleanType:
@@ -299,9 +313,9 @@ func allofToString(allof schema.AllOf) string {
 			sb.WriteString("\t" + goify(*prop.Name) + " ")
 			switch prop.DataType {
 			case schema.IntegerType:
-				fallthrough
-			case schema.NumberType:
 				sb.WriteString("*int64")
+			case schema.NumberType:
+				sb.WriteString("*float64")
 			case schema.StringType:
 				sb.WriteString("*string")
 			case schema.BooleanType:
@@ -395,9 +409,9 @@ func defWithoutProps(def *schema.Definition) string {
 	case schema.BooleanType:
 		return "bool"
 	case schema.IntegerType:
-		fallthrough
-	case schema.NumberType:
 		return "int64"
+	case schema.NumberType:
+		return "float64"
 	case schema.StringType:
 		return "string"
 	case schema.ObjectType:
