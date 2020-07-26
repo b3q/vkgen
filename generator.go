@@ -18,10 +18,13 @@ const (
 )
 
 type Generator struct {
+	nofmt         bool
+	nogoify       bool
+	debug         bool
 	goifyReplacer *strings.Replacer
 }
 
-func NewGenerator() Generator {
+func NewGenerator(nofmt, nogoify, debug bool) Generator {
 	repl := []string{
 		"_", "",
 		" ", "",
@@ -37,6 +40,9 @@ func NewGenerator() Generator {
 	}
 
 	return Generator{
+		nofmt:         nofmt,
+		nogoify:       nogoify,
+		debug:         debug,
 		goifyReplacer: strings.NewReplacer(repl...),
 	}
 }
@@ -66,6 +72,10 @@ func (g Generator) Generate() (err error) {
 }
 
 func (g Generator) writeSource(name string, b *bytes.Buffer) error {
+	if g.nofmt {
+		return ioutil.WriteFile(name, b.Bytes(), 0677)
+	}
+
 	src, err := format.Source(b.Bytes())
 	if err != nil {
 		return err
@@ -201,6 +211,10 @@ func (g Generator) generateBuilders() error {
 }
 
 func (g Generator) goify(name string) string {
+	if g.nogoify {
+		return name
+	}
+
 	runes := []rune(name)
 	runes[0] = unicode.ToUpper(runes[0])
 	for i, r := range runes {
