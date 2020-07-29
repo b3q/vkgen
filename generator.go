@@ -9,7 +9,6 @@ import (
 	"unicode"
 
 	"github.com/b3q/vkgen/schema"
-	"github.com/tidwall/gjson"
 )
 
 const (
@@ -84,7 +83,7 @@ func (g Generator) writeSource(name string, b *bytes.Buffer) error {
 	return ioutil.WriteFile(name, src, 0677)
 }
 
-type callback = func(b *bytes.Buffer, values gjson.Result) error
+type callback = func(b *bytes.Buffer, schema []byte) error
 
 func (g Generator) generate(schemaFile, outputName string, cb callback) error {
 	sch, err := ioutil.ReadFile(schemaFile)
@@ -92,11 +91,10 @@ func (g Generator) generate(schemaFile, outputName string, cb callback) error {
 		return err
 	}
 
-	objects := gjson.ParseBytes(sch)
 	b := bytes.NewBuffer(nil)
 	b.WriteString(genPrefix + "\n\npackage " + pkgName + "\n")
 
-	err = cb(b, objects)
+	err = cb(b, sch)
 	if err != nil {
 		return err
 	}
@@ -106,14 +104,14 @@ func (g Generator) generate(schemaFile, outputName string, cb callback) error {
 
 func (g Generator) generateObjects() error {
 	return g.generate("objects.json", pkgName+"/objects.gen.go",
-		func(b *bytes.Buffer, objects gjson.Result) error {
-			defs, err := schema.ParseObjects(objects)
+		func(b *bytes.Buffer, objectsSchema []byte) error {
+			objects, err := schema.ParseObjects(objectsSchema)
 			if err != nil {
 				return err
 			}
 
-			for _, def := range defs {
-				b.WriteString(g.ObjectDefinitionToGolang(def) + "\n")
+			for _, object := range objects {
+				b.WriteString(g.ObjectDefinitionToGolang(object) + "\n")
 			}
 
 			return nil
@@ -122,13 +120,13 @@ func (g Generator) generateObjects() error {
 
 func (g Generator) generateResponses() error {
 	return g.generate("responses.json", pkgName+"/responses.gen.go",
-		func(b *bytes.Buffer, responses gjson.Result) error {
-			defs, err := schema.ParseResponses(responses)
+		func(b *bytes.Buffer, responsesSchema []byte) error {
+			responses, err := schema.ParseResponses(responsesSchema)
 			if err != nil {
 				return err
 			}
 
-			for _, response := range defs {
+			for _, response := range responses {
 				b.WriteString(g.ResponseDefinitionToGolang(response) + "\n")
 			}
 			return nil
@@ -137,31 +135,14 @@ func (g Generator) generateResponses() error {
 
 func (g Generator) generateMethods() error {
 	return g.generate("methods.json", pkgName+"/methods.gen.go",
-		func(b *bytes.Buffer, methods gjson.Result) error {
-			defs, err := schema.ParseMethods(methods)
+		func(b *bytes.Buffer, methodsSchema []byte) error {
+			methods, err := schema.ParseMethods(methodsSchema)
 			if err != nil {
 				return err
 			}
 
-			for _, method := range defs {
-				if len(method.Responses) == 1 {
-					resp := method.Responses[0]
-					if method.Description != nil {
-						b.WriteString("// " + *method.Description)
-					}
-
-					b.WriteString(`
-			func (vk *VK) ` + g.goify(method.Name) + `(params Params) (response ` + g.objectExprToGolang(resp.Expr) + `, err error) {
-				err = vk.RequestUnmarshal("` + method.Name + `", params, &response)
-				return
-			}` + "\n\n")
-					continue
-				}
-
-				b.WriteString(`
-			func (vk *VK) ` + g.goify(method.Name) + `Raw(params Params) ([]byte, error) {
-				return vk.Request("` + method.Name + `", params)
-			}` + "\n\n")
+			for _, method := range methods {
+				b.WriteString(g.MethodDefinitionToGolang(method) + "\n\n")
 			}
 			return nil
 		})
@@ -169,12 +150,13 @@ func (g Generator) generateMethods() error {
 
 func (g Generator) generateBuilders() error {
 	return g.generate("methods.json", pkgName+"/builders.gen.go",
-		func(b *bytes.Buffer, methods gjson.Result) error {
-			defs, err := schema.ParseMethods(methods)
+		func(b *bytes.Buffer, methodsSchema []byte) error {
+			methods, err := schema.ParseMethods(methodsSchema)
 			if err != nil {
 				return err
 			}
-			for _, method := range defs {
+
+			for _, method := range methods {
 				// define struct
 				builderName := g.goify(method.Name) + `Builder`
 				b.WriteString("// " + builderName + " builder.\n")
@@ -515,4 +497,25 @@ func (g Generator) ResponseDefinitionToGolang(resp schema.ResponseDefinition) st
 
 	sb.WriteString("}\n")
 	return sb.String()
+}
+
+func (g Generator) MethodDefinitionToGolang(method schema.MethodDefinition) string {
+	var b strings.Builder
+	if method.Description != nil {
+		b.WriteString("// " + *method.Description + "\n")
+	}
+
+	if len(method.Responses) == 1 {
+		resp := method.Responses[0]
+		b.WriteString("func (vk *VK) " + g.goify(method.Name) + "(params Params) (response " + g.objectExprToGolang(resp.Expr) + ", err error) {\n")
+		b.WriteString("\terr = vk.RequestUnmarshal(\"" + method.Name + "\", params, &response)\n")
+		b.WriteString("\treturn\n")
+		b.WriteString("}")
+		return b.String()
+	}
+
+	b.WriteString("func (vk *VK) " + g.goify(method.Name) + "Raw(params Params) ([]byte, error) {\n")
+	b.WriteString("\treturn vk.Request(\"" + method.Name + "\", params)\n")
+	b.WriteString("}")
+	return b.String()
 }

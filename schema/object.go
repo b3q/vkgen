@@ -30,11 +30,11 @@ type ObjectExpr struct {
 	//IsArray     bool
 }
 
-func ParseObjects(objects gjson.Result) ([]ObjectDefinition, error) {
+func ParseObjects(schema []byte) ([]ObjectDefinition, error) {
 	var defs []ObjectDefinition
 	var err error
-	objects.Get("definitions").ForEach(func(objName, objData gjson.Result) bool {
-		expr, parseErr := ParseObjectExpression(objData)
+	gjson.ParseBytes(schema).Get("definitions").ForEach(func(objName, objData gjson.Result) bool {
+		expr, parseErr := parseObjectExpression(objData)
 		if parseErr != nil {
 			err = parseErr
 			return false
@@ -49,7 +49,7 @@ func ParseObjects(objects gjson.Result) ([]ObjectDefinition, error) {
 	return defs, err
 }
 
-func ParseObjectExpression(obj gjson.Result) (ObjectExpr, error) {
+func parseObjectExpression(obj gjson.Result) (ObjectExpr, error) {
 	var expr ObjectExpr
 
 	if desc := obj.Get("description"); desc.Exists() {
@@ -60,7 +60,7 @@ func ParseObjectExpression(obj gjson.Result) (ObjectExpr, error) {
 	var err error
 	if props := obj.Get("properties"); props.Exists() {
 		props.ForEach(func(propName, propData gjson.Result) bool {
-			propObj, parseErr := ParseObjectExpression(propData)
+			propObj, parseErr := parseObjectExpression(propData)
 			if parseErr != nil {
 				err = parseErr
 				return false
@@ -88,7 +88,7 @@ func ParseObjectExpression(obj gjson.Result) (ObjectExpr, error) {
 	// newsfeed_getSuggestedSources_response
 	if allof := obj.Get("allOf"); allof.Exists() && allof.IsArray() {
 		for _, item := range allof.Array() {
-			itemObjExpr, parseErr := ParseObjectExpression(item)
+			itemObjExpr, parseErr := parseObjectExpression(item)
 			if parseErr != nil {
 				return expr, parseErr
 			}
@@ -103,7 +103,7 @@ func ParseObjectExpression(obj gjson.Result) (ObjectExpr, error) {
 	if !typ.Exists() {
 		//pp.Println(obj)
 		return expr, nil
-		return expr, fmt.Errorf("undefined type")
+		//return expr, fmt.Errorf("undefined type")
 	}
 	expr.Type = typ.String()
 
@@ -143,7 +143,7 @@ func ParseObjectExpression(obj gjson.Result) (ObjectExpr, error) {
 	case "object":
 		if oneof := obj.Get("oneOf"); oneof.Exists() && oneof.IsArray() {
 			for _, item := range oneof.Array() {
-				itemObjExpr, parseErr := ParseObjectExpression(item)
+				itemObjExpr, parseErr := parseObjectExpression(item)
 				if parseErr != nil {
 					return expr, parseErr
 				}
@@ -159,7 +159,7 @@ func ParseObjectExpression(obj gjson.Result) (ObjectExpr, error) {
 			return expr, fmt.Errorf("array must have items field")
 		}
 
-		arrayType, parseErr := ParseObjectExpression(items)
+		arrayType, parseErr := parseObjectExpression(items)
 		if parseErr != nil {
 			return expr, parseErr
 		}
