@@ -142,14 +142,37 @@ type AccountPushSettings struct {
 	Conversations AccountPushConversations `json:"conversations"`
 }
 
-// allof account_user_settings
 type AccountUserSettings struct {
-	*UsersUserMin         `json:"users_user_min,omitempty"`
-	*UsersUserSettingsXtr `json:"users_user_settings_xtr,omitempty"`
-	Photo200              *string `json:"photo_200,omitempty"`
-	IsServiceAccount      *bool   `json:"is_service_account,omitempty"`
+	NameRequest      AccountNameRequest           `json:"name_request"`
+	Phone            string                       `json:"phone"`
+	ScreenName       string                       `json:"screen_name"`
+	Sex              BaseSex                      `json:"sex"`
+	StatusAudio      AudioAudio                   `json:"status_audio"`
+	Hidden           int64                        `json:"hidden"`
+	IsServiceAccount bool                         `json:"is_service_account"`
+	City             BaseCity                     `json:"city"`
+	RelationRequests []UsersUserMin               `json:"relation_requests"`
+	Status           string                       `json:"status"`
+	Country          BaseCountry                  `json:"country"`
+	Relation         UsersUserRelation            `json:"relation"`
+	Languages        []string                     `json:"languages"`
+	Connections      UsersUserConnections         `json:"connections"`
+	MaidenName       string                       `json:"maiden_name"`
+	Deactivated      string                       `json:"deactivated"`
+	FirstName        string                       `json:"first_name"`
+	IsClosed         bool                         `json:"is_closed"`
+	Bdate            string                       `json:"bdate"`
+	BdateVisibility  int64                        `json:"bdate_visibility"`
+	Interests        AccountUserSettingsInterests `json:"interests"`
+	ID               int64                        `json:"id"`
+	RelationPending  BaseBoolInt                  `json:"relation_pending"`
+	LastName         string                       `json:"last_name"`
+	CanAccessClosed  bool                         `json:"can_access_closed"`
+	HomeTown         string                       `json:"home_town"`
+	Personal         UsersPersonal                `json:"personal"`
+	RelationPartner  UsersUserMin                 `json:"relation_partner"`
+	Photo200         string                       `json:"photo_200"`
 }
-
 type AccountUserSettingsInterest struct {
 	Title string `json:"title"`
 	Value string `json:"value"`
@@ -531,13 +554,40 @@ type AdsStatsViewsTimes struct {
 	ViewsAdsTimes11Plus int64  `json:"views_ads_times_11_plus"`
 }
 
-// allof ads_targ_settings
 type AdsTargSettings struct {
-	ID           *int64 `json:"id,omitempty"`
-	CampaignID   *int64 `json:"campaign_id,omitempty"`
-	*AdsCriteria `json:"ads_criteria,omitempty"`
+	ID                   int64              `json:"id"`
+	AgeFrom              int64              `json:"age_from"`
+	SchoolFrom           int64              `json:"school_from"`
+	Statuses             string             `json:"statuses"`
+	Travellers           BasePropertyExists `json:"travellers"`
+	Streets              string             `json:"streets"`
+	UserDevices          string             `json:"user_devices"`
+	CitiesNot            string             `json:"cities_not"`
+	RetargetingGroups    string             `json:"retargeting_groups"`
+	Stations             string             `json:"stations"`
+	UserBrowsers         string             `json:"user_browsers"`
+	Interests            string             `json:"interests"`
+	Positions            string             `json:"positions"`
+	Schools              string             `json:"schools"`
+	Sex                  AdsCriteriaSex     `json:"sex"`
+	Apps                 string             `json:"apps"`
+	Districts            string             `json:"districts"`
+	InterestCategories   string             `json:"interest_categories"`
+	UniFrom              int64              `json:"uni_from"`
+	AppsNot              string             `json:"apps_not"`
+	Birthday             int64              `json:"birthday"`
+	Cities               string             `json:"cities"`
+	Country              int64              `json:"country"`
+	SchoolTo             int64              `json:"school_to"`
+	Religions            string             `json:"religions"`
+	UniTo                int64              `json:"uni_to"`
+	CampaignID           int64              `json:"campaign_id"`
+	AgeTo                int64              `json:"age_to"`
+	Groups               string             `json:"groups"`
+	Paying               BaseBoolInt        `json:"paying"`
+	RetargetingGroupsNot string             `json:"retargeting_groups_not"`
+	UserOs               string             `json:"user_os"`
 }
-
 type AdsTargStats struct {
 	AudienceCount    int64   `json:"audience_count"`     // Audience
 	RecommendedCpc   float64 `json:"recommended_cpc"`    // Recommended CPC value for 50% reach (old format)
@@ -599,29 +649,39 @@ type AdsUsers struct {
 	UserID   int64         `json:"user_id"` // User ID
 }
 
-// allof apps_app
 type AppsApp struct {
-	*AppsAppMin       `json:"apps_app_min,omitempty"`
-	AuthorURL         *string                 `json:"author_url,omitempty"`
-	Banner1120        *string                 `json:"banner_1120,omitempty"`
-	Banner560         *string                 `json:"banner_560,omitempty"`
-	Icon16            *string                 `json:"icon_16,omitempty"`
-	IsNew             *BaseBoolInt            `json:"is_new,omitempty"`
-	PushEnabled       *BaseBoolInt            `json:"push_enabled,omitempty"`
-	ScreenOrientation *int64                  `json:"screen_orientation,omitempty"`
-	Friends           *[]int64                `json:"friends,omitempty"`
-	CatalogPosition   *int64                  `json:"catalog_position,omitempty"`
-	Description       *string                 `json:"description,omitempty"`
-	Genre             *string                 `json:"genre,omitempty"`
-	GenreID           *int64                  `json:"genre_id,omitempty"`
-	International     *bool                   `json:"international,omitempty"`
-	IsInCatalog       *int64                  `json:"is_in_catalog,omitempty"`
-	LeaderboardType   *AppsAppLeaderboardType `json:"leaderboard_type,omitempty"`
-	MembersCount      *int64                  `json:"members_count,omitempty"`
-	PlatformID        *string                 `json:"platform_id,omitempty"`
-	PublishedDate     *int64                  `json:"published_date,omitempty"`
-	ScreenName        *string                 `json:"screen_name,omitempty"`
-	Section           *string                 `json:"section,omitempty"`
+	LoaderIcon            string                 `json:"loader_icon"`
+	AuthorURL             string                 `json:"author_url"`
+	Genre                 string                 `json:"genre"`
+	ScreenName            string                 `json:"screen_name"`
+	Title                 string                 `json:"title"`
+	AuthorOwnerID         int64                  `json:"author_owner_id"`
+	Icon150               string                 `json:"icon_150"`
+	CatalogPosition       int64                  `json:"catalog_position"`
+	GenreID               int64                  `json:"genre_id"`
+	ID                    int64                  `json:"id"`
+	Banner1120            string                 `json:"banner_1120"`
+	Friends               []int64                `json:"friends"`
+	IsInCatalog           int64                  `json:"is_in_catalog"`
+	LeaderboardType       AppsAppLeaderboardType `json:"leaderboard_type"`
+	Section               string                 `json:"section"`
+	Icon139               string                 `json:"icon_139"`
+	International         bool                   `json:"international"`
+	Type                  AppsAppType            `json:"type"`
+	Icon75                string                 `json:"icon_75"`
+	PublishedDate         int64                  `json:"published_date"`
+	IsInstalled           bool                   `json:"is_installed"`
+	ScreenOrientation     int64                  `json:"screen_orientation"`
+	Description           string                 `json:"description"`
+	MembersCount          int64                  `json:"members_count"`
+	Icon278               string                 `json:"icon_278"`
+	Banner560             string                 `json:"banner_560"`
+	IsNew                 BaseBoolInt            `json:"is_new"`
+	Icon576               string                 `json:"icon_576"`
+	BackgroundLoaderColor string                 `json:"background_loader_color"`
+	Icon16                string                 `json:"icon_16"`
+	PushEnabled           BaseBoolInt            `json:"push_enabled"`
+	PlatformID            string                 `json:"platform_id"`
 }
 
 // Leaderboard type
@@ -1294,14 +1354,13 @@ type CommentThread struct {
 	ShowReplyButton bool              `json:"show_reply_button"` // Information whether recommended to display reply button
 }
 
-// allof database_city
 type DatabaseCity struct {
-	*BaseObject `json:"base_object,omitempty"`
-	Area        *string      `json:"area,omitempty"`
-	Region      *string      `json:"region,omitempty"`
-	Important   *BaseBoolInt `json:"important,omitempty"`
+	Title     string      `json:"title"`
+	Area      string      `json:"area"`
+	Region    string      `json:"region"`
+	Important BaseBoolInt `json:"important"`
+	ID        int64       `json:"id"`
 }
-
 type DatabaseFaculty struct {
 	ID    int64  `json:"id"`    // Faculty ID
 	Title string `json:"title"` // Faculty title
@@ -1455,12 +1514,12 @@ type FaveTag struct {
 	Name string `json:"name"` // Tag name
 }
 
-// allof friends_friend_extended_status
 type FriendsFriendExtendedStatus struct {
-	*FriendsFriendStatus `json:"friends_friend_status,omitempty"`
-	IsRequestUnread      *bool `json:"is_request_unread,omitempty"`
+	Sign            string                    `json:"sign"`
+	UserID          int64                     `json:"user_id"`
+	IsRequestUnread bool                      `json:"is_request_unread"`
+	FriendStatus    FriendsFriendStatusStatus `json:"friend_status"`
 }
-
 type FriendsFriendStatus struct {
 	FriendStatus FriendsFriendStatusStatus `json:"friend_status"`
 	Sign         string                    `json:"sign"`    // MD5 hash for the result validation
@@ -1506,18 +1565,196 @@ type FriendsRequestsXtrMessage struct {
 	UserID  int64                 `json:"user_id"` // User ID
 }
 
-// allof friends_user_xtr_lists
 type FriendsUserXtrLists struct {
-	*UsersUserFull `json:"users_user_full,omitempty"`
-	Lists          *[]int64 `json:"lists,omitempty"`
+	RelationPartner        UsersUserMin              `json:"relation_partner"`
+	MaidenName             string                    `json:"maiden_name"`
+	BlacklistedByMe        BaseBoolInt               `json:"blacklisted_by_me"`
+	HasMobile              BaseBoolInt               `json:"has_mobile"`
+	Online                 BaseBoolInt               `json:"online"`
+	EducationForm          string                    `json:"education_form"`
+	City                   BaseObject                `json:"city"`
+	OnlineMobile           BaseBoolInt               `json:"online_mobile"`
+	CanBeInvitedGroup      bool                      `json:"can_be_invited_group"`
+	LastName               string                    `json:"last_name"`
+	HasPhoto               BaseBoolInt               `json:"has_photo"`
+	HomePhone              string                    `json:"home_phone"`
+	Relatives              []UsersRelative           `json:"relatives"`
+	VideoLiveLevel         int64                     `json:"video_live_level"`
+	Nickname               string                    `json:"nickname"`
+	LastNameDat            string                    `json:"last_name_dat"`
+	CanSendFriendRequest   BaseBoolInt               `json:"can_send_friend_request"`
+	LastNameNom            string                    `json:"last_name_nom"`
+	CanWritePrivateMessage BaseBoolInt               `json:"can_write_private_message"`
+	LastNameAbl            string                    `json:"last_name_abl"`
+	FirstName              string                    `json:"first_name"`
+	PhotoMax               string                    `json:"photo_max"`
+	Exports                UsersExports              `json:"exports"`
+	Faculty                int64                     `json:"faculty"`
+	Career                 []UsersCareer             `json:"career"`
+	Timezone               int64                     `json:"timezone"`
+	Hidden                 int64                     `json:"hidden"`
+	Mutual                 FriendsRequestsMutual     `json:"mutual"`
+	Status                 string                    `json:"status"`
+	Verified               BaseBoolInt               `json:"verified"`
+	OnlineInfo             UsersOnlineInfo           `json:"online_info"`
+	Photo200Orig           string                    `json:"photo_200_orig"`
+	HomeTown               string                    `json:"home_town"`
+	Activity               string                    `json:"activity"`
+	FirstNameAbl           string                    `json:"first_name_abl"`
+	LastNameIns            string                    `json:"last_name_ins"`
+	Military               []UsersMilitary           `json:"military"`
+	Sex                    BaseSex                   `json:"sex"`
+	Photo400Orig           string                    `json:"photo_400_orig"`
+	Relation               UsersUserRelation         `json:"relation"`
+	University             int64                     `json:"university"`
+	Occupation             UsersOccupation           `json:"occupation"`
+	Photo50                string                    `json:"photo_50"`
+	WallComments           BaseBoolInt               `json:"wall_comments"`
+	ID                     int64                     `json:"id"`
+	FirstNameAcc           string                    `json:"first_name_acc"`
+	IsFriend               BaseBoolInt               `json:"is_friend"`
+	Universities           []UsersUniversity         `json:"universities"`
+	FollowersCount         int64                     `json:"followers_count"`
+	Blacklisted            BaseBoolInt               `json:"blacklisted"`
+	LastNameGen            string                    `json:"last_name_gen"`
+	Lists                  []int64                   `json:"lists"`
+	Site                   string                    `json:"site"`
+	EducationStatus        string                    `json:"education_status"`
+	PhotoID                string                    `json:"photo_id"`
+	FirstNameDat           string                    `json:"first_name_dat"`
+	StatusAudio            AudioAudio                `json:"status_audio"`
+	UniversityName         string                    `json:"university_name"`
+	Trending               BaseBoolInt               `json:"trending"`
+	CanSubscribePosts      bool                      `json:"can_subscribe_posts"`
+	Schools                []UsersSchool             `json:"schools"`
+	IsFavorite             BaseBoolInt               `json:"is_favorite"`
+	CanAccessClosed        bool                      `json:"can_access_closed"`
+	Domain                 string                    `json:"domain"`
+	FirstNameIns           string                    `json:"first_name_ins"`
+	CanSeeAudio            BaseBoolInt               `json:"can_see_audio"`
+	IsHiddenFromFeed       BaseBoolInt               `json:"is_hidden_from_feed"`
+	IsClosed               bool                      `json:"is_closed"`
+	Bdate                  string                    `json:"bdate"`
+	FriendStatus           FriendsFriendStatusStatus `json:"friend_status"`
+	FirstNameGen           string                    `json:"first_name_gen"`
+	IsSubscribedPodcasts   bool                      `json:"is_subscribed_podcasts"`
+	VideoLiveCount         int64                     `json:"video_live_count"`
+	MobilePhone            string                    `json:"mobile_phone"`
+	Country                BaseCountry               `json:"country"`
+	ScreenName             string                    `json:"screen_name"`
+	FacultyName            string                    `json:"faculty_name"`
+	LastSeen               UsersLastSeen             `json:"last_seen"`
+	OnlineApp              int64                     `json:"online_app"`
+	OwnerState             OwnerState                `json:"owner_state"`
+	CanSeeAllPosts         BaseBoolInt               `json:"can_see_all_posts"`
+	Photo100               string                    `json:"photo_100"`
+	CanPost                BaseBoolInt               `json:"can_post"`
+	Personal               UsersPersonal             `json:"personal"`
+	Photo200               string                    `json:"photo_200"`
+	CommonCount            int64                     `json:"common_count"`
+	CanSubscribePodcasts   bool                      `json:"can_subscribe_podcasts"`
+	Graduation             int64                     `json:"graduation"`
+	Deactivated            string                    `json:"deactivated"`
+	FirstNameNom           string                    `json:"first_name_nom"`
+	CropPhoto              BaseCropPhoto             `json:"crop_photo"`
+	LastNameAcc            string                    `json:"last_name_acc"`
+	PhotoMaxOrig           string                    `json:"photo_max_orig"`
 }
-
-// allof friends_user_xtr_phone
 type FriendsUserXtrPhone struct {
-	*UsersUserFull `json:"users_user_full,omitempty"`
-	Phone          *string `json:"phone,omitempty"`
+	OnlineMobile           BaseBoolInt               `json:"online_mobile"`
+	CanBeInvitedGroup      bool                      `json:"can_be_invited_group"`
+	Photo50                string                    `json:"photo_50"`
+	LastNameDat            string                    `json:"last_name_dat"`
+	UniversityName         string                    `json:"university_name"`
+	FirstNameAbl           string                    `json:"first_name_abl"`
+	EducationStatus        string                    `json:"education_status"`
+	Blacklisted            BaseBoolInt               `json:"blacklisted"`
+	LastNameNom            string                    `json:"last_name_nom"`
+	CanSeeAllPosts         BaseBoolInt               `json:"can_see_all_posts"`
+	CanAccessClosed        bool                      `json:"can_access_closed"`
+	Bdate                  string                    `json:"bdate"`
+	CommonCount            int64                     `json:"common_count"`
+	Site                   string                    `json:"site"`
+	IsClosed               bool                      `json:"is_closed"`
+	PhotoMaxOrig           string                    `json:"photo_max_orig"`
+	Deactivated            string                    `json:"deactivated"`
+	BlacklistedByMe        BaseBoolInt               `json:"blacklisted_by_me"`
+	VideoLiveCount         int64                     `json:"video_live_count"`
+	Exports                UsersExports              `json:"exports"`
+	Photo200               string                    `json:"photo_200"`
+	LastNameAbl            string                    `json:"last_name_abl"`
+	Phone                  string                    `json:"phone"`
+	PhotoMax               string                    `json:"photo_max"`
+	EducationForm          string                    `json:"education_form"`
+	FirstName              string                    `json:"first_name"`
+	Universities           []UsersUniversity         `json:"universities"`
+	IsFriend               BaseBoolInt               `json:"is_friend"`
+	Verified               BaseBoolInt               `json:"verified"`
+	Personal               UsersPersonal             `json:"personal"`
+	ID                     int64                     `json:"id"`
+	FirstNameIns           string                    `json:"first_name_ins"`
+	Sex                    BaseSex                   `json:"sex"`
+	Mutual                 FriendsRequestsMutual     `json:"mutual"`
+	IsFavorite             BaseBoolInt               `json:"is_favorite"`
+	CanWritePrivateMessage BaseBoolInt               `json:"can_write_private_message"`
+	Hidden                 int64                     `json:"hidden"`
+	CanSeeAudio            BaseBoolInt               `json:"can_see_audio"`
+	Occupation             UsersOccupation           `json:"occupation"`
+	Activity               string                    `json:"activity"`
+	FriendStatus           FriendsFriendStatusStatus `json:"friend_status"`
+	VideoLiveLevel         int64                     `json:"video_live_level"`
+	CanPost                BaseBoolInt               `json:"can_post"`
+	LastNameAcc            string                    `json:"last_name_acc"`
+	Photo400Orig           string                    `json:"photo_400_orig"`
+	Photo100               string                    `json:"photo_100"`
+	Status                 string                    `json:"status"`
+	CanSubscribePosts      bool                      `json:"can_subscribe_posts"`
+	FacultyName            string                    `json:"faculty_name"`
+	IsSubscribedPodcasts   bool                      `json:"is_subscribed_podcasts"`
+	Trending               BaseBoolInt               `json:"trending"`
+	Online                 BaseBoolInt               `json:"online"`
+	PhotoID                string                    `json:"photo_id"`
+	LastNameIns            string                    `json:"last_name_ins"`
+	Nickname               string                    `json:"nickname"`
+	OnlineInfo             UsersOnlineInfo           `json:"online_info"`
+	LastSeen               UsersLastSeen             `json:"last_seen"`
+	FirstNameDat           string                    `json:"first_name_dat"`
+	IsHiddenFromFeed       BaseBoolInt               `json:"is_hidden_from_feed"`
+	MobilePhone            string                    `json:"mobile_phone"`
+	HasMobile              BaseBoolInt               `json:"has_mobile"`
+	Country                BaseCountry               `json:"country"`
+	LastName               string                    `json:"last_name"`
+	FollowersCount         int64                     `json:"followers_count"`
+	OnlineApp              int64                     `json:"online_app"`
+	CanSubscribePodcasts   bool                      `json:"can_subscribe_podcasts"`
+	Military               []UsersMilitary           `json:"military"`
+	CanSendFriendRequest   BaseBoolInt               `json:"can_send_friend_request"`
+	Domain                 string                    `json:"domain"`
+	WallComments           BaseBoolInt               `json:"wall_comments"`
+	ScreenName             string                    `json:"screen_name"`
+	Relatives              []UsersRelative           `json:"relatives"`
+	University             int64                     `json:"university"`
+	HomeTown               string                    `json:"home_town"`
+	MaidenName             string                    `json:"maiden_name"`
+	HomePhone              string                    `json:"home_phone"`
+	Photo200Orig           string                    `json:"photo_200_orig"`
+	FirstNameAcc           string                    `json:"first_name_acc"`
+	StatusAudio            AudioAudio                `json:"status_audio"`
+	FirstNameNom           string                    `json:"first_name_nom"`
+	Graduation             int64                     `json:"graduation"`
+	RelationPartner        UsersUserMin              `json:"relation_partner"`
+	City                   BaseObject                `json:"city"`
+	LastNameGen            string                    `json:"last_name_gen"`
+	Faculty                int64                     `json:"faculty"`
+	HasPhoto               BaseBoolInt               `json:"has_photo"`
+	Relation               UsersUserRelation         `json:"relation"`
+	Timezone               int64                     `json:"timezone"`
+	CropPhoto              BaseCropPhoto             `json:"crop_photo"`
+	FirstNameGen           string                    `json:"first_name_gen"`
+	Career                 []UsersCareer             `json:"career"`
+	Schools                []UsersSchool             `json:"schools"`
+	OwnerState             OwnerState                `json:"owner_state"`
 }
-
 type GiftsGift struct {
 	Date     int64            `json:"date"`    // Date when gist has been sent in Unixtime
 	FromID   int64            `json:"from_id"` // Gift sender ID
@@ -1820,57 +2057,69 @@ const (
 	GroupsGroupDocsLimited  GroupsGroupDocs = 2
 )
 
-// allof groups_group_full
 type GroupsGroupFull struct {
-	*GroupsGroup         `json:"groups_group,omitempty"`
-	Market               *GroupsMarketInfo            `json:"market,omitempty"`
-	MemberStatus         *GroupsGroupFullMemberStatus `json:"member_status,omitempty"`
-	IsAdult              *BaseBoolInt                 `json:"is_adult,omitempty"`
-	IsHiddenFromFeed     *BaseBoolInt                 `json:"is_hidden_from_feed,omitempty"`
-	IsFavorite           *BaseBoolInt                 `json:"is_favorite,omitempty"`
-	IsSubscribed         *BaseBoolInt                 `json:"is_subscribed,omitempty"`
-	City                 *BaseObject                  `json:"city,omitempty"`
-	Country              *BaseCountry                 `json:"country,omitempty"`
-	Verified             *BaseBoolInt                 `json:"verified,omitempty"`
-	Description          *string                      `json:"description,omitempty"`
-	WikiPage             *string                      `json:"wiki_page,omitempty"`
-	MembersCount         *int64                       `json:"members_count,omitempty"`
-	VideoLiveLevel       *int64                       `json:"video_live_level,omitempty"`
-	VideoLiveCount       *int64                       `json:"video_live_count,omitempty"`
-	Counters             *GroupsCountersGroup         `json:"counters,omitempty"`
-	Cover                *GroupsCover                 `json:"cover,omitempty"`
-	CanPost              *BaseBoolInt                 `json:"can_post,omitempty"`
-	CanSeeAllPosts       *BaseBoolInt                 `json:"can_see_all_posts,omitempty"`
-	Activity             *string                      `json:"activity,omitempty"`
-	FixedPost            *int64                       `json:"fixed_post,omitempty"`
-	CanCreateTopic       *BaseBoolInt                 `json:"can_create_topic,omitempty"`
-	CanUploadDoc         *BaseBoolInt                 `json:"can_upload_doc,omitempty"`
-	CanUploadStory       *BaseBoolInt                 `json:"can_upload_story,omitempty"`
-	CanUploadVideo       *BaseBoolInt                 `json:"can_upload_video,omitempty"`
-	HasPhoto             *BaseBoolInt                 `json:"has_photo,omitempty"`
-	CropPhoto            *BaseCropPhoto               `json:"crop_photo,omitempty"`
-	Status               *string                      `json:"status,omitempty"`
-	MainAlbumID          *int64                       `json:"main_album_id,omitempty"`
-	Links                *[]GroupsLinksItem           `json:"links,omitempty"`
-	Contacts             *[]GroupsContactsItem        `json:"contacts,omitempty"`
-	Wall                 *int64                       `json:"wall,omitempty"`
-	Site                 *string                      `json:"site,omitempty"`
-	MainSection          *GroupsGroupFullMainSection  `json:"main_section,omitempty"`
-	Trending             *BaseBoolInt                 `json:"trending,omitempty"`
-	CanMessage           *BaseBoolInt                 `json:"can_message,omitempty"`
-	IsMessagesBlocked    *BaseBoolInt                 `json:"is_messages_blocked,omitempty"`
-	CanSendNotify        *BaseBoolInt                 `json:"can_send_notify,omitempty"`
-	OnlineStatus         *GroupsOnlineStatus          `json:"online_status,omitempty"`
-	AgeLimits            *GroupsGroupFullAgeLimits    `json:"age_limits,omitempty"`
-	BanInfo              *GroupsGroupBanInfo          `json:"ban_info,omitempty"`
-	HasMarketApp         *bool                        `json:"has_market_app,omitempty"`
-	Addresses            *GroupsAddressesInfo         `json:"addresses,omitempty"`
-	IsSubscribedPodcasts *bool                        `json:"is_subscribed_podcasts,omitempty"`
-	CanSubscribePodcasts *bool                        `json:"can_subscribe_podcasts,omitempty"`
-	CanSubscribePosts    *bool                        `json:"can_subscribe_posts,omitempty"`
-	LiveCovers           *GroupsLiveCovers            `json:"live_covers,omitempty"`
+	VideoLiveLevel       int64                       `json:"video_live_level"`
+	MainAlbumID          int64                       `json:"main_album_id"`
+	OnlineStatus         GroupsOnlineStatus          `json:"online_status"`
+	AgeLimits            GroupsGroupFullAgeLimits    `json:"age_limits"`
+	ID                   int64                       `json:"id"`
+	Photo200             string                      `json:"photo_200"`
+	ScreenName           string                      `json:"screen_name"`
+	City                 BaseObject                  `json:"city"`
+	Verified             BaseBoolInt                 `json:"verified"`
+	CanCreateTopic       BaseBoolInt                 `json:"can_create_topic"`
+	FinishDate           int64                       `json:"finish_date"`
+	CanUploadVideo       BaseBoolInt                 `json:"can_upload_video"`
+	Contacts             []GroupsContactsItem        `json:"contacts"`
+	IsMessagesBlocked    BaseBoolInt                 `json:"is_messages_blocked"`
+	HasMarketApp         bool                        `json:"has_market_app"`
+	IsAdvertiser         BaseBoolInt                 `json:"is_advertiser"`
+	Type                 GroupsGroupType             `json:"type"`
+	Market               GroupsMarketInfo            `json:"market"`
+	IsHiddenFromFeed     BaseBoolInt                 `json:"is_hidden_from_feed"`
+	CanUploadStory       BaseBoolInt                 `json:"can_upload_story"`
+	CanMessage           BaseBoolInt                 `json:"can_message"`
+	Activity             string                      `json:"activity"`
+	Site                 string                      `json:"site"`
+	CanSubscribePodcasts bool                        `json:"can_subscribe_podcasts"`
+	LiveCovers           GroupsLiveCovers            `json:"live_covers"`
+	IsSubscribed         BaseBoolInt                 `json:"is_subscribed"`
+	Description          string                      `json:"description"`
+	MembersCount         int64                       `json:"members_count"`
+	CanPost              BaseBoolInt                 `json:"can_post"`
+	Status               string                      `json:"status"`
+	Trending             BaseBoolInt                 `json:"trending"`
+	Deactivated          string                      `json:"deactivated"`
+	IsAdmin              BaseBoolInt                 `json:"is_admin"`
+	MemberStatus         GroupsGroupFullMemberStatus `json:"member_status"`
+	FixedPost            int64                       `json:"fixed_post"`
+	CanSubscribePosts    bool                        `json:"can_subscribe_posts"`
+	Name                 string                      `json:"name"`
+	MainSection          GroupsGroupFullMainSection  `json:"main_section"`
+	IsMember             BaseBoolInt                 `json:"is_member"`
+	Photo100             string                      `json:"photo_100"`
+	VideoLiveCount       int64                       `json:"video_live_count"`
+	AdminLevel           GroupsGroupAdminLevel       `json:"admin_level"`
+	Photo50              string                      `json:"photo_50"`
+	IsAdult              BaseBoolInt                 `json:"is_adult"`
+	WikiPage             string                      `json:"wiki_page"`
+	CanUploadDoc         BaseBoolInt                 `json:"can_upload_doc"`
+	HasPhoto             BaseBoolInt                 `json:"has_photo"`
+	CropPhoto            BaseCropPhoto               `json:"crop_photo"`
+	Links                []GroupsLinksItem           `json:"links"`
+	StartDate            int64                       `json:"start_date"`
+	CanSeeAllPosts       BaseBoolInt                 `json:"can_see_all_posts"`
+	Wall                 int64                       `json:"wall"`
+	IsClosed             GroupsGroupIsClosed         `json:"is_closed"`
+	Country              BaseCountry                 `json:"country"`
+	Counters             GroupsCountersGroup         `json:"counters"`
+	CanSendNotify        BaseBoolInt                 `json:"can_send_notify"`
+	Addresses            GroupsAddressesInfo         `json:"addresses"`
+	IsSubscribedPodcasts bool                        `json:"is_subscribed_podcasts"`
+	IsFavorite           BaseBoolInt                 `json:"is_favorite"`
+	Cover                GroupsCover                 `json:"cover"`
+	BanInfo              GroupsGroupBanInfo          `json:"ban_info"`
 }
-
 type GroupsGroupFullAgeLimits int64
 
 const (
@@ -2254,12 +2503,101 @@ type GroupsTokenPermissionSetting struct {
 	Setting int64  `json:"setting"`
 }
 
-// allof groups_user_xtr_role
 type GroupsUserXtrRole struct {
-	*UsersUserFull `json:"users_user_full,omitempty"`
-	Role           *GroupsRoleOptions `json:"role,omitempty"`
+	HomePhone              string                    `json:"home_phone"`
+	Bdate                  string                    `json:"bdate"`
+	FollowersCount         int64                     `json:"followers_count"`
+	OwnerState             OwnerState                `json:"owner_state"`
+	CanPost                BaseBoolInt               `json:"can_post"`
+	CanBeInvitedGroup      bool                      `json:"can_be_invited_group"`
+	HomeTown               string                    `json:"home_town"`
+	MobilePhone            string                    `json:"mobile_phone"`
+	FirstName              string                    `json:"first_name"`
+	EducationStatus        string                    `json:"education_status"`
+	VideoLiveLevel         int64                     `json:"video_live_level"`
+	Site                   string                    `json:"site"`
+	FirstNameGen           string                    `json:"first_name_gen"`
+	BlacklistedByMe        BaseBoolInt               `json:"blacklisted_by_me"`
+	IsHiddenFromFeed       BaseBoolInt               `json:"is_hidden_from_feed"`
+	CommonCount            int64                     `json:"common_count"`
+	CanAccessClosed        bool                      `json:"can_access_closed"`
+	IsFavorite             BaseBoolInt               `json:"is_favorite"`
+	CanWritePrivateMessage BaseBoolInt               `json:"can_write_private_message"`
+	PhotoID                string                    `json:"photo_id"`
+	LastSeen               UsersLastSeen             `json:"last_seen"`
+	OnlineMobile           BaseBoolInt               `json:"online_mobile"`
+	Role                   GroupsRoleOptions         `json:"role"`
+	Nickname               string                    `json:"nickname"`
+	PhotoMax               string                    `json:"photo_max"`
+	Photo100               string                    `json:"photo_100"`
+	LastNameIns            string                    `json:"last_name_ins"`
+	OnlineApp              int64                     `json:"online_app"`
+	CanSeeAudio            BaseBoolInt               `json:"can_see_audio"`
+	LastNameGen            string                    `json:"last_name_gen"`
+	Activity               string                    `json:"activity"`
+	Blacklisted            BaseBoolInt               `json:"blacklisted"`
+	HasMobile              BaseBoolInt               `json:"has_mobile"`
+	FirstNameAbl           string                    `json:"first_name_abl"`
+	City                   BaseObject                `json:"city"`
+	Photo50                string                    `json:"photo_50"`
+	CropPhoto              BaseCropPhoto             `json:"crop_photo"`
+	CanSubscribePodcasts   bool                      `json:"can_subscribe_podcasts"`
+	Trending               BaseBoolInt               `json:"trending"`
+	LastName               string                    `json:"last_name"`
+	LastNameAbl            string                    `json:"last_name_abl"`
+	MaidenName             string                    `json:"maiden_name"`
+	Graduation             int64                     `json:"graduation"`
+	CanSubscribePosts      bool                      `json:"can_subscribe_posts"`
+	EducationForm          string                    `json:"education_form"`
+	Military               []UsersMilitary           `json:"military"`
+	Online                 BaseBoolInt               `json:"online"`
+	LastNameAcc            string                    `json:"last_name_acc"`
+	University             int64                     `json:"university"`
+	Domain                 string                    `json:"domain"`
+	Exports                UsersExports              `json:"exports"`
+	Status                 string                    `json:"status"`
+	FriendStatus           FriendsFriendStatusStatus `json:"friend_status"`
+	LastNameNom            string                    `json:"last_name_nom"`
+	FirstNameNom           string                    `json:"first_name_nom"`
+	HasPhoto               BaseBoolInt               `json:"has_photo"`
+	WallComments           BaseBoolInt               `json:"wall_comments"`
+	Country                BaseCountry               `json:"country"`
+	Personal               UsersPersonal             `json:"personal"`
+	Timezone               int64                     `json:"timezone"`
+	IsClosed               bool                      `json:"is_closed"`
+	FirstNameIns           string                    `json:"first_name_ins"`
+	Hidden                 int64                     `json:"hidden"`
+	FirstNameDat           string                    `json:"first_name_dat"`
+	ScreenName             string                    `json:"screen_name"`
+	LastNameDat            string                    `json:"last_name_dat"`
+	Photo200               string                    `json:"photo_200"`
+	CanSendFriendRequest   BaseBoolInt               `json:"can_send_friend_request"`
+	Photo400Orig           string                    `json:"photo_400_orig"`
+	Faculty                int64                     `json:"faculty"`
+	FirstNameAcc           string                    `json:"first_name_acc"`
+	IsFriend               BaseBoolInt               `json:"is_friend"`
+	Occupation             UsersOccupation           `json:"occupation"`
+	Relatives              []UsersRelative           `json:"relatives"`
+	RelationPartner        UsersUserMin              `json:"relation_partner"`
+	Schools                []UsersSchool             `json:"schools"`
+	OnlineInfo             UsersOnlineInfo           `json:"online_info"`
+	FacultyName            string                    `json:"faculty_name"`
+	Mutual                 FriendsRequestsMutual     `json:"mutual"`
+	PhotoMaxOrig           string                    `json:"photo_max_orig"`
+	Universities           []UsersUniversity         `json:"universities"`
+	ID                     int64                     `json:"id"`
+	IsSubscribedPodcasts   bool                      `json:"is_subscribed_podcasts"`
+	Verified               BaseBoolInt               `json:"verified"`
+	Deactivated            string                    `json:"deactivated"`
+	Photo200Orig           string                    `json:"photo_200_orig"`
+	CanSeeAllPosts         BaseBoolInt               `json:"can_see_all_posts"`
+	StatusAudio            AudioAudio                `json:"status_audio"`
+	UniversityName         string                    `json:"university_name"`
+	Sex                    BaseSex                   `json:"sex"`
+	Career                 []UsersCareer             `json:"career"`
+	Relation               UsersUserRelation         `json:"relation"`
+	VideoLiveCount         int64                     `json:"video_live_count"`
 }
-
 type LeadsChecked struct {
 	Reason    string             `json:"reason"` // Reason why user can't start the lead
 	Result    LeadsCheckedResult `json:"result"`
@@ -2275,7 +2613,7 @@ const (
 	LeadsCheckedResultFalse LeadsCheckedResult = "false"
 )
 
-type LeadsComplete struct {
+type LeadsCompleteObject struct {
 	Cost     int64       `json:"cost"`  // Offer cost
 	Limit    int64       `json:"limit"` // Offer limit
 	Spent    int64       `json:"spent"` // Amount of spent votes
@@ -2311,7 +2649,7 @@ type LeadsLeadDays struct {
 	Started     int64 `json:"started"`     // Started offers number
 }
 
-type LeadsStart struct {
+type LeadsStartObject struct {
 	TestMode BaseBoolInt `json:"test_mode"` // Information whether test mode is enabled
 	VKSid    string      `json:"vk_sid"`    // Session data
 }
@@ -2387,18 +2725,31 @@ const (
 	MarketMarketItemAvailabilityUnavailable MarketMarketItemAvailability = 2
 )
 
-// allof market_market_item_full
 type MarketMarketItemFull struct {
-	*MarketMarketItem `json:"market_market_item,omitempty"`
-	AlbumsIDs         *[]int64         `json:"albums_ids,omitempty"`
-	Photos            *[]PhotosPhoto   `json:"photos,omitempty"`
-	CanComment        *BaseBoolInt     `json:"can_comment,omitempty"`
-	CanRepost         *BaseBoolInt     `json:"can_repost,omitempty"`
-	Likes             *BaseLikes       `json:"likes,omitempty"`
-	Reposts           *BaseRepostsInfo `json:"reposts,omitempty"`
-	ViewsCount        *int64           `json:"views_count,omitempty"`
+	ButtonTitle        string                       `json:"button_title"`
+	Category           MarketMarketCategory         `json:"category"`
+	Description        string                       `json:"description"`
+	CanComment         BaseBoolInt                  `json:"can_comment"`
+	Availability       MarketMarketItemAvailability `json:"availability"`
+	ExternalID         string                       `json:"external_id"`
+	VariantsGroupingID int64                        `json:"variants_grouping_id"`
+	AlbumsIDs          []int64                      `json:"albums_ids"`
+	Date               int64                        `json:"date"`
+	IsFavorite         bool                         `json:"is_favorite"`
+	OwnerID            int64                        `json:"owner_id"`
+	URL                string                       `json:"url"`
+	CanRepost          BaseBoolInt                  `json:"can_repost"`
+	Likes              BaseLikes                    `json:"likes"`
+	ViewsCount         int64                        `json:"views_count"`
+	Reposts            BaseRepostsInfo              `json:"reposts"`
+	AccessKey          string                       `json:"access_key"`
+	ID                 int64                        `json:"id"`
+	Price              MarketPrice                  `json:"price"`
+	ThumbPhoto         string                       `json:"thumb_photo"`
+	Title              string                       `json:"title"`
+	IsMainVariant      bool                         `json:"is_main_variant"`
+	Photos             []PhotosPhoto                `json:"photos"`
 }
-
 type MarketPrice struct {
 	Amount       string         `json:"amount"` // Amount
 	Currency     MarketCurrency `json:"currency"`
@@ -2765,12 +3116,29 @@ const (
 	MessagesTemplateActionTypeNamesOpenLink  MessagesTemplateActionTypeNames = "open_link"
 )
 
-// allof messages_user_xtr_invited_by
 type MessagesUserXtrInvitedBy struct {
-	*UsersUserXtrType `json:"users_user_xtr_type,omitempty"`
-	InvitedBy         *int64 `json:"invited_by,omitempty"`
+	ID              int64                     `json:"id"`
+	IsClosed        bool                      `json:"is_closed"`
+	FirstName       string                    `json:"first_name"`
+	Mutual          FriendsRequestsMutual     `json:"mutual"`
+	Trending        BaseBoolInt               `json:"trending"`
+	OnlineApp       int64                     `json:"online_app"`
+	OnlineInfo      UsersOnlineInfo           `json:"online_info"`
+	Type            UsersUserType             `json:"type"`
+	FriendStatus    FriendsFriendStatusStatus `json:"friend_status"`
+	ScreenName      string                    `json:"screen_name"`
+	Online          BaseBoolInt               `json:"online"`
+	Deactivated     string                    `json:"deactivated"`
+	Sex             BaseSex                   `json:"sex"`
+	Hidden          int64                     `json:"hidden"`
+	LastName        string                    `json:"last_name"`
+	Photo50         string                    `json:"photo_50"`
+	Verified        BaseBoolInt               `json:"verified"`
+	InvitedBy       int64                     `json:"invited_by"`
+	OnlineMobile    BaseBoolInt               `json:"online_mobile"`
+	CanAccessClosed bool                      `json:"can_access_closed"`
+	Photo100        string                    `json:"photo_100"`
 }
-
 type NewsfeedCommentsFilters string
 
 const (
@@ -2817,13 +3185,13 @@ const (
 	NewsfeedIgnoreItemTypeAudio         NewsfeedIgnoreItemType = "audio"
 )
 
-// allof newsfeed_item_audio
 type NewsfeedItemAudio struct {
-	*NewsfeedItemBase `json:"newsfeed_item_base,omitempty"`
-	Audio             *NewsfeedItemAudioAudio `json:"audio,omitempty"`
-	PostID            *int64                  `json:"post_id,omitempty"`
+	Type     NewsfeedNewsfeedItemType `json:"type"`
+	SourceID int64                    `json:"source_id"`
+	Date     int64                    `json:"date"`
+	Audio    NewsfeedItemAudioAudio   `json:"audio"`
+	PostID   int64                    `json:"post_id"`
 }
-
 type NewsfeedItemAudioAudio struct {
 	Count int64        `json:"count"` // Audios number
 	Items []AudioAudio `json:"items"`
@@ -2835,24 +3203,24 @@ type NewsfeedItemBase struct {
 	Date     int64                    `json:"date"`      // Date when item has been added in Unixtime
 }
 
-// allof newsfeed_item_digest
 type NewsfeedItemDigest struct {
-	*NewsfeedItemBase `json:"newsfeed_item_base,omitempty"`
-	ButtonText        *string         `json:"button_text,omitempty"`
-	FeedID            *string         `json:"feed_id,omitempty"`
-	Items             *[]WallWallpost `json:"items,omitempty"`
-	MainPostIDs       *[]string       `json:"main_post_ids,omitempty"`
-	Template          *string         `json:"template,omitempty"`
-	Title             *string         `json:"title,omitempty"`
-	TrackCode         *string         `json:"track_code,omitempty"`
+	MainPostIDs []string                 `json:"main_post_ids"`
+	Template    string                   `json:"template"`
+	Title       string                   `json:"title"`
+	Type        NewsfeedNewsfeedItemType `json:"type"`
+	FeedID      string                   `json:"feed_id"`
+	ButtonText  string                   `json:"button_text"`
+	Items       []WallWallpost           `json:"items"`
+	TrackCode   string                   `json:"track_code"`
+	SourceID    int64                    `json:"source_id"`
+	Date        int64                    `json:"date"`
 }
-
-// allof newsfeed_item_friend
 type NewsfeedItemFriend struct {
-	*NewsfeedItemBase `json:"newsfeed_item_base,omitempty"`
-	Friends           *NewsfeedItemFriendFriends `json:"friends,omitempty"`
+	Date     int64                     `json:"date"`
+	Friends  NewsfeedItemFriendFriends `json:"friends"`
+	Type     NewsfeedNewsfeedItemType  `json:"type"`
+	SourceID int64                     `json:"source_id"`
 }
-
 type NewsfeedItemFriendFriends struct {
 	Count int64        `json:"count"` // Number of friends has been added
 	Items []BaseUserID `json:"items"`
@@ -2865,53 +3233,53 @@ type NewsfeedItemHolidayRecommendationsBlockHeader struct {
 	Action   BaseLinkButtonAction `json:"action"`
 }
 
-// allof newsfeed_item_note
 type NewsfeedItemNote struct {
-	*NewsfeedItemBase `json:"newsfeed_item_base,omitempty"`
-	Notes             *NewsfeedItemNoteNotes `json:"notes,omitempty"`
+	Type     NewsfeedNewsfeedItemType `json:"type"`
+	SourceID int64                    `json:"source_id"`
+	Date     int64                    `json:"date"`
+	Notes    NewsfeedItemNoteNotes    `json:"notes"`
 }
-
 type NewsfeedItemNoteNotes struct {
 	Count int64                  `json:"count"` // Notes number
 	Items []NewsfeedNewsfeedNote `json:"items"`
 }
 
-// allof newsfeed_item_photo
 type NewsfeedItemPhoto struct {
-	*WallCarouselBase `json:"wall_carousel_base,omitempty"`
-	*NewsfeedItemBase `json:"newsfeed_item_base,omitempty"`
-	Photos            *NewsfeedItemPhotoPhotos `json:"photos,omitempty"`
-	PostID            *int64                   `json:"post_id,omitempty"`
+	CarouselOffset int64                    `json:"carousel_offset"`
+	Type           NewsfeedNewsfeedItemType `json:"type"`
+	SourceID       int64                    `json:"source_id"`
+	Date           int64                    `json:"date"`
+	Photos         NewsfeedItemPhotoPhotos  `json:"photos"`
+	PostID         int64                    `json:"post_id"`
 }
-
 type NewsfeedItemPhotoPhotos struct {
 	Count int64                   `json:"count"` // Photos number
 	Items []NewsfeedNewsfeedPhoto `json:"items"`
 }
 
-// allof newsfeed_item_photo_tag
 type NewsfeedItemPhotoTag struct {
-	*WallCarouselBase `json:"wall_carousel_base,omitempty"`
-	*NewsfeedItemBase `json:"newsfeed_item_base,omitempty"`
-	PhotoTags         *NewsfeedItemPhotoTagPhotoTags `json:"photo_tags,omitempty"`
-	PostID            *int64                         `json:"post_id,omitempty"`
+	Type           NewsfeedNewsfeedItemType      `json:"type"`
+	SourceID       int64                         `json:"source_id"`
+	Date           int64                         `json:"date"`
+	PhotoTags      NewsfeedItemPhotoTagPhotoTags `json:"photo_tags"`
+	PostID         int64                         `json:"post_id"`
+	CarouselOffset int64                         `json:"carousel_offset"`
 }
-
 type NewsfeedItemPhotoTagPhotoTags struct {
 	Count int64                   `json:"count"` // Tags number
 	Items []NewsfeedNewsfeedPhoto `json:"items"`
 }
 
-// allof newsfeed_item_promo_button
 type NewsfeedItemPromoButton struct {
-	*NewsfeedItemBase `json:"newsfeed_item_base,omitempty"`
-	Text              *string                         `json:"text,omitempty"`
-	Title             *string                         `json:"title,omitempty"`
-	Action            *NewsfeedItemPromoButtonAction  `json:"action,omitempty"`
-	Images            *[]NewsfeedItemPromoButtonImage `json:"images,omitempty"`
-	TrackCode         *string                         `json:"track_code,omitempty"`
+	Text      string                         `json:"text"`
+	Title     string                         `json:"title"`
+	Action    NewsfeedItemPromoButtonAction  `json:"action"`
+	Images    []NewsfeedItemPromoButtonImage `json:"images"`
+	TrackCode string                         `json:"track_code"`
+	Type      NewsfeedNewsfeedItemType       `json:"type"`
+	SourceID  int64                          `json:"source_id"`
+	Date      int64                          `json:"date"`
 }
-
 type NewsfeedItemPromoButtonAction struct {
 	URL    string `json:"url"`
 	Type   string `json:"type"`
@@ -2924,50 +3292,50 @@ type NewsfeedItemPromoButtonImage struct {
 	URL    string `json:"url"`
 }
 
-// allof newsfeed_item_topic
 type NewsfeedItemTopic struct {
-	*NewsfeedItemBase `json:"newsfeed_item_base,omitempty"`
-	Comments          *BaseCommentsInfo `json:"comments,omitempty"`
-	Likes             *BaseLikesInfo    `json:"likes,omitempty"`
-	PostID            *int64            `json:"post_id,omitempty"`
-	Text              *string           `json:"text,omitempty"`
+	Text     string                   `json:"text"`
+	Type     NewsfeedNewsfeedItemType `json:"type"`
+	SourceID int64                    `json:"source_id"`
+	Date     int64                    `json:"date"`
+	Comments BaseCommentsInfo         `json:"comments"`
+	Likes    BaseLikesInfo            `json:"likes"`
+	PostID   int64                    `json:"post_id"`
 }
-
-// allof newsfeed_item_video
 type NewsfeedItemVideo struct {
-	*WallCarouselBase `json:"wall_carousel_base,omitempty"`
-	*NewsfeedItemBase `json:"newsfeed_item_base,omitempty"`
-	Video             *NewsfeedItemVideoVideo `json:"video,omitempty"`
+	CarouselOffset int64                    `json:"carousel_offset"`
+	Type           NewsfeedNewsfeedItemType `json:"type"`
+	SourceID       int64                    `json:"source_id"`
+	Date           int64                    `json:"date"`
+	Video          NewsfeedItemVideoVideo   `json:"video"`
 }
-
 type NewsfeedItemVideoVideo struct {
 	Count int64        `json:"count"` // Tags number
 	Items []VideoVideo `json:"items"`
 }
 
-// allof newsfeed_item_wallpost
 type NewsfeedItemWallpost struct {
-	*WallCarouselBase `json:"wall_carousel_base,omitempty"`
-	*NewsfeedItemBase `json:"newsfeed_item_base,omitempty"`
-	Activity          *NewsfeedEventActivity        `json:"activity,omitempty"`
-	Attachments       *[]WallWallpostAttachment     `json:"attachments,omitempty"`
-	Comments          *BaseCommentsInfo             `json:"comments,omitempty"`
-	CopyHistory       *[]WallWallpost               `json:"copy_history,omitempty"`
-	Feedback          *NewsfeedItemWallpostFeedback `json:"feedback,omitempty"`
-	Geo               *BaseGeo                      `json:"geo,omitempty"`
-	IsFavorite        *bool                         `json:"is_favorite,omitempty"`
-	Likes             *BaseLikesInfo                `json:"likes,omitempty"`
-	MarkedAsAds       *BaseBoolInt                  `json:"marked_as_ads,omitempty"`
-	PostID            *int64                        `json:"post_id,omitempty"`
-	PostSource        *WallPostSource               `json:"post_source,omitempty"`
-	PostType          *NewsfeedItemWallpostType     `json:"post_type,omitempty"`
-	Reposts           *BaseRepostsInfo              `json:"reposts,omitempty"`
-	SignerID          *int64                        `json:"signer_id,omitempty"`
-	Text              *string                       `json:"text,omitempty"`
-	Views             *WallViews                    `json:"views,omitempty"`
-	ShortTextRate     *float64                      `json:"short_text_rate,omitempty"`
+	Likes          BaseLikesInfo                `json:"likes"`
+	PostSource     WallPostSource               `json:"post_source"`
+	Reposts        BaseRepostsInfo              `json:"reposts"`
+	Attachments    []WallWallpostAttachment     `json:"attachments"`
+	IsFavorite     bool                         `json:"is_favorite"`
+	Comments       BaseCommentsInfo             `json:"comments"`
+	CopyHistory    []WallWallpost               `json:"copy_history"`
+	Feedback       NewsfeedItemWallpostFeedback `json:"feedback"`
+	Geo            BaseGeo                      `json:"geo"`
+	CarouselOffset int64                        `json:"carousel_offset"`
+	SourceID       int64                        `json:"source_id"`
+	Date           int64                        `json:"date"`
+	Activity       NewsfeedEventActivity        `json:"activity"`
+	PostID         int64                        `json:"post_id"`
+	PostType       NewsfeedItemWallpostType     `json:"post_type"`
+	SignerID       int64                        `json:"signer_id"`
+	Views          WallViews                    `json:"views"`
+	Type           NewsfeedNewsfeedItemType     `json:"type"`
+	MarkedAsAds    BaseBoolInt                  `json:"marked_as_ads"`
+	Text           string                       `json:"text"`
+	ShortTextRate  float64                      `json:"short_text_rate"`
 }
-
 type NewsfeedItemWallpostFeedback struct {
 	Type       NewsfeedItemWallpostFeedbackType     `json:"type"`
 	Question   string                               `json:"question"`
@@ -3002,14 +3370,12 @@ type NewsfeedList struct {
 	Title string `json:"title"` // List title
 }
 
-// allof newsfeed_list_full
 type NewsfeedListFull struct {
-	*NewsfeedList `json:"newsfeed_list,omitempty"`
-	NoReposts     *BaseBoolInt `json:"no_reposts,omitempty"`
-	SourceIDs     *[]int64     `json:"source_ids,omitempty"`
+	Title     string      `json:"title"`
+	NoReposts BaseBoolInt `json:"no_reposts"`
+	SourceIDs []int64     `json:"source_ids"`
+	ID        int64       `json:"id"`
 }
-
-// oneof newsfeed_newsfeed_item
 type NewsfeedNewsfeedItem struct {
 	*NewsfeedItemWallpost    `json:"newsfeed_item_wallpost,omitempty"`
 	*NewsfeedItemPhoto       `json:"newsfeed_item_photo,omitempty"`
@@ -3048,14 +3414,30 @@ type NewsfeedNewsfeedNote struct {
 	Title    string `json:"title"`    // Note title
 }
 
-// allof newsfeed_newsfeed_photo
 type NewsfeedNewsfeedPhoto struct {
-	*PhotosPhoto `json:"photos_photo,omitempty"`
-	Likes        *BaseLikes       `json:"likes,omitempty"`
-	Comments     *BaseObjectCount `json:"comments,omitempty"`
-	CanRepost    *BaseBoolInt     `json:"can_repost,omitempty"`
+	AccessKey    string             `json:"access_key"`
+	Long         float64            `json:"long"`
+	OwnerID      int64              `json:"owner_id"`
+	PostID       int64              `json:"post_id"`
+	Width        int64              `json:"width"`
+	Restrictions MediaRestriction   `json:"restrictions"`
+	Likes        BaseLikes          `json:"likes"`
+	CanRepost    BaseBoolInt        `json:"can_repost"`
+	AlbumID      int64              `json:"album_id"`
+	Images       []PhotosImage      `json:"images"`
+	Lat          float64            `json:"lat"`
+	CanComment   BaseBoolInt        `json:"can_comment"`
+	Text         string             `json:"text"`
+	UserID       int64              `json:"user_id"`
+	HasTags      bool               `json:"has_tags"`
+	Date         int64              `json:"date"`
+	Height       int64              `json:"height"`
+	Photo256     string             `json:"photo_256"`
+	Sizes        []PhotosPhotoSizes `json:"sizes"`
+	ID           int64              `json:"id"`
+	Place        string             `json:"place"`
+	Comments     BaseObjectCount    `json:"comments"`
 }
-
 type NotesNote struct {
 	ReadComments int64       `json:"read_comments"`
 	CanComment   BaseBoolInt `json:"can_comment"` // Information whether current user can comment the note
@@ -3099,15 +3481,83 @@ type NotificationsNotification struct {
 
 type NotificationsNotificationItem interface{}
 
-// allof notifications_notification_parent
 type NotificationsNotificationParent struct {
-	*WallWallpostToID                  `json:"wall_wallpost_to_id,omitempty"`
-	*PhotosPhoto                       `json:"photos_photo,omitempty"`
-	*BoardTopic                        `json:"board_topic,omitempty"`
-	*VideoVideo                        `json:"video_video,omitempty"`
-	*NotificationsNotificationsComment `json:"notifications_notifications_comment,omitempty"`
+	Place                    string                   `json:"place"`
+	Views                    int64                    `json:"views"`
+	CanLike                  BaseBoolInt              `json:"can_like"`
+	PostType                 WallPostType             `json:"post_type"`
+	CanComment               BaseBoolInt              `json:"can_comment"`
+	HasTags                  bool                     `json:"has_tags"`
+	LocalViews               int64                    `json:"local_views"`
+	AddingDate               int64                    `json:"adding_date"`
+	FromID                   int64                    `json:"from_id"`
+	Added                    BaseBoolInt              `json:"added"`
+	Live                     BasePropertyExists       `json:"live"`
+	CanSubscribe             BaseBoolInt              `json:"can_subscribe"`
+	Likes                    json.RawMessage          `json:"likes"`
+	PostID                   int64                    `json:"post_id"`
+	CreatedBy                int64                    `json:"created_by"`
+	Duration                 int64                    `json:"duration"`
+	CanEdit                  BaseBoolInt              `json:"can_edit"`
+	Images                   []PhotosImage            `json:"images"`
+	Photo                    PhotosPhoto              `json:"photo"`
+	Photo256                 string                   `json:"photo_256"`
+	Spectators               int64                    `json:"spectators"`
+	Comments                 json.RawMessage          `json:"comments"`
+	PostSource               WallPostSource           `json:"post_source"`
+	Reposts                  BaseRepostsInfo          `json:"reposts"`
+	ContentRestricted        int64                    `json:"content_restricted"`
+	Platform                 string                   `json:"platform"`
+	Geo                      WallGeo                  `json:"geo"`
+	SignerID                 int64                    `json:"signer_id"`
+	CanAttachLink            BaseBoolInt              `json:"can_attach_link"`
+	CanAddToFaves            BaseBoolInt              `json:"can_add_to_faves"`
+	TrackCode                string                   `json:"track_code"`
+	ToID                     int64                    `json:"to_id"`
+	Sizes                    []PhotosPhotoSizes       `json:"sizes"`
+	UpdatedBy                int64                    `json:"updated_by"`
+	Description              string                   `json:"description"`
+	Video                    VideoVideo               `json:"video"`
+	Updated                  int64                    `json:"updated"`
+	ContentRestrictedMessage string                   `json:"content_restricted_message"`
+	Converting               BaseBoolInt              `json:"converting"`
+	Image                    []VideoVideoImage        `json:"image"`
+	Restriction              MediaRestriction         `json:"restriction"`
+	CopyPostID               int64                    `json:"copy_post_id"`
+	Long                     float64                  `json:"long"`
+	OwnerID                  int64                    `json:"owner_id"`
+	IsFixed                  BaseBoolInt              `json:"is_fixed"`
+	Title                    string                   `json:"title"`
+	Balance                  int64                    `json:"balance"`
+	Date                     int64                    `json:"date"`
+	AccessKey                string                   `json:"access_key"`
+	AlbumID                  int64                    `json:"album_id"`
+	Lat                      float64                  `json:"lat"`
+	IsClosed                 BaseBoolInt              `json:"is_closed"`
+	Player                   string                   `json:"player"`
+	FirstFrame               []VideoVideoImage        `json:"first_frame"`
+	UserID                   int64                    `json:"user_id"`
+	Restrictions             MediaRestriction         `json:"restrictions"`
+	Created                  int64                    `json:"created"`
+	Text                     string                   `json:"text"`
+	Height                   int64                    `json:"height"`
+	Processing               BasePropertyExists       `json:"processing"`
+	Upcoming                 BasePropertyExists       `json:"upcoming"`
+	IsPrivate                BaseBoolInt              `json:"is_private"`
+	LiveStatus               string                   `json:"live_status"`
+	CanRepost                BaseBoolInt              `json:"can_repost"`
+	CopyOwnerID              int64                    `json:"copy_owner_id"`
+	Width                    int64                    `json:"width"`
+	IsSubscribed             BaseBoolInt              `json:"is_subscribed"`
+	CanAdd                   BaseBoolInt              `json:"can_add"`
+	Repeat                   BasePropertyExists       `json:"repeat"`
+	Topic                    BoardTopic               `json:"topic"`
+	Attachments              []WallWallpostAttachment `json:"attachments"`
+	ID                       int64                    `json:"id"`
+	IsFavorite               bool                     `json:"is_favorite"`
+	Type                     string                   `json:"type"`
+	Post                     WallWallpost             `json:"post"`
 }
-
 type NotificationsNotificationsComment struct {
 	Date    int64        `json:"date"`     // Date when the comment has been added in Unixtime
 	ID      int64        `json:"id"`       // Comment ID
@@ -4078,7 +4528,6 @@ type UsersSchool struct {
 	YearTo        int64  `json:"year_to"`        // Year the user finished to study
 }
 
-// oneof users_subscriptions_item
 type UsersSubscriptionsItem struct {
 	*UsersUserXtrType `json:"users_user_xtr_type,omitempty"`
 	*GroupsGroupFull  `json:"groups_group_full,omitempty"`
@@ -4098,23 +4547,27 @@ type UsersUniversity struct {
 	Name            string `json:"name"`             // University name
 }
 
-// allof users_user
 type UsersUser struct {
-	*UsersUserMin `json:"users_user_min,omitempty"`
-	Sex           *BaseSex                   `json:"sex,omitempty"`
-	ScreenName    *string                    `json:"screen_name,omitempty"`
-	Photo50       *string                    `json:"photo_50,omitempty"`
-	Photo100      *string                    `json:"photo_100,omitempty"`
-	OnlineInfo    *UsersOnlineInfo           `json:"online_info,omitempty"`
-	Online        *BaseBoolInt               `json:"online,omitempty"`
-	OnlineMobile  *BaseBoolInt               `json:"online_mobile,omitempty"`
-	OnlineApp     *int64                     `json:"online_app,omitempty"`
-	Verified      *BaseBoolInt               `json:"verified,omitempty"`
-	Trending      *BaseBoolInt               `json:"trending,omitempty"`
-	FriendStatus  *FriendsFriendStatusStatus `json:"friend_status,omitempty"`
-	Mutual        *FriendsRequestsMutual     `json:"mutual,omitempty"`
+	ID              int64                     `json:"id"`
+	Online          BaseBoolInt               `json:"online"`
+	OnlineMobile    BaseBoolInt               `json:"online_mobile"`
+	Trending        BaseBoolInt               `json:"trending"`
+	Verified        BaseBoolInt               `json:"verified"`
+	Mutual          FriendsRequestsMutual     `json:"mutual"`
+	Sex             BaseSex                   `json:"sex"`
+	Photo100        string                    `json:"photo_100"`
+	OnlineApp       int64                     `json:"online_app"`
+	FirstName       string                    `json:"first_name"`
+	Hidden          int64                     `json:"hidden"`
+	LastName        string                    `json:"last_name"`
+	CanAccessClosed bool                      `json:"can_access_closed"`
+	OnlineInfo      UsersOnlineInfo           `json:"online_info"`
+	FriendStatus    FriendsFriendStatusStatus `json:"friend_status"`
+	Deactivated     string                    `json:"deactivated"`
+	IsClosed        bool                      `json:"is_closed"`
+	ScreenName      string                    `json:"screen_name"`
+	Photo50         string                    `json:"photo_50"`
 }
-
 type UsersUserConnections struct {
 	Skype        string `json:"skype"`         // User's Skype nickname
 	Facebook     string `json:"facebook"`      // User's Facebook account
@@ -4141,84 +4594,100 @@ type UsersUserCounters struct {
 	Videos        int64 `json:"videos"`         // Videos number
 }
 
-// allof users_user_full
 type UsersUserFull struct {
-	*UsersUser             `json:"users_user,omitempty"`
-	FirstNameNom           *string            `json:"first_name_nom,omitempty"`
-	FirstNameGen           *string            `json:"first_name_gen,omitempty"`
-	FirstNameDat           *string            `json:"first_name_dat,omitempty"`
-	FirstNameAcc           *string            `json:"first_name_acc,omitempty"`
-	FirstNameIns           *string            `json:"first_name_ins,omitempty"`
-	FirstNameAbl           *string            `json:"first_name_abl,omitempty"`
-	LastNameNom            *string            `json:"last_name_nom,omitempty"`
-	LastNameGen            *string            `json:"last_name_gen,omitempty"`
-	LastNameDat            *string            `json:"last_name_dat,omitempty"`
-	LastNameAcc            *string            `json:"last_name_acc,omitempty"`
-	LastNameIns            *string            `json:"last_name_ins,omitempty"`
-	LastNameAbl            *string            `json:"last_name_abl,omitempty"`
-	Nickname               *string            `json:"nickname,omitempty"`
-	MaidenName             *string            `json:"maiden_name,omitempty"`
-	Domain                 *string            `json:"domain,omitempty"`
-	Bdate                  *string            `json:"bdate,omitempty"`
-	City                   *BaseObject        `json:"city,omitempty"`
-	Country                *BaseCountry       `json:"country,omitempty"`
-	Timezone               *int64             `json:"timezone,omitempty"`
-	OwnerState             *OwnerState        `json:"owner_state,omitempty"`
-	Photo200               *string            `json:"photo_200,omitempty"`
-	PhotoMax               *string            `json:"photo_max,omitempty"`
-	Photo200Orig           *string            `json:"photo_200_orig,omitempty"`
-	Photo400Orig           *string            `json:"photo_400_orig,omitempty"`
-	PhotoMaxOrig           *string            `json:"photo_max_orig,omitempty"`
-	PhotoID                *string            `json:"photo_id,omitempty"`
-	HasPhoto               *BaseBoolInt       `json:"has_photo,omitempty"`
-	HasMobile              *BaseBoolInt       `json:"has_mobile,omitempty"`
-	IsFriend               *BaseBoolInt       `json:"is_friend,omitempty"`
-	WallComments           *BaseBoolInt       `json:"wall_comments,omitempty"`
-	CanPost                *BaseBoolInt       `json:"can_post,omitempty"`
-	CanSeeAllPosts         *BaseBoolInt       `json:"can_see_all_posts,omitempty"`
-	CanSeeAudio            *BaseBoolInt       `json:"can_see_audio,omitempty"`
-	CanWritePrivateMessage *BaseBoolInt       `json:"can_write_private_message,omitempty"`
-	CanSendFriendRequest   *BaseBoolInt       `json:"can_send_friend_request,omitempty"`
-	CanBeInvitedGroup      *bool              `json:"can_be_invited_group,omitempty"`
-	MobilePhone            *string            `json:"mobile_phone,omitempty"`
-	HomePhone              *string            `json:"home_phone,omitempty"`
-	Site                   *string            `json:"site,omitempty"`
-	StatusAudio            *AudioAudio        `json:"status_audio,omitempty"`
-	Status                 *string            `json:"status,omitempty"`
-	Activity               *string            `json:"activity,omitempty"`
-	LastSeen               *UsersLastSeen     `json:"last_seen,omitempty"`
-	Exports                *UsersExports      `json:"exports,omitempty"`
-	CropPhoto              *BaseCropPhoto     `json:"crop_photo,omitempty"`
-	FollowersCount         *int64             `json:"followers_count,omitempty"`
-	VideoLiveLevel         *int64             `json:"video_live_level,omitempty"`
-	VideoLiveCount         *int64             `json:"video_live_count,omitempty"`
-	Blacklisted            *BaseBoolInt       `json:"blacklisted,omitempty"`
-	BlacklistedByMe        *BaseBoolInt       `json:"blacklisted_by_me,omitempty"`
-	IsFavorite             *BaseBoolInt       `json:"is_favorite,omitempty"`
-	IsHiddenFromFeed       *BaseBoolInt       `json:"is_hidden_from_feed,omitempty"`
-	CommonCount            *int64             `json:"common_count,omitempty"`
-	Occupation             *UsersOccupation   `json:"occupation,omitempty"`
-	Career                 *[]UsersCareer     `json:"career,omitempty"`
-	Military               *[]UsersMilitary   `json:"military,omitempty"`
-	University             *int64             `json:"university,omitempty"`
-	UniversityName         *string            `json:"university_name,omitempty"`
-	Faculty                *int64             `json:"faculty,omitempty"`
-	FacultyName            *string            `json:"faculty_name,omitempty"`
-	Graduation             *int64             `json:"graduation,omitempty"`
-	EducationForm          *string            `json:"education_form,omitempty"`
-	EducationStatus        *string            `json:"education_status,omitempty"`
-	HomeTown               *string            `json:"home_town,omitempty"`
-	Relation               *UsersUserRelation `json:"relation,omitempty"`
-	RelationPartner        *UsersUserMin      `json:"relation_partner,omitempty"`
-	Personal               *UsersPersonal     `json:"personal,omitempty"`
-	Universities           *[]UsersUniversity `json:"universities,omitempty"`
-	Schools                *[]UsersSchool     `json:"schools,omitempty"`
-	Relatives              *[]UsersRelative   `json:"relatives,omitempty"`
-	IsSubscribedPodcasts   *bool              `json:"is_subscribed_podcasts,omitempty"`
-	CanSubscribePodcasts   *bool              `json:"can_subscribe_podcasts,omitempty"`
-	CanSubscribePosts      *bool              `json:"can_subscribe_posts,omitempty"`
+	IsHiddenFromFeed       BaseBoolInt               `json:"is_hidden_from_feed"`
+	Military               []UsersMilitary           `json:"military"`
+	FirstName              string                    `json:"first_name"`
+	OnlineMobile           BaseBoolInt               `json:"online_mobile"`
+	FirstNameAcc           string                    `json:"first_name_acc"`
+	Country                BaseCountry               `json:"country"`
+	CanAccessClosed        bool                      `json:"can_access_closed"`
+	LastNameIns            string                    `json:"last_name_ins"`
+	PhotoMax               string                    `json:"photo_max"`
+	Blacklisted            BaseBoolInt               `json:"blacklisted"`
+	Status                 string                    `json:"status"`
+	Activity               string                    `json:"activity"`
+	CropPhoto              BaseCropPhoto             `json:"crop_photo"`
+	Relation               UsersUserRelation         `json:"relation"`
+	Photo100               string                    `json:"photo_100"`
+	Verified               BaseBoolInt               `json:"verified"`
+	Domain                 string                    `json:"domain"`
+	City                   BaseObject                `json:"city"`
+	University             int64                     `json:"university"`
+	LastName               string                    `json:"last_name"`
+	IsClosed               bool                      `json:"is_closed"`
+	FirstNameAbl           string                    `json:"first_name_abl"`
+	CanPost                BaseBoolInt               `json:"can_post"`
+	HasMobile              BaseBoolInt               `json:"has_mobile"`
+	IsFriend               BaseBoolInt               `json:"is_friend"`
+	WallComments           BaseBoolInt               `json:"wall_comments"`
+	CommonCount            int64                     `json:"common_count"`
+	OnlineInfo             UsersOnlineInfo           `json:"online_info"`
+	Mutual                 FriendsRequestsMutual     `json:"mutual"`
+	Deactivated            string                    `json:"deactivated"`
+	Photo200Orig           string                    `json:"photo_200_orig"`
+	Schools                []UsersSchool             `json:"schools"`
+	CanSeeAudio            BaseBoolInt               `json:"can_see_audio"`
+	VideoLiveLevel         int64                     `json:"video_live_level"`
+	EducationStatus        string                    `json:"education_status"`
+	LastNameAcc            string                    `json:"last_name_acc"`
+	HomePhone              string                    `json:"home_phone"`
+	LastSeen               UsersLastSeen             `json:"last_seen"`
+	FacultyName            string                    `json:"faculty_name"`
+	Site                   string                    `json:"site"`
+	Occupation             UsersOccupation           `json:"occupation"`
+	ScreenName             string                    `json:"screen_name"`
+	Photo50                string                    `json:"photo_50"`
+	FirstNameNom           string                    `json:"first_name_nom"`
+	Bdate                  string                    `json:"bdate"`
+	FollowersCount         int64                     `json:"followers_count"`
+	UniversityName         string                    `json:"university_name"`
+	RelationPartner        UsersUserMin              `json:"relation_partner"`
+	CanSubscribePodcasts   bool                      `json:"can_subscribe_podcasts"`
+	LastNameNom            string                    `json:"last_name_nom"`
+	Nickname               string                    `json:"nickname"`
+	CanSeeAllPosts         BaseBoolInt               `json:"can_see_all_posts"`
+	CanWritePrivateMessage BaseBoolInt               `json:"can_write_private_message"`
+	FirstNameIns           string                    `json:"first_name_ins"`
+	MaidenName             string                    `json:"maiden_name"`
+	CanSendFriendRequest   BaseBoolInt               `json:"can_send_friend_request"`
+	Exports                UsersExports              `json:"exports"`
+	BlacklistedByMe        BaseBoolInt               `json:"blacklisted_by_me"`
+	Faculty                int64                     `json:"faculty"`
+	Personal               UsersPersonal             `json:"personal"`
+	Universities           []UsersUniversity         `json:"universities"`
+	Hidden                 int64                     `json:"hidden"`
+	LastNameDat            string                    `json:"last_name_dat"`
+	OwnerState             OwnerState                `json:"owner_state"`
+	Photo200               string                    `json:"photo_200"`
+	Relatives              []UsersRelative           `json:"relatives"`
+	EducationForm          string                    `json:"education_form"`
+	FirstNameDat           string                    `json:"first_name_dat"`
+	LastNameGen            string                    `json:"last_name_gen"`
+	MobilePhone            string                    `json:"mobile_phone"`
+	StatusAudio            AudioAudio                `json:"status_audio"`
+	HomeTown               string                    `json:"home_town"`
+	Sex                    BaseSex                   `json:"sex"`
+	FirstNameGen           string                    `json:"first_name_gen"`
+	Career                 []UsersCareer             `json:"career"`
+	Graduation             int64                     `json:"graduation"`
+	IsSubscribedPodcasts   bool                      `json:"is_subscribed_podcasts"`
+	CanSubscribePosts      bool                      `json:"can_subscribe_posts"`
+	ID                     int64                     `json:"id"`
+	FriendStatus           FriendsFriendStatusStatus `json:"friend_status"`
+	HasPhoto               BaseBoolInt               `json:"has_photo"`
+	VideoLiveCount         int64                     `json:"video_live_count"`
+	Trending               BaseBoolInt               `json:"trending"`
+	OnlineApp              int64                     `json:"online_app"`
+	Online                 BaseBoolInt               `json:"online"`
+	CanBeInvitedGroup      bool                      `json:"can_be_invited_group"`
+	PhotoID                string                    `json:"photo_id"`
+	IsFavorite             BaseBoolInt               `json:"is_favorite"`
+	LastNameAbl            string                    `json:"last_name_abl"`
+	Timezone               int64                     `json:"timezone"`
+	Photo400Orig           string                    `json:"photo_400_orig"`
+	PhotoMaxOrig           string                    `json:"photo_max_orig"`
 }
-
 type UsersUserMin struct {
 	Deactivated     string `json:"deactivated"` // Returns if a profile is deleted or blocked
 	FirstName       string `json:"first_name"`  // User first name
@@ -4275,18 +4744,123 @@ const (
 	UsersUserTypeProfile UsersUserType = "profile"
 )
 
-// allof users_user_xtr_counters
 type UsersUserXtrCounters struct {
-	*UsersUserFull `json:"users_user_full,omitempty"`
-	Counters       *UsersUserCounters `json:"counters,omitempty"`
+	StatusAudio            AudioAudio                `json:"status_audio"`
+	OnlineInfo             UsersOnlineInfo           `json:"online_info"`
+	FirstNameGen           string                    `json:"first_name_gen"`
+	VideoLiveCount         int64                     `json:"video_live_count"`
+	Country                BaseCountry               `json:"country"`
+	Faculty                int64                     `json:"faculty"`
+	LastSeen               UsersLastSeen             `json:"last_seen"`
+	EducationForm          string                    `json:"education_form"`
+	Activity               string                    `json:"activity"`
+	EducationStatus        string                    `json:"education_status"`
+	LastNameNom            string                    `json:"last_name_nom"`
+	OnlineMobile           BaseBoolInt               `json:"online_mobile"`
+	Relation               UsersUserRelation         `json:"relation"`
+	MobilePhone            string                    `json:"mobile_phone"`
+	LastName               string                    `json:"last_name"`
+	Trending               BaseBoolInt               `json:"trending"`
+	Bdate                  string                    `json:"bdate"`
+	IsClosed               bool                      `json:"is_closed"`
+	FirstName              string                    `json:"first_name"`
+	Graduation             int64                     `json:"graduation"`
+	Photo200               string                    `json:"photo_200"`
+	LastNameAbl            string                    `json:"last_name_abl"`
+	Career                 []UsersCareer             `json:"career"`
+	Verified               BaseBoolInt               `json:"verified"`
+	CanSeeAllPosts         BaseBoolInt               `json:"can_see_all_posts"`
+	LastNameDat            string                    `json:"last_name_dat"`
+	PhotoID                string                    `json:"photo_id"`
+	CanSendFriendRequest   BaseBoolInt               `json:"can_send_friend_request"`
+	OwnerState             OwnerState                `json:"owner_state"`
+	WallComments           BaseBoolInt               `json:"wall_comments"`
+	CommonCount            int64                     `json:"common_count"`
+	UniversityName         string                    `json:"university_name"`
+	CanSubscribePosts      bool                      `json:"can_subscribe_posts"`
+	HomePhone              string                    `json:"home_phone"`
+	Counters               UsersUserCounters         `json:"counters"`
+	FirstNameDat           string                    `json:"first_name_dat"`
+	City                   BaseObject                `json:"city"`
+	HasMobile              BaseBoolInt               `json:"has_mobile"`
+	FollowersCount         int64                     `json:"followers_count"`
+	IsFriend               BaseBoolInt               `json:"is_friend"`
+	VideoLiveLevel         int64                     `json:"video_live_level"`
+	CanPost                BaseBoolInt               `json:"can_post"`
+	Site                   string                    `json:"site"`
+	CropPhoto              BaseCropPhoto             `json:"crop_photo"`
+	ScreenName             string                    `json:"screen_name"`
+	Hidden                 int64                     `json:"hidden"`
+	FriendStatus           FriendsFriendStatusStatus `json:"friend_status"`
+	FirstNameAbl           string                    `json:"first_name_abl"`
+	Exports                UsersExports              `json:"exports"`
+	Relatives              []UsersRelative           `json:"relatives"`
+	PhotoMaxOrig           string                    `json:"photo_max_orig"`
+	Domain                 string                    `json:"domain"`
+	RelationPartner        UsersUserMin              `json:"relation_partner"`
+	Military               []UsersMilitary           `json:"military"`
+	Photo200Orig           string                    `json:"photo_200_orig"`
+	Occupation             UsersOccupation           `json:"occupation"`
+	Photo50                string                    `json:"photo_50"`
+	Universities           []UsersUniversity         `json:"universities"`
+	LastNameAcc            string                    `json:"last_name_acc"`
+	OnlineApp              int64                     `json:"online_app"`
+	Blacklisted            BaseBoolInt               `json:"blacklisted"`
+	CanAccessClosed        bool                      `json:"can_access_closed"`
+	HasPhoto               BaseBoolInt               `json:"has_photo"`
+	Personal               UsersPersonal             `json:"personal"`
+	FacultyName            string                    `json:"faculty_name"`
+	Online                 BaseBoolInt               `json:"online"`
+	MaidenName             string                    `json:"maiden_name"`
+	FirstNameIns           string                    `json:"first_name_ins"`
+	Schools                []UsersSchool             `json:"schools"`
+	PhotoMax               string                    `json:"photo_max"`
+	HomeTown               string                    `json:"home_town"`
+	LastNameGen            string                    `json:"last_name_gen"`
+	Photo100               string                    `json:"photo_100"`
+	FirstNameNom           string                    `json:"first_name_nom"`
+	IsFavorite             BaseBoolInt               `json:"is_favorite"`
+	CanBeInvitedGroup      bool                      `json:"can_be_invited_group"`
+	BlacklistedByMe        BaseBoolInt               `json:"blacklisted_by_me"`
+	CanSubscribePodcasts   bool                      `json:"can_subscribe_podcasts"`
+	University             int64                     `json:"university"`
+	IsHiddenFromFeed       BaseBoolInt               `json:"is_hidden_from_feed"`
+	ID                     int64                     `json:"id"`
+	FirstNameAcc           string                    `json:"first_name_acc"`
+	Status                 string                    `json:"status"`
+	CanWritePrivateMessage BaseBoolInt               `json:"can_write_private_message"`
+	Deactivated            string                    `json:"deactivated"`
+	LastNameIns            string                    `json:"last_name_ins"`
+	Mutual                 FriendsRequestsMutual     `json:"mutual"`
+	Photo400Orig           string                    `json:"photo_400_orig"`
+	Nickname               string                    `json:"nickname"`
+	Timezone               int64                     `json:"timezone"`
+	CanSeeAudio            BaseBoolInt               `json:"can_see_audio"`
+	IsSubscribedPodcasts   bool                      `json:"is_subscribed_podcasts"`
+	Sex                    BaseSex                   `json:"sex"`
 }
-
-// allof users_user_xtr_type
 type UsersUserXtrType struct {
-	*UsersUser `json:"users_user,omitempty"`
-	Type       *UsersUserType `json:"type,omitempty"`
+	ID              int64                     `json:"id"`
+	Sex             BaseSex                   `json:"sex"`
+	FirstName       string                    `json:"first_name"`
+	OnlineApp       int64                     `json:"online_app"`
+	FriendStatus    FriendsFriendStatusStatus `json:"friend_status"`
+	LastName        string                    `json:"last_name"`
+	Mutual          FriendsRequestsMutual     `json:"mutual"`
+	CanAccessClosed bool                      `json:"can_access_closed"`
+	ScreenName      string                    `json:"screen_name"`
+	OnlineMobile    BaseBoolInt               `json:"online_mobile"`
+	Deactivated     string                    `json:"deactivated"`
+	Trending        BaseBoolInt               `json:"trending"`
+	Online          BaseBoolInt               `json:"online"`
+	Type            UsersUserType             `json:"type"`
+	Photo50         string                    `json:"photo_50"`
+	Photo100        string                    `json:"photo_100"`
+	Hidden          int64                     `json:"hidden"`
+	IsClosed        bool                      `json:"is_closed"`
+	OnlineInfo      UsersOnlineInfo           `json:"online_info"`
+	Verified        BaseBoolInt               `json:"verified"`
 }
-
 type UsersUsersArray struct {
 	Count int64   `json:"count"` // Users number
 	Items []int64 `json:"items"`
@@ -4399,55 +4973,53 @@ type VideoSaveResult struct {
 	VideoID     int64  `json:"video_id"`    // Video ID
 }
 
-// allof video_video
 type VideoVideo struct {
-	AccessKey                *string             `json:"access_key,omitempty"`
-	AddingDate               *int64              `json:"adding_date,omitempty"`
-	CanComment               *BaseBoolInt        `json:"can_comment,omitempty"`
-	CanEdit                  *BaseBoolInt        `json:"can_edit,omitempty"`
-	CanLike                  *BaseBoolInt        `json:"can_like,omitempty"`
-	CanRepost                *BaseBoolInt        `json:"can_repost,omitempty"`
-	CanSubscribe             *BaseBoolInt        `json:"can_subscribe,omitempty"`
-	CanAddToFaves            *BaseBoolInt        `json:"can_add_to_faves,omitempty"`
-	CanAdd                   *BaseBoolInt        `json:"can_add,omitempty"`
-	CanAttachLink            *BaseBoolInt        `json:"can_attach_link,omitempty"`
-	IsPrivate                *BaseBoolInt        `json:"is_private,omitempty"`
-	Comments                 *int64              `json:"comments,omitempty"`
-	Date                     *int64              `json:"date,omitempty"`
-	Description              *string             `json:"description,omitempty"`
-	Duration                 *int64              `json:"duration,omitempty"`
-	Image                    *[]VideoVideoImage  `json:"image,omitempty"`
-	FirstFrame               *[]VideoVideoImage  `json:"first_frame,omitempty"`
-	Width                    *int64              `json:"width,omitempty"`
-	Height                   *int64              `json:"height,omitempty"`
-	ID                       *int64              `json:"id,omitempty"`
-	OwnerID                  *int64              `json:"owner_id,omitempty"`
-	UserID                   *int64              `json:"user_id,omitempty"`
-	Title                    *string             `json:"title,omitempty"`
-	IsFavorite               *bool               `json:"is_favorite,omitempty"`
-	Player                   *string             `json:"player,omitempty"`
-	Processing               *BasePropertyExists `json:"processing,omitempty"`
-	Converting               *BaseBoolInt        `json:"converting,omitempty"`
-	Restriction              *MediaRestriction   `json:"restriction,omitempty"`
-	Added                    *BaseBoolInt        `json:"added,omitempty"`
-	IsSubscribed             *BaseBoolInt        `json:"is_subscribed,omitempty"`
-	TrackCode                *string             `json:"track_code,omitempty"`
-	Repeat                   *BasePropertyExists `json:"repeat,omitempty"`
-	Type                     *string             `json:"type,omitempty"`
-	Views                    *int64              `json:"views,omitempty"`
-	LocalViews               *int64              `json:"local_views,omitempty"`
-	ContentRestricted        *int64              `json:"content_restricted,omitempty"`
-	ContentRestrictedMessage *string             `json:"content_restricted_message,omitempty"`
-	Balance                  *int64              `json:"balance,omitempty"`
-	LiveStatus               *string             `json:"live_status,omitempty"`
-	Live                     *BasePropertyExists `json:"live,omitempty"`
-	Upcoming                 *BasePropertyExists `json:"upcoming,omitempty"`
-	Spectators               *int64              `json:"spectators,omitempty"`
-	Platform                 *string             `json:"platform,omitempty"`
-	Likes                    *BaseLikes          `json:"likes,omitempty"`
-	Reposts                  *BaseRepostsInfo    `json:"reposts,omitempty"`
+	Image                    []VideoVideoImage  `json:"image"`
+	FirstFrame               []VideoVideoImage  `json:"first_frame"`
+	Height                   int64              `json:"height"`
+	Added                    BaseBoolInt        `json:"added"`
+	IsSubscribed             BaseBoolInt        `json:"is_subscribed"`
+	ContentRestrictedMessage string             `json:"content_restricted_message"`
+	Upcoming                 BasePropertyExists `json:"upcoming"`
+	AddingDate               int64              `json:"adding_date"`
+	CanComment               BaseBoolInt        `json:"can_comment"`
+	OwnerID                  int64              `json:"owner_id"`
+	LiveStatus               string             `json:"live_status"`
+	CanAdd                   BaseBoolInt        `json:"can_add"`
+	IsPrivate                BaseBoolInt        `json:"is_private"`
+	UserID                   int64              `json:"user_id"`
+	Repeat                   BasePropertyExists `json:"repeat"`
+	LocalViews               int64              `json:"local_views"`
+	Spectators               int64              `json:"spectators"`
+	Likes                    BaseLikes          `json:"likes"`
+	CanLike                  BaseBoolInt        `json:"can_like"`
+	ID                       int64              `json:"id"`
+	Processing               BasePropertyExists `json:"processing"`
+	Balance                  int64              `json:"balance"`
+	Live                     BasePropertyExists `json:"live"`
+	CanSubscribe             BaseBoolInt        `json:"can_subscribe"`
+	CanAttachLink            BaseBoolInt        `json:"can_attach_link"`
+	Date                     int64              `json:"date"`
+	Description              string             `json:"description"`
+	Duration                 int64              `json:"duration"`
+	IsFavorite               bool               `json:"is_favorite"`
+	Views                    int64              `json:"views"`
+	AccessKey                string             `json:"access_key"`
+	Player                   string             `json:"player"`
+	Converting               BaseBoolInt        `json:"converting"`
+	Restriction              MediaRestriction   `json:"restriction"`
+	Platform                 string             `json:"platform"`
+	CanEdit                  BaseBoolInt        `json:"can_edit"`
+	CanAddToFaves            BaseBoolInt        `json:"can_add_to_faves"`
+	Comments                 int64              `json:"comments"`
+	Width                    int64              `json:"width"`
+	ContentRestricted        int64              `json:"content_restricted"`
+	Reposts                  BaseRepostsInfo    `json:"reposts"`
+	CanRepost                BaseBoolInt        `json:"can_repost"`
+	Title                    string             `json:"title"`
+	TrackCode                string             `json:"track_code"`
+	Type                     string             `json:"type"`
 }
-
 type VideoVideoAlbumFull struct {
 	Count       int64              `json:"count"`        // Total number of videos in album
 	ID          int64              `json:"id"`           // Album ID
@@ -4469,19 +5041,62 @@ type VideoVideoFiles struct {
 	Flv320   string `json:"flv_320"`  // URL of the flv file with 320p quality
 }
 
-// allof video_video_full
 type VideoVideoFull struct {
-	*VideoVideo  `json:"video_video,omitempty"`
-	Files        *VideoVideoFiles   `json:"files,omitempty"`
-	LiveSettings *VideoLiveSettings `json:"live_settings,omitempty"`
+	UserID                   int64              `json:"user_id"`
+	IsSubscribed             BaseBoolInt        `json:"is_subscribed"`
+	CanRepost                BaseBoolInt        `json:"can_repost"`
+	LocalViews               int64              `json:"local_views"`
+	Comments                 int64              `json:"comments"`
+	Live                     BasePropertyExists `json:"live"`
+	Width                    int64              `json:"width"`
+	Spectators               int64              `json:"spectators"`
+	Added                    BaseBoolInt        `json:"added"`
+	Likes                    BaseLikes          `json:"likes"`
+	CanAdd                   BaseBoolInt        `json:"can_add"`
+	CanComment               BaseBoolInt        `json:"can_comment"`
+	Repeat                   BasePropertyExists `json:"repeat"`
+	CanLike                  BaseBoolInt        `json:"can_like"`
+	Description              string             `json:"description"`
+	Duration                 int64              `json:"duration"`
+	Platform                 string             `json:"platform"`
+	Reposts                  BaseRepostsInfo    `json:"reposts"`
+	ContentRestrictedMessage string             `json:"content_restricted_message"`
+	Date                     int64              `json:"date"`
+	Image                    []VideoVideoImage  `json:"image"`
+	OwnerID                  int64              `json:"owner_id"`
+	CanSubscribe             BaseBoolInt        `json:"can_subscribe"`
+	CanAddToFaves            BaseBoolInt        `json:"can_add_to_faves"`
+	IsPrivate                BaseBoolInt        `json:"is_private"`
+	Type                     string             `json:"type"`
+	Views                    int64              `json:"views"`
+	CanAttachLink            BaseBoolInt        `json:"can_attach_link"`
+	ID                       int64              `json:"id"`
+	Converting               BaseBoolInt        `json:"converting"`
+	Upcoming                 BasePropertyExists `json:"upcoming"`
+	AddingDate               int64              `json:"adding_date"`
+	ContentRestricted        int64              `json:"content_restricted"`
+	IsFavorite               bool               `json:"is_favorite"`
+	Player                   string             `json:"player"`
+	Title                    string             `json:"title"`
+	AccessKey                string             `json:"access_key"`
+	FirstFrame               []VideoVideoImage  `json:"first_frame"`
+	Processing               BasePropertyExists `json:"processing"`
+	Restriction              MediaRestriction   `json:"restriction"`
+	LiveSettings             VideoLiveSettings  `json:"live_settings"`
+	Balance                  int64              `json:"balance"`
+	Height                   int64              `json:"height"`
+	TrackCode                string             `json:"track_code"`
+	LiveStatus               string             `json:"live_status"`
+	Files                    VideoVideoFiles    `json:"files"`
+	CanEdit                  BaseBoolInt        `json:"can_edit"`
 }
-
-// allof video_video_image
 type VideoVideoImage struct {
-	*BaseImage  `json:"base_image,omitempty"`
-	WithPadding *BasePropertyExists `json:"with_padding,omitempty"`
+	ID          string             `json:"id"`
+	Height      int64              `json:"height"`
+	URL         string             `json:"url"`
+	Width       int64              `json:"width"`
+	WithPadding BasePropertyExists `json:"with_padding"`
 }
-
 type WallAppPost struct {
 	ID       int64  `json:"id"`        // Application ID
 	Name     string `json:"name"`      // Application name
@@ -4676,21 +5291,36 @@ const (
 	WallWallpostAttachmentTypeEvent             WallWallpostAttachmentType = "event"
 )
 
-// allof wall_wallpost_full
 type WallWallpostFull struct {
-	*WallCarouselBase `json:"wall_carousel_base,omitempty"`
-	*WallWallpost     `json:"wall_wallpost,omitempty"`
-	CopyHistory       *[]WallWallpost   `json:"copy_history,omitempty"`
-	CanEdit           *BaseBoolInt      `json:"can_edit,omitempty"`
-	CreatedBy         *int64            `json:"created_by,omitempty"`
-	CanDelete         *BaseBoolInt      `json:"can_delete,omitempty"`
-	CanPin            *BaseBoolInt      `json:"can_pin,omitempty"`
-	IsPinned          *int64            `json:"is_pinned,omitempty"`
-	Comments          *BaseCommentsInfo `json:"comments,omitempty"`
-	MarkedAsAds       *BaseBoolInt      `json:"marked_as_ads,omitempty"`
-	ShortTextRate     *float64          `json:"short_text_rate,omitempty"`
+	MarkedAsAds    BaseBoolInt              `json:"marked_as_ads"`
+	CarouselOffset int64                    `json:"carousel_offset"`
+	IsArchived     bool                     `json:"is_archived"`
+	PostSource     WallPostSource           `json:"post_source"`
+	AccessKey      string                   `json:"access_key"`
+	Geo            WallGeo                  `json:"geo"`
+	ID             int64                    `json:"id"`
+	OwnerID        int64                    `json:"owner_id"`
+	Views          WallViews                `json:"views"`
+	CanDelete      BaseBoolInt              `json:"can_delete"`
+	Edited         int64                    `json:"edited"`
+	CanPin         BaseBoolInt              `json:"can_pin"`
+	ShortTextRate  float64                  `json:"short_text_rate"`
+	FromID         int64                    `json:"from_id"`
+	CopyHistory    []WallWallpost           `json:"copy_history"`
+	CreatedBy      int64                    `json:"created_by"`
+	IsFavorite     bool                     `json:"is_favorite"`
+	PostType       WallPostType             `json:"post_type"`
+	IsPinned       int64                    `json:"is_pinned"`
+	Reposts        BaseRepostsInfo          `json:"reposts"`
+	SignerID       int64                    `json:"signer_id"`
+	Text           string                   `json:"text"`
+	CanEdit        BaseBoolInt              `json:"can_edit"`
+	Attachments    []WallWallpostAttachment `json:"attachments"`
+	Copyright      WallPostCopyright        `json:"copyright"`
+	Date           int64                    `json:"date"`
+	Likes          BaseLikesInfo            `json:"likes"`
+	Comments       BaseCommentsInfo         `json:"comments"`
 }
-
 type WallWallpostToID struct {
 	Attachments []WallWallpostAttachment `json:"attachments"`
 	Comments    BaseCommentsInfo         `json:"comments"`

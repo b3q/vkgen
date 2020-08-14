@@ -278,7 +278,7 @@ type DocsGetTypesResponse struct {
 	Items []DocsDocTypes `json:"items"`
 }
 
-type DocsGetUploadServer BaseUploadServer
+type DocsGetUploadServerResponse BaseUploadServer
 
 type DocsGetResponse struct {
 	Count int64     `json:"count"` // Total number
@@ -329,6 +329,7 @@ type FriendsAddListResponse struct {
 	ListID int64 `json:"list_id"` // List ID
 }
 
+// Friend request status
 // Friend request status
 type FriendsAddResponse int64
 
@@ -879,8 +880,78 @@ type NewsfeedGetRecommendedResponse struct {
 type NewsfeedGetSuggestedSourcesResponse struct {
 	Count int64 `json:"count"` // Total number
 	Items []struct {
-		*GroupsGroupFull
-		*UsersUserXtrType
+		Counters             GroupsCountersGroup         `json:"counters"`
+		CropPhoto            BaseCropPhoto               `json:"crop_photo"`
+		CanUploadVideo       BaseBoolInt                 `json:"can_upload_video"`
+		WikiPage             string                      `json:"wiki_page"`
+		MembersCount         int64                       `json:"members_count"`
+		FixedPost            int64                       `json:"fixed_post"`
+		LiveCovers           GroupsLiveCovers            `json:"live_covers"`
+		Deactivated          string                      `json:"deactivated"`
+		Cover                GroupsCover                 `json:"cover"`
+		Sex                  BaseSex                     `json:"sex"`
+		OnlineApp            int64                       `json:"online_app"`
+		IsAdvertiser         BaseBoolInt                 `json:"is_advertiser"`
+		FinishDate           int64                       `json:"finish_date"`
+		IsClosed             json.RawMessage             `json:"is_closed"`
+		LastName             string                      `json:"last_name"`
+		FriendStatus         FriendsFriendStatusStatus   `json:"friend_status"`
+		IsMember             BaseBoolInt                 `json:"is_member"`
+		Status               string                      `json:"status"`
+		MemberStatus         GroupsGroupFullMemberStatus `json:"member_status"`
+		IsAdult              BaseBoolInt                 `json:"is_adult"`
+		HasPhoto             BaseBoolInt                 `json:"has_photo"`
+		Mutual               FriendsRequestsMutual       `json:"mutual"`
+		City                 BaseObject                  `json:"city"`
+		Contacts             []GroupsContactsItem        `json:"contacts"`
+		BanInfo              GroupsGroupBanInfo          `json:"ban_info"`
+		ID                   int64                       `json:"id"`
+		CanCreateTopic       BaseBoolInt                 `json:"can_create_topic"`
+		IsHiddenFromFeed     BaseBoolInt                 `json:"is_hidden_from_feed"`
+		CanUploadStory       BaseBoolInt                 `json:"can_upload_story"`
+		IsMessagesBlocked    BaseBoolInt                 `json:"is_messages_blocked"`
+		MainSection          GroupsGroupFullMainSection  `json:"main_section"`
+		CanSubscribePodcasts bool                        `json:"can_subscribe_podcasts"`
+		VideoLiveLevel       int64                       `json:"video_live_level"`
+		CanSeeAllPosts       BaseBoolInt                 `json:"can_see_all_posts"`
+		ScreenName           string                      `json:"screen_name"`
+		Photo50              string                      `json:"photo_50"`
+		IsSubscribed         BaseBoolInt                 `json:"is_subscribed"`
+		IsSubscribedPodcasts bool                        `json:"is_subscribed_podcasts"`
+		Links                []GroupsLinksItem           `json:"links"`
+		Activity             string                      `json:"activity"`
+		AgeLimits            GroupsGroupFullAgeLimits    `json:"age_limits"`
+		FirstName            string                      `json:"first_name"`
+		CanAccessClosed      bool                        `json:"can_access_closed"`
+		Country              BaseCountry                 `json:"country"`
+		Market               GroupsMarketInfo            `json:"market"`
+		HasMarketApp         bool                        `json:"has_market_app"`
+		OnlineMobile         BaseBoolInt                 `json:"online_mobile"`
+		Name                 string                      `json:"name"`
+		Wall                 int64                       `json:"wall"`
+		StartDate            int64                       `json:"start_date"`
+		Trending             BaseBoolInt                 `json:"trending"`
+		OnlineInfo           UsersOnlineInfo             `json:"online_info"`
+		CanSubscribePosts    bool                        `json:"can_subscribe_posts"`
+		IsAdmin              BaseBoolInt                 `json:"is_admin"`
+		Site                 string                      `json:"site"`
+		OnlineStatus         GroupsOnlineStatus          `json:"online_status"`
+		CanSendNotify        BaseBoolInt                 `json:"can_send_notify"`
+		CanPost              BaseBoolInt                 `json:"can_post"`
+		CanUploadDoc         BaseBoolInt                 `json:"can_upload_doc"`
+		AdminLevel           GroupsGroupAdminLevel       `json:"admin_level"`
+		Online               BaseBoolInt                 `json:"online"`
+		VideoLiveCount       int64                       `json:"video_live_count"`
+		MainAlbumID          int64                       `json:"main_album_id"`
+		Photo100             string                      `json:"photo_100"`
+		Description          string                      `json:"description"`
+		CanMessage           BaseBoolInt                 `json:"can_message"`
+		Addresses            GroupsAddressesInfo         `json:"addresses"`
+		Photo200             string                      `json:"photo_200"`
+		Type                 json.RawMessage             `json:"type"`
+		Hidden               int64                       `json:"hidden"`
+		IsFavorite           BaseBoolInt                 `json:"is_favorite"`
+		Verified             BaseBoolInt                 `json:"verified"`
 	} `json:"items"`
 }
 
