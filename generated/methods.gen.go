@@ -269,8 +269,27 @@ func (vk *VK) AdsGetStatistics(params Params) (response AdsGetStatisticsResponse
 }
 
 // Returns a set of auto-suggestions for various targeting parameters.
-func (vk *VK) AdsGetSuggestionsRaw(params Params) ([]byte, error) {
-	return vk.Request("ads.getSuggestions", params)
+func (vk *VK) AdsGetSuggestions(params Params) (response AdsGetSuggestionsResponse, err error) {
+	err = vk.RequestUnmarshal("ads.getSuggestions", params, &response)
+	return
+}
+
+// Returns a set of auto-suggestions for various targeting parameters.
+func (vk *VK) AdsGetSuggestionsRegions(params Params) (response AdsGetSuggestionsRegionsResponse, err error) {
+	err = vk.RequestUnmarshal("ads.getSuggestions", params, &response)
+	return
+}
+
+// Returns a set of auto-suggestions for various targeting parameters.
+func (vk *VK) AdsGetSuggestionsCities(params Params) (response AdsGetSuggestionsCitiesResponse, err error) {
+	err = vk.RequestUnmarshal("ads.getSuggestions", params, &response)
+	return
+}
+
+// Returns a set of auto-suggestions for various targeting parameters.
+func (vk *VK) AdsGetSuggestionsSchools(params Params) (response AdsGetSuggestionsSchoolsResponse, err error) {
+	err = vk.RequestUnmarshal("ads.getSuggestions", params, &response)
+	return
 }
 
 // Returns a list of target groups.
@@ -364,8 +383,16 @@ func (vk *VK) AppsGetFriendsList(params Params) (response AppsGetFriendsListResp
 }
 
 // Returns players rating in the game.
-func (vk *VK) AppsGetLeaderboardRaw(params Params) ([]byte, error) {
-	return vk.Request("apps.getLeaderboard", params)
+func (vk *VK) AppsGetLeaderboard(params Params) (response AppsGetLeaderboardResponse, err error) {
+	err = vk.RequestUnmarshal("apps.getLeaderboard", params, &response)
+	return
+}
+
+// Returns players rating in the game.
+func (vk *VK) AppsGetLeaderboardExtended(params Params) (response AppsGetLeaderboardExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("apps.getLeaderboard", params, &response)
+	return
 }
 
 // Returns scopes for auth
@@ -457,13 +484,29 @@ func (vk *VK) BoardFixTopic(params Params) (response BaseOkResponse, err error) 
 }
 
 // Returns a list of comments on a topic on a community's discussion board.
-func (vk *VK) BoardGetCommentsRaw(params Params) ([]byte, error) {
-	return vk.Request("board.getComments", params)
+func (vk *VK) BoardGetComments(params Params) (response BoardGetCommentsResponse, err error) {
+	err = vk.RequestUnmarshal("board.getComments", params, &response)
+	return
+}
+
+// Returns a list of comments on a topic on a community's discussion board.
+func (vk *VK) BoardGetCommentsExtended(params Params) (response BoardGetCommentsExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("board.getComments", params, &response)
+	return
 }
 
 // Returns a list of topics on a community's discussion board.
-func (vk *VK) BoardGetTopicsRaw(params Params) ([]byte, error) {
-	return vk.Request("board.getTopics", params)
+func (vk *VK) BoardGetTopics(params Params) (response BoardGetTopicsResponse, err error) {
+	err = vk.RequestUnmarshal("board.getTopics", params, &response)
+	return
+}
+
+// Returns a list of topics on a community's discussion board.
+func (vk *VK) BoardGetTopicsExtended(params Params) (response BoardGetTopicsExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("board.getTopics", params, &response)
+	return
 }
 
 // Re-opens a previously closed topic on a community's discussion board.
@@ -668,8 +711,15 @@ func (vk *VK) FaveEditTag(params Params) (response BaseOkResponse, err error) {
 	return
 }
 
-func (vk *VK) FaveGetRaw(params Params) ([]byte, error) {
-	return vk.Request("fave.get", params)
+func (vk *VK) FaveGet(params Params) (response FaveGetResponse, err error) {
+	err = vk.RequestUnmarshal("fave.get", params, &response)
+	return
+}
+
+func (vk *VK) FaveGetExtended(params Params) (response FaveGetExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("fave.get", params, &response)
+	return
 }
 
 func (vk *VK) FaveGetPages(params Params) (response FaveGetPagesResponse, err error) {
@@ -751,8 +801,16 @@ func (vk *VK) FriendsAddList(params Params) (response FriendsAddListResponse, er
 }
 
 // Checks the current user's friendship status with other specified users.
-func (vk *VK) FriendsAreFriendsRaw(params Params) ([]byte, error) {
-	return vk.Request("friends.areFriends", params)
+func (vk *VK) FriendsAreFriends(params Params) (response FriendsAreFriendsResponse, err error) {
+	err = vk.RequestUnmarshal("friends.areFriends", params, &response)
+	return
+}
+
+// Checks the current user's friendship status with other specified users.
+func (vk *VK) FriendsAreFriendsExtended(params Params) (response FriendsAreFriendsExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("friends.areFriends", params, &response)
+	return
 }
 
 // Declines a friend request or deletes a user from the current user's friend list.
@@ -786,8 +844,15 @@ func (vk *VK) FriendsEditList(params Params) (response BaseOkResponse, err error
 }
 
 // Returns a list of user IDs or detailed information about a user's friends.
-func (vk *VK) FriendsGetRaw(params Params) ([]byte, error) {
-	return vk.Request("friends.get", params)
+func (vk *VK) FriendsGet(params Params) (response FriendsGetResponse, err error) {
+	err = vk.RequestUnmarshal("friends.get", params, &response)
+	return
+}
+
+// Returns a list of user IDs or detailed information about a user's friends.
+func (vk *VK) FriendsGetFields(params Params) (response FriendsGetFieldsResponse, err error) {
+	err = vk.RequestUnmarshal("friends.get", params, &response)
+	return
 }
 
 // Returns a list of IDs of the current user's friends who installed the application.
@@ -809,13 +874,27 @@ func (vk *VK) FriendsGetLists(params Params) (response FriendsGetListsResponse, 
 }
 
 // Returns a list of user IDs of the mutual friends of two users.
-func (vk *VK) FriendsGetMutualRaw(params Params) ([]byte, error) {
-	return vk.Request("friends.getMutual", params)
+func (vk *VK) FriendsGetMutual(params Params) (response FriendsGetMutualResponse, err error) {
+	err = vk.RequestUnmarshal("friends.getMutual", params, &response)
+	return
+}
+
+// Returns a list of user IDs of the mutual friends of two users.
+func (vk *VK) FriendsGetMutualTargetUids(params Params) (response FriendsGetMutualTargetUidsResponse, err error) {
+	err = vk.RequestUnmarshal("friends.getMutual", params, &response)
+	return
 }
 
 // Returns a list of user IDs of a user's friends who are online.
-func (vk *VK) FriendsGetOnlineRaw(params Params) ([]byte, error) {
-	return vk.Request("friends.getOnline", params)
+func (vk *VK) FriendsGetOnline(params Params) (response FriendsGetOnlineResponse, err error) {
+	err = vk.RequestUnmarshal("friends.getOnline", params, &response)
+	return
+}
+
+// Returns a list of user IDs of a user's friends who are online.
+func (vk *VK) FriendsGetOnlineOnlineMobile(params Params) (response FriendsGetOnlineOnlineMobileResponse, err error) {
+	err = vk.RequestUnmarshal("friends.getOnline", params, &response)
+	return
 }
 
 // Returns a list of user IDs of the current user's recently added friends.
@@ -825,8 +904,22 @@ func (vk *VK) FriendsGetRecent(params Params) (response FriendsGetRecentResponse
 }
 
 // Returns information about the current user's incoming and outgoing friend requests.
-func (vk *VK) FriendsGetRequestsRaw(params Params) ([]byte, error) {
-	return vk.Request("friends.getRequests", params)
+func (vk *VK) FriendsGetRequests(params Params) (response FriendsGetRequestsResponse, err error) {
+	err = vk.RequestUnmarshal("friends.getRequests", params, &response)
+	return
+}
+
+// Returns information about the current user's incoming and outgoing friend requests.
+func (vk *VK) FriendsGetRequestsNeedMutual(params Params) (response FriendsGetRequestsNeedMutualResponse, err error) {
+	err = vk.RequestUnmarshal("friends.getRequests", params, &response)
+	return
+}
+
+// Returns information about the current user's incoming and outgoing friend requests.
+func (vk *VK) FriendsGetRequestsExtended(params Params) (response FriendsGetRequestsExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("friends.getRequests", params, &response)
+	return
 }
 
 // Returns a list of profiles of users whom the current user may know.
@@ -930,8 +1023,16 @@ func (vk *VK) GroupsEnableOnline(params Params) (response BaseOkResponse, err er
 }
 
 // Returns a list of the communities to which a user belongs.
-func (vk *VK) GroupsGetRaw(params Params) ([]byte, error) {
-	return vk.Request("groups.get", params)
+func (vk *VK) GroupsGet(params Params) (response GroupsGetResponse, err error) {
+	err = vk.RequestUnmarshal("groups.get", params, &response)
+	return
+}
+
+// Returns a list of the communities to which a user belongs.
+func (vk *VK) GroupsGetExtended(params Params) (response GroupsGetExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("groups.get", params, &response)
+	return
 }
 
 // Returns a list of community addresses.
@@ -976,8 +1077,16 @@ func (vk *VK) GroupsGetCatalog(params Params) (response GroupsGetCatalogResponse
 }
 
 // Returns categories list for communities catalog
-func (vk *VK) GroupsGetCatalogInfoRaw(params Params) ([]byte, error) {
-	return vk.Request("groups.getCatalogInfo", params)
+func (vk *VK) GroupsGetCatalogInfo(params Params) (response GroupsGetCatalogInfoResponse, err error) {
+	err = vk.RequestUnmarshal("groups.getCatalogInfo", params, &response)
+	return
+}
+
+// Returns categories list for communities catalog
+func (vk *VK) GroupsGetCatalogInfoExtended(params Params) (response GroupsGetCatalogInfoExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("groups.getCatalogInfo", params, &response)
+	return
 }
 
 // Returns invited users list of a community
@@ -987,8 +1096,16 @@ func (vk *VK) GroupsGetInvitedUsers(params Params) (response GroupsGetInvitedUse
 }
 
 // Returns a list of invitations to join communities and events.
-func (vk *VK) GroupsGetInvitesRaw(params Params) ([]byte, error) {
-	return vk.Request("groups.getInvites", params)
+func (vk *VK) GroupsGetInvites(params Params) (response GroupsGetInvitesResponse, err error) {
+	err = vk.RequestUnmarshal("groups.getInvites", params, &response)
+	return
+}
+
+// Returns a list of invitations to join communities and events.
+func (vk *VK) GroupsGetInvitesExtended(params Params) (response GroupsGetInvitesExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("groups.getInvites", params, &response)
+	return
 }
 
 // Returns the data needed to query a Long Poll server for events
@@ -1004,13 +1121,33 @@ func (vk *VK) GroupsGetLongPollSettings(params Params) (response GroupsGetLongPo
 }
 
 // Returns a list of community members.
-func (vk *VK) GroupsGetMembersRaw(params Params) ([]byte, error) {
-	return vk.Request("groups.getMembers", params)
+func (vk *VK) GroupsGetMembers(params Params) (response GroupsGetMembersResponse, err error) {
+	err = vk.RequestUnmarshal("groups.getMembers", params, &response)
+	return
+}
+
+// Returns a list of community members.
+func (vk *VK) GroupsGetMembersFields(params Params) (response GroupsGetMembersFieldsResponse, err error) {
+	err = vk.RequestUnmarshal("groups.getMembers", params, &response)
+	return
+}
+
+// Returns a list of community members.
+func (vk *VK) GroupsGetMembersFilter(params Params) (response GroupsGetMembersFilterResponse, err error) {
+	err = vk.RequestUnmarshal("groups.getMembers", params, &response)
+	return
 }
 
 // Returns a list of requests to the community.
-func (vk *VK) GroupsGetRequestsRaw(params Params) ([]byte, error) {
-	return vk.Request("groups.getRequests", params)
+func (vk *VK) GroupsGetRequests(params Params) (response GroupsGetRequestsResponse, err error) {
+	err = vk.RequestUnmarshal("groups.getRequests", params, &response)
+	return
+}
+
+// Returns a list of requests to the community.
+func (vk *VK) GroupsGetRequestsFields(params Params) (response GroupsGetRequestsFieldsResponse, err error) {
+	err = vk.RequestUnmarshal("groups.getRequests", params, &response)
+	return
 }
 
 // Returns community settings.
@@ -1031,8 +1168,29 @@ func (vk *VK) GroupsInvite(params Params) (response BaseOkResponse, err error) {
 }
 
 // Returns information specifying whether a user is a member of a community.
-func (vk *VK) GroupsIsMemberRaw(params Params) ([]byte, error) {
-	return vk.Request("groups.isMember", params)
+func (vk *VK) GroupsIsMember(params Params) (response GroupsIsMemberResponse, err error) {
+	err = vk.RequestUnmarshal("groups.isMember", params, &response)
+	return
+}
+
+// Returns information specifying whether a user is a member of a community.
+func (vk *VK) GroupsIsMemberUserIDs(params Params) (response GroupsIsMemberUserIDsResponse, err error) {
+	err = vk.RequestUnmarshal("groups.isMember", params, &response)
+	return
+}
+
+// Returns information specifying whether a user is a member of a community.
+func (vk *VK) GroupsIsMemberExtended(params Params) (response GroupsIsMemberExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("groups.isMember", params, &response)
+	return
+}
+
+// Returns information specifying whether a user is a member of a community.
+func (vk *VK) GroupsIsMemberUserIDsExtended(params Params) (response GroupsIsMemberUserIDsExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("groups.isMember", params, &response)
+	return
 }
 
 // With this method you can join the group or public page, and also confirm your participation in an event.
@@ -1131,8 +1289,16 @@ func (vk *VK) LikesDelete(params Params) (response LikesDeleteResponse, err erro
 }
 
 // Returns a list of IDs of users who added the specified object to their 'Likes' list.
-func (vk *VK) LikesGetListRaw(params Params) ([]byte, error) {
-	return vk.Request("likes.getList", params)
+func (vk *VK) LikesGetList(params Params) (response LikesGetListResponse, err error) {
+	err = vk.RequestUnmarshal("likes.getList", params, &response)
+	return
+}
+
+// Returns a list of IDs of users who added the specified object to their 'Likes' list.
+func (vk *VK) LikesGetListExtended(params Params) (response LikesGetListExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("likes.getList", params, &response)
+	return
 }
 
 // Checks for the object in the 'Likes' list of the specified user.
@@ -1202,8 +1368,16 @@ func (vk *VK) MarketEditComment(params Params) (response BaseOkResponse, err err
 }
 
 // Returns items list for a community.
-func (vk *VK) MarketGetRaw(params Params) ([]byte, error) {
-	return vk.Request("market.get", params)
+func (vk *VK) MarketGet(params Params) (response MarketGetResponse, err error) {
+	err = vk.RequestUnmarshal("market.get", params, &response)
+	return
+}
+
+// Returns items list for a community.
+func (vk *VK) MarketGetExtended(params Params) (response MarketGetExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("market.get", params, &response)
+	return
 }
 
 // Returns items album's data
@@ -1219,8 +1393,16 @@ func (vk *VK) MarketGetAlbums(params Params) (response MarketGetAlbumsResponse, 
 }
 
 // Returns information about market items by their ids.
-func (vk *VK) MarketGetByIDRaw(params Params) ([]byte, error) {
-	return vk.Request("market.getById", params)
+func (vk *VK) MarketGetByID(params Params) (response MarketGetByIDResponse, err error) {
+	err = vk.RequestUnmarshal("market.getById", params, &response)
+	return
+}
+
+// Returns information about market items by their ids.
+func (vk *VK) MarketGetByIDExtended(params Params) (response MarketGetByIDExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("market.getById", params, &response)
+	return
 }
 
 // Returns a list of market categories.
@@ -1278,8 +1460,16 @@ func (vk *VK) MarketRestoreComment(params Params) (response MarketRestoreComment
 }
 
 // Searches market items in a community's catalog
-func (vk *VK) MarketSearchRaw(params Params) ([]byte, error) {
-	return vk.Request("market.search", params)
+func (vk *VK) MarketSearch(params Params) (response MarketSearchResponse, err error) {
+	err = vk.RequestUnmarshal("market.search", params, &response)
+	return
+}
+
+// Searches market items in a community's catalog
+func (vk *VK) MarketSearchExtended(params Params) (response MarketSearchExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("market.search", params, &response)
+	return
 }
 
 // Adds a new user to a chat.
@@ -1343,8 +1533,16 @@ func (vk *VK) MessagesGetByConversationMessageID(params Params) (response Messag
 }
 
 // Returns messages by their IDs.
-func (vk *VK) MessagesGetByIDRaw(params Params) ([]byte, error) {
-	return vk.Request("messages.getById", params)
+func (vk *VK) MessagesGetByID(params Params) (response MessagesGetByIDResponse, err error) {
+	err = vk.RequestUnmarshal("messages.getById", params, &response)
+	return
+}
+
+// Returns messages by their IDs.
+func (vk *VK) MessagesGetByIDExtended(params Params) (response MessagesGetByIDExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("messages.getById", params, &response)
+	return
 }
 
 func (vk *VK) MessagesGetChatPreview(params Params) (response MessagesGetChatPreviewResponse, err error) {
@@ -1365,8 +1563,16 @@ func (vk *VK) MessagesGetConversations(params Params) (response MessagesGetConve
 }
 
 // Returns conversations by their IDs
-func (vk *VK) MessagesGetConversationsByIDRaw(params Params) ([]byte, error) {
-	return vk.Request("messages.getConversationsById", params)
+func (vk *VK) MessagesGetConversationsByID(params Params) (response MessagesGetConversationsByIDResponse, err error) {
+	err = vk.RequestUnmarshal("messages.getConversationsById", params, &response)
+	return
+}
+
+// Returns conversations by their IDs
+func (vk *VK) MessagesGetConversationsByIDExtended(params Params) (response MessagesGetConversationsByIDExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("messages.getConversationsById", params, &response)
+	return
 }
 
 // Returns message history for the specified user or group chat.
@@ -1470,8 +1676,15 @@ func (vk *VK) MessagesSearchConversations(params Params) (response MessagesSearc
 }
 
 // Sends a message.
-func (vk *VK) MessagesSendRaw(params Params) ([]byte, error) {
-	return vk.Request("messages.send", params)
+func (vk *VK) MessagesSend(params Params) (response MessagesSendResponse, err error) {
+	err = vk.RequestUnmarshal("messages.send", params, &response)
+	return
+}
+
+// Sends a message.
+func (vk *VK) MessagesSendUserIDs(params Params) (response MessagesSendUserIDsResponse, err error) {
+	err = vk.RequestUnmarshal("messages.send", params, &response)
+	return
 }
 
 func (vk *VK) MessagesSendMessageEventAnswer(params Params) (response BaseOkResponse, err error) {
@@ -1520,8 +1733,16 @@ func (vk *VK) NewsfeedGet(params Params) (response NewsfeedGetResponse, err erro
 }
 
 // Returns a list of users and communities banned from the current user's newsfeed.
-func (vk *VK) NewsfeedGetBannedRaw(params Params) ([]byte, error) {
-	return vk.Request("newsfeed.getBanned", params)
+func (vk *VK) NewsfeedGetBanned(params Params) (response NewsfeedGetBannedResponse, err error) {
+	err = vk.RequestUnmarshal("newsfeed.getBanned", params, &response)
+	return
+}
+
+// Returns a list of users and communities banned from the current user's newsfeed.
+func (vk *VK) NewsfeedGetBannedExtended(params Params) (response NewsfeedGetBannedExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("newsfeed.getBanned", params, &response)
+	return
 }
 
 // Returns a list of comments in the current user's newsfeed.
@@ -1531,8 +1752,16 @@ func (vk *VK) NewsfeedGetComments(params Params) (response NewsfeedGetCommentsRe
 }
 
 // Returns a list of newsfeeds followed by the current user.
-func (vk *VK) NewsfeedGetListsRaw(params Params) ([]byte, error) {
-	return vk.Request("newsfeed.getLists", params)
+func (vk *VK) NewsfeedGetLists(params Params) (response NewsfeedGetListsResponse, err error) {
+	err = vk.RequestUnmarshal("newsfeed.getLists", params, &response)
+	return
+}
+
+// Returns a list of newsfeeds followed by the current user.
+func (vk *VK) NewsfeedGetListsExtended(params Params) (response NewsfeedGetListsExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("newsfeed.getLists", params, &response)
+	return
 }
 
 // Returns a list of posts on user walls in which the current user is mentioned.
@@ -1566,8 +1795,16 @@ func (vk *VK) NewsfeedSaveList(params Params) (response NewsfeedSaveListResponse
 }
 
 // Returns search results by statuses.
-func (vk *VK) NewsfeedSearchRaw(params Params) ([]byte, error) {
-	return vk.Request("newsfeed.search", params)
+func (vk *VK) NewsfeedSearch(params Params) (response NewsfeedSearchResponse, err error) {
+	err = vk.RequestUnmarshal("newsfeed.search", params, &response)
+	return
+}
+
+// Returns search results by statuses.
+func (vk *VK) NewsfeedSearchExtended(params Params) (response NewsfeedSearchExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("newsfeed.search", params, &response)
+	return
 }
 
 // Returns a hidden item to the newsfeed.
@@ -1811,8 +2048,16 @@ func (vk *VK) PhotosEditComment(params Params) (response BaseOkResponse, err err
 }
 
 // Returns a list of a user's or community's photos.
-func (vk *VK) PhotosGetRaw(params Params) ([]byte, error) {
-	return vk.Request("photos.get", params)
+func (vk *VK) PhotosGet(params Params) (response PhotosGetResponse, err error) {
+	err = vk.RequestUnmarshal("photos.get", params, &response)
+	return
+}
+
+// Returns a list of a user's or community's photos.
+func (vk *VK) PhotosGetExtended(params Params) (response PhotosGetExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("photos.get", params, &response)
+	return
 }
 
 // Returns a list of a user's or community's photo albums.
@@ -1828,8 +2073,16 @@ func (vk *VK) PhotosGetAlbumsCount(params Params) (response PhotosGetAlbumsCount
 }
 
 // Returns a list of photos belonging to a user or community, in reverse chronological order.
-func (vk *VK) PhotosGetAllRaw(params Params) ([]byte, error) {
-	return vk.Request("photos.getAll", params)
+func (vk *VK) PhotosGetAll(params Params) (response PhotosGetAllResponse, err error) {
+	err = vk.RequestUnmarshal("photos.getAll", params, &response)
+	return
+}
+
+// Returns a list of photos belonging to a user or community, in reverse chronological order.
+func (vk *VK) PhotosGetAllExtended(params Params) (response PhotosGetAllExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("photos.getAll", params, &response)
+	return
 }
 
 // Returns a list of comments on a specific photo album or all albums of the user sorted in reverse chronological order.
@@ -1839,8 +2092,16 @@ func (vk *VK) PhotosGetAllComments(params Params) (response PhotosGetAllComments
 }
 
 // Returns information about photos by their IDs.
-func (vk *VK) PhotosGetByIDRaw(params Params) ([]byte, error) {
-	return vk.Request("photos.getById", params)
+func (vk *VK) PhotosGetByID(params Params) (response PhotosGetByIDResponse, err error) {
+	err = vk.RequestUnmarshal("photos.getById", params, &response)
+	return
+}
+
+// Returns information about photos by their IDs.
+func (vk *VK) PhotosGetByIDExtended(params Params) (response PhotosGetByIDExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("photos.getById", params, &response)
+	return
 }
 
 // Returns an upload link for chat cover pictures.
@@ -1850,8 +2111,16 @@ func (vk *VK) PhotosGetChatUploadServer(params Params) (response BaseGetUploadSe
 }
 
 // Returns a list of comments on a photo.
-func (vk *VK) PhotosGetCommentsRaw(params Params) ([]byte, error) {
-	return vk.Request("photos.getComments", params)
+func (vk *VK) PhotosGetComments(params Params) (response PhotosGetCommentsResponse, err error) {
+	err = vk.RequestUnmarshal("photos.getComments", params, &response)
+	return
+}
+
+// Returns a list of comments on a photo.
+func (vk *VK) PhotosGetCommentsExtended(params Params) (response PhotosGetCommentsExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("photos.getComments", params, &response)
+	return
 }
 
 // Returns the server address for market album photo upload.
@@ -1903,8 +2172,16 @@ func (vk *VK) PhotosGetUploadServer(params Params) (response PhotosGetUploadServ
 }
 
 // Returns a list of photos in which a user is tagged.
-func (vk *VK) PhotosGetUserPhotosRaw(params Params) ([]byte, error) {
-	return vk.Request("photos.getUserPhotos", params)
+func (vk *VK) PhotosGetUserPhotos(params Params) (response PhotosGetUserPhotosResponse, err error) {
+	err = vk.RequestUnmarshal("photos.getUserPhotos", params, &response)
+	return
+}
+
+// Returns a list of photos in which a user is tagged.
+func (vk *VK) PhotosGetUserPhotosExtended(params Params) (response PhotosGetUserPhotosExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("photos.getUserPhotos", params, &response)
+	return
 }
 
 // Returns the server address for photo upload onto a user's wall.
@@ -2183,8 +2460,15 @@ func (vk *VK) StatusSet(params Params) (response BaseOkResponse, err error) {
 }
 
 // Returns a value of variable with the name set by key parameter.
-func (vk *VK) StorageGetRaw(params Params) ([]byte, error) {
-	return vk.Request("storage.get", params)
+func (vk *VK) StorageGet(params Params) (response StorageGetV5110Response, err error) {
+	err = vk.RequestUnmarshal("storage.get", params, &response)
+	return
+}
+
+// Returns a value of variable with the name set by key parameter.
+func (vk *VK) StorageGetWithKeys(params Params) (response StorageGetWithKeysResponse, err error) {
+	err = vk.RequestUnmarshal("storage.get", params, &response)
+	return
 }
 
 // Returns the names of all variables.
@@ -2218,13 +2502,29 @@ func (vk *VK) StoriesGet(params Params) (response StoriesGetV5113Response, err e
 }
 
 // Returns list of sources hidden from current user's feed.
-func (vk *VK) StoriesGetBannedRaw(params Params) ([]byte, error) {
-	return vk.Request("stories.getBanned", params)
+func (vk *VK) StoriesGetBanned(params Params) (response StoriesGetBannedResponse, err error) {
+	err = vk.RequestUnmarshal("stories.getBanned", params, &response)
+	return
+}
+
+// Returns list of sources hidden from current user's feed.
+func (vk *VK) StoriesGetBannedExtended(params Params) (response StoriesGetBannedExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("stories.getBanned", params, &response)
+	return
 }
 
 // Returns story by its ID.
-func (vk *VK) StoriesGetByIDRaw(params Params) ([]byte, error) {
-	return vk.Request("stories.getById", params)
+func (vk *VK) StoriesGetByID(params Params) (response StoriesGetByIDResponse, err error) {
+	err = vk.RequestUnmarshal("stories.getById", params, &response)
+	return
+}
+
+// Returns story by its ID.
+func (vk *VK) StoriesGetByIDExtended(params Params) (response StoriesGetByIDExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("stories.getById", params, &response)
+	return
 }
 
 // Returns URL for uploading a story with photo.
@@ -2252,8 +2552,16 @@ func (vk *VK) StoriesGetVideoUploadServer(params Params) (response StoriesGetVid
 }
 
 // Returns a list of story viewers.
-func (vk *VK) StoriesGetViewersRaw(params Params) ([]byte, error) {
-	return vk.Request("stories.getViewers", params)
+func (vk *VK) StoriesGetViewers(params Params) (response StoriesGetViewersExtendedV5115Response, err error) {
+	err = vk.RequestUnmarshal("stories.getViewers", params, &response)
+	return
+}
+
+// Returns a list of story viewers.
+func (vk *VK) StoriesGetViewersExtended(params Params) (response StoriesGetViewersExtendedV5115Response, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("stories.getViewers", params, &response)
+	return
 }
 
 // Hides all replies in the last 24 hours from the user to current user's stories.
@@ -2297,13 +2605,28 @@ func (vk *VK) UsersGet(params Params) (response UsersGetResponse, err error) {
 }
 
 // Returns a list of IDs of followers of the user in question, sorted by date added, most recent first.
-func (vk *VK) UsersGetFollowersRaw(params Params) ([]byte, error) {
-	return vk.Request("users.getFollowers", params)
+func (vk *VK) UsersGetFollowers(params Params) (response UsersGetFollowersResponse, err error) {
+	err = vk.RequestUnmarshal("users.getFollowers", params, &response)
+	return
+}
+
+// Returns a list of IDs of followers of the user in question, sorted by date added, most recent first.
+func (vk *VK) UsersGetFollowersFields(params Params) (response UsersGetFollowersFieldsResponse, err error) {
+	err = vk.RequestUnmarshal("users.getFollowers", params, &response)
+	return
 }
 
 // Returns a list of IDs of users and communities followed by the user.
-func (vk *VK) UsersGetSubscriptionsRaw(params Params) ([]byte, error) {
-	return vk.Request("users.getSubscriptions", params)
+func (vk *VK) UsersGetSubscriptions(params Params) (response UsersGetSubscriptionsResponse, err error) {
+	err = vk.RequestUnmarshal("users.getSubscriptions", params, &response)
+	return
+}
+
+// Returns a list of IDs of users and communities followed by the user.
+func (vk *VK) UsersGetSubscriptionsExtended(params Params) (response UsersGetSubscriptionsExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("users.getSubscriptions", params, &response)
+	return
 }
 
 // Reports (submits a complain about) a user.
@@ -2337,8 +2660,16 @@ func (vk *VK) UtilsGetLastShortenedLinks(params Params) (response UtilsGetLastSh
 }
 
 // Returns stats data for shortened link.
-func (vk *VK) UtilsGetLinkStatsRaw(params Params) ([]byte, error) {
-	return vk.Request("utils.getLinkStats", params)
+func (vk *VK) UtilsGetLinkStats(params Params) (response UtilsGetLinkStatsResponse, err error) {
+	err = vk.RequestUnmarshal("utils.getLinkStats", params, &response)
+	return
+}
+
+// Returns stats data for shortened link.
+func (vk *VK) UtilsGetLinkStatsExtended(params Params) (response UtilsGetLinkStatsExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("utils.getLinkStats", params, &response)
+	return
 }
 
 // Returns the current time of the VK server.
@@ -2419,8 +2750,16 @@ func (vk *VK) VideoEditComment(params Params) (response BaseOkResponse, err erro
 }
 
 // Returns detailed information about videos.
-func (vk *VK) VideoGetRaw(params Params) ([]byte, error) {
-	return vk.Request("video.get", params)
+func (vk *VK) VideoGet(params Params) (response VideoGetResponse, err error) {
+	err = vk.RequestUnmarshal("video.get", params, &response)
+	return
+}
+
+// Returns detailed information about videos.
+func (vk *VK) VideoGetExtended(params Params) (response VideoGetExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("video.get", params, &response)
+	return
 }
 
 // Returns video album info
@@ -2430,17 +2769,40 @@ func (vk *VK) VideoGetAlbumByID(params Params) (response VideoGetAlbumByIDRespon
 }
 
 // Returns a list of video albums owned by a user or community.
-func (vk *VK) VideoGetAlbumsRaw(params Params) ([]byte, error) {
-	return vk.Request("video.getAlbums", params)
+func (vk *VK) VideoGetAlbums(params Params) (response VideoGetAlbumsResponse, err error) {
+	err = vk.RequestUnmarshal("video.getAlbums", params, &response)
+	return
 }
 
-func (vk *VK) VideoGetAlbumsByVideoRaw(params Params) ([]byte, error) {
-	return vk.Request("video.getAlbumsByVideo", params)
+// Returns a list of video albums owned by a user or community.
+func (vk *VK) VideoGetAlbumsExtended(params Params) (response VideoGetAlbumsExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("video.getAlbums", params, &response)
+	return
+}
+
+func (vk *VK) VideoGetAlbumsByVideo(params Params) (response VideoGetAlbumsByVideoResponse, err error) {
+	err = vk.RequestUnmarshal("video.getAlbumsByVideo", params, &response)
+	return
+}
+
+func (vk *VK) VideoGetAlbumsByVideoExtended(params Params) (response VideoGetAlbumsByVideoExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("video.getAlbumsByVideo", params, &response)
+	return
 }
 
 // Returns a list of comments on a video.
-func (vk *VK) VideoGetCommentsRaw(params Params) ([]byte, error) {
-	return vk.Request("video.getComments", params)
+func (vk *VK) VideoGetComments(params Params) (response VideoGetCommentsResponse, err error) {
+	err = vk.RequestUnmarshal("video.getComments", params, &response)
+	return
+}
+
+// Returns a list of comments on a video.
+func (vk *VK) VideoGetCommentsExtended(params Params) (response VideoGetCommentsExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("video.getComments", params, &response)
+	return
 }
 
 func (vk *VK) VideoRemoveFromAlbum(params Params) (response BaseOkResponse, err error) {
@@ -2491,8 +2853,16 @@ func (vk *VK) VideoSave(params Params) (response VideoSaveResponse, err error) {
 }
 
 // Returns a list of videos under the set search criterion.
-func (vk *VK) VideoSearchRaw(params Params) ([]byte, error) {
-	return vk.Request("video.search", params)
+func (vk *VK) VideoSearch(params Params) (response VideoSearchResponse, err error) {
+	err = vk.RequestUnmarshal("video.search", params, &response)
+	return
+}
+
+// Returns a list of videos under the set search criterion.
+func (vk *VK) VideoSearchExtended(params Params) (response VideoSearchExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("video.search", params, &response)
+	return
 }
 
 func (vk *VK) WallCloseComments(params Params) (response BaseBoolResponse, err error) {
@@ -2537,23 +2907,55 @@ func (vk *VK) WallEditComment(params Params) (response BaseOkResponse, err error
 }
 
 // Returns a list of posts on a user wall or community wall.
-func (vk *VK) WallGetRaw(params Params) ([]byte, error) {
-	return vk.Request("wall.get", params)
+func (vk *VK) WallGet(params Params) (response WallGetResponse, err error) {
+	err = vk.RequestUnmarshal("wall.get", params, &response)
+	return
+}
+
+// Returns a list of posts on a user wall or community wall.
+func (vk *VK) WallGetExtended(params Params) (response WallGetExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("wall.get", params, &response)
+	return
 }
 
 // Returns a list of posts from user or community walls by their IDs.
-func (vk *VK) WallGetByIDRaw(params Params) ([]byte, error) {
-	return vk.Request("wall.getById", params)
+func (vk *VK) WallGetByID(params Params) (response WallGetByIDResponse, err error) {
+	err = vk.RequestUnmarshal("wall.getById", params, &response)
+	return
+}
+
+// Returns a list of posts from user or community walls by their IDs.
+func (vk *VK) WallGetByIDExtended(params Params) (response WallGetByIDExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("wall.getById", params, &response)
+	return
 }
 
 // Returns a comment on a post on a user wall or community wall.
-func (vk *VK) WallGetCommentRaw(params Params) ([]byte, error) {
-	return vk.Request("wall.getComment", params)
+func (vk *VK) WallGetComment(params Params) (response WallGetCommentResponse, err error) {
+	err = vk.RequestUnmarshal("wall.getComment", params, &response)
+	return
+}
+
+// Returns a comment on a post on a user wall or community wall.
+func (vk *VK) WallGetCommentExtended(params Params) (response WallGetCommentExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("wall.getComment", params, &response)
+	return
 }
 
 // Returns a list of comments on a post on a user wall or community wall.
-func (vk *VK) WallGetCommentsRaw(params Params) ([]byte, error) {
-	return vk.Request("wall.getComments", params)
+func (vk *VK) WallGetComments(params Params) (response WallGetCommentsResponse, err error) {
+	err = vk.RequestUnmarshal("wall.getComments", params, &response)
+	return
+}
+
+// Returns a list of comments on a post on a user wall or community wall.
+func (vk *VK) WallGetCommentsExtended(params Params) (response WallGetCommentsExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("wall.getComments", params, &response)
+	return
 }
 
 // Returns information about reposts of a post on user wall or community wall.
@@ -2616,8 +3018,16 @@ func (vk *VK) WallRestoreComment(params Params) (response BaseOkResponse, err er
 }
 
 // Allows to search posts on user or community walls.
-func (vk *VK) WallSearchRaw(params Params) ([]byte, error) {
-	return vk.Request("wall.search", params)
+func (vk *VK) WallSearch(params Params) (response WallSearchResponse, err error) {
+	err = vk.RequestUnmarshal("wall.search", params, &response)
+	return
+}
+
+// Allows to search posts on user or community walls.
+func (vk *VK) WallSearchExtended(params Params) (response WallSearchExtendedResponse, err error) {
+	params["extended"] = true
+	err = vk.RequestUnmarshal("wall.search", params, &response)
+	return
 }
 
 // Unpins the post on wall.

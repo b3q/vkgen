@@ -2,6 +2,8 @@
 
 package generated
 
+import "github.com/SevereCloud/vksdk/api"
+
 // AccountBanBuilder builder.
 //
 // https://vk.com/dev/account.ban
@@ -143,7 +145,7 @@ func NewAccountGetCountersBuilder() *AccountGetCountersBuilder {
 }
 
 // Counters to be returned.
-func (b *AccountGetCountersBuilder) Filter(v []string) *AccountGetCountersBuilder {
+func (b *AccountGetCountersBuilder) Filter(v ...string) *AccountGetCountersBuilder {
 	b.Params["filter"] = v
 	return b
 }
@@ -163,7 +165,7 @@ func NewAccountGetInfoBuilder() *AccountGetInfoBuilder {
 }
 
 // Fields to return. Possible values: *'country' — user country,, *'https_required' — is "HTTPS only" option enabled,, *'own_posts_default' — is "Show my posts only" option is enabled,, *'no_wall_replies' — are wall replies disabled or not,, *'intro' — is intro passed by user or not,, *'lang' — user language. By default: all.
-func (b *AccountGetInfoBuilder) Fields(v []string) *AccountGetInfoBuilder {
+func (b *AccountGetInfoBuilder) Fields(v ...string) *AccountGetInfoBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -474,7 +476,7 @@ func (b *AccountSetPushSettingsBuilder) Key(v string) *AccountSetPushSettingsBui
 }
 
 // New value for the key in a [vk.com/dev/push_settings|special format].
-func (b *AccountSetPushSettingsBuilder) Value(v []string) *AccountSetPushSettingsBuilder {
+func (b *AccountSetPushSettingsBuilder) Value(v ...string) *AccountSetPushSettingsBuilder {
 	b.Params["value"] = v
 	return b
 }
@@ -1105,7 +1107,7 @@ func (b *AdsGetCampaignsBuilder) CampaignIDs(v string) *AdsGetCampaignsBuilder {
 	return b
 }
 
-func (b *AdsGetCampaignsBuilder) Fields(v []string) *AdsGetCampaignsBuilder {
+func (b *AdsGetCampaignsBuilder) Fields(v ...string) *AdsGetCampaignsBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -1408,7 +1410,7 @@ func (b *AdsGetStatisticsBuilder) DateTo(v string) *AdsGetStatisticsBuilder {
 }
 
 // Additional fields to add to statistics
-func (b *AdsGetStatisticsBuilder) StatsFields(v []string) *AdsGetStatisticsBuilder {
+func (b *AdsGetStatisticsBuilder) StatsFields(v ...string) *AdsGetStatisticsBuilder {
 	b.Params["stats_fields"] = v
 	return b
 }
@@ -1872,7 +1874,7 @@ func (b *AppsGetBuilder) AppID(v int64) *AppsGetBuilder {
 }
 
 // List of application ID
-func (b *AppsGetBuilder) AppIDs(v []string) *AppsGetBuilder {
+func (b *AppsGetBuilder) AppIDs(v ...string) *AppsGetBuilder {
 	b.Params["app_ids"] = v
 	return b
 }
@@ -1894,7 +1896,7 @@ func (b *AppsGetBuilder) ReturnFriends(v bool) *AppsGetBuilder {
 }
 
 // Profile fields to return. Sample values: 'nickname', 'screen_name', 'sex', 'bdate' (birthdate), 'city', 'country', 'timezone', 'photo', 'photo_medium', 'photo_big', 'has_mobile', 'contacts', 'education', 'online', 'counters', 'relation', 'last_seen', 'activity', 'can_write_private_message', 'can_see_all_posts', 'can_post', 'universities', (only if return_friends - 1)
-func (b *AppsGetBuilder) Fields(v []UsersFields) *AppsGetBuilder {
+func (b *AppsGetBuilder) Fields(v ...api.UsersFields) *AppsGetBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -1953,7 +1955,7 @@ func (b *AppsGetCatalogBuilder) ReturnFriends(v bool) *AppsGetCatalogBuilder {
 	return b
 }
 
-func (b *AppsGetCatalogBuilder) Fields(v []UsersFields) *AppsGetCatalogBuilder {
+func (b *AppsGetCatalogBuilder) Fields(v ...api.UsersFields) *AppsGetCatalogBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -2017,7 +2019,7 @@ func (b *AppsGetFriendsListBuilder) Type(v string) *AppsGetFriendsListBuilder {
 }
 
 // Additional profile fields, see [vk.com/dev/fields|description].
-func (b *AppsGetFriendsListBuilder) Fields(v []UsersFields) *AppsGetFriendsListBuilder {
+func (b *AppsGetFriendsListBuilder) Fields(v ...api.UsersFields) *AppsGetFriendsListBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -2287,7 +2289,7 @@ func (b *BoardAddTopicBuilder) FromGroup(v bool) *BoardAddTopicBuilder {
 }
 
 // List of media objects attached to the topic, in the following format: "<owner_id>_<media_id>,<owner_id>_<media_id>", '' — Type of media object: 'photo' — photo, 'video' — video, 'audio' — audio, 'doc' — document, '<owner_id>' — ID of the media owner. '<media_id>' — Media ID. Example: "photo100172_166443618,photo66748_265827614", , "NOTE: If you try to attach more than one reference, an error will be thrown.",
-func (b *BoardAddTopicBuilder) Attachments(v []string) *BoardAddTopicBuilder {
+func (b *BoardAddTopicBuilder) Attachments(v ...string) *BoardAddTopicBuilder {
 	b.Params["attachments"] = v
 	return b
 }
@@ -2351,7 +2353,7 @@ func (b *BoardCreateCommentBuilder) Message(v string) *BoardCreateCommentBuilder
 }
 
 // (Required if 'text' is not set.) List of media objects attached to the comment, in the following format: "<owner_id>_<media_id>,<owner_id>_<media_id>", '' — Type of media object: 'photo' — photo, 'video' — video, 'audio' — audio, 'doc' — document, '<owner_id>' — ID of the media owner. '<media_id>' — Media ID.
-func (b *BoardCreateCommentBuilder) Attachments(v []string) *BoardCreateCommentBuilder {
+func (b *BoardCreateCommentBuilder) Attachments(v ...string) *BoardCreateCommentBuilder {
 	b.Params["attachments"] = v
 	return b
 }
@@ -2471,7 +2473,7 @@ func (b *BoardEditCommentBuilder) Message(v string) *BoardEditCommentBuilder {
 }
 
 // (Required if 'message' is not set.) List of media objects attached to the comment, in the following format: "<owner_id>_<media_id>,<owner_id>_<media_id>", '' — Type of media object: 'photo' — photo, 'video' — video, 'audio' — audio, 'doc' — document, '<owner_id>' — ID of the media owner. '<media_id>' — Media ID. Example: "photo100172_166443618,photo66748_265827614"
-func (b *BoardEditCommentBuilder) Attachments(v []string) *BoardEditCommentBuilder {
+func (b *BoardEditCommentBuilder) Attachments(v ...string) *BoardEditCommentBuilder {
 	b.Params["attachments"] = v
 	return b
 }
@@ -2616,7 +2618,7 @@ func (b *BoardGetTopicsBuilder) GroupID(v int64) *BoardGetTopicsBuilder {
 }
 
 // IDs of topics to be returned (100 maximum). By default, all topics are returned. If this parameter is set, the 'order', 'offset', and 'count' parameters are ignored.
-func (b *BoardGetTopicsBuilder) TopicIDs(v []int64) *BoardGetTopicsBuilder {
+func (b *BoardGetTopicsBuilder) TopicIDs(v ...int64) *BoardGetTopicsBuilder {
 	b.Params["topic_ids"] = v
 	return b
 }
@@ -2838,7 +2840,7 @@ func NewDatabaseGetCitiesByIDBuilder() *DatabaseGetCitiesByIDBuilder {
 }
 
 // City IDs.
-func (b *DatabaseGetCitiesByIDBuilder) CityIDs(v []int64) *DatabaseGetCitiesByIDBuilder {
+func (b *DatabaseGetCitiesByIDBuilder) CityIDs(v ...int64) *DatabaseGetCitiesByIDBuilder {
 	b.Params["city_ids"] = v
 	return b
 }
@@ -2896,7 +2898,7 @@ func NewDatabaseGetCountriesByIDBuilder() *DatabaseGetCountriesByIDBuilder {
 }
 
 // Country IDs.
-func (b *DatabaseGetCountriesByIDBuilder) CountryIDs(v []int64) *DatabaseGetCountriesByIDBuilder {
+func (b *DatabaseGetCountriesByIDBuilder) CountryIDs(v ...int64) *DatabaseGetCountriesByIDBuilder {
 	b.Params["country_ids"] = v
 	return b
 }
@@ -2981,7 +2983,7 @@ func NewDatabaseGetMetroStationsByIDBuilder() *DatabaseGetMetroStationsByIDBuild
 	return &DatabaseGetMetroStationsByIDBuilder{api.Params{}}
 }
 
-func (b *DatabaseGetMetroStationsByIDBuilder) StationIDs(v []int64) *DatabaseGetMetroStationsByIDBuilder {
+func (b *DatabaseGetMetroStationsByIDBuilder) StationIDs(v ...int64) *DatabaseGetMetroStationsByIDBuilder {
 	b.Params["station_ids"] = v
 	return b
 }
@@ -3217,7 +3219,7 @@ func (b *DocsEditBuilder) Title(v string) *DocsEditBuilder {
 }
 
 // Document tags.
-func (b *DocsEditBuilder) Tags(v []string) *DocsEditBuilder {
+func (b *DocsEditBuilder) Tags(v ...string) *DocsEditBuilder {
 	b.Params["tags"] = v
 	return b
 }
@@ -3279,7 +3281,7 @@ func NewDocsGetByIDBuilder() *DocsGetByIDBuilder {
 }
 
 // Document IDs. Example: , "66748_91488,66748_91455",
-func (b *DocsGetByIDBuilder) Docs(v []string) *DocsGetByIDBuilder {
+func (b *DocsGetByIDBuilder) Docs(v ...string) *DocsGetByIDBuilder {
 	b.Params["docs"] = v
 	return b
 }
@@ -3733,7 +3735,7 @@ func (b *FaveGetPagesBuilder) Type(v string) *FaveGetPagesBuilder {
 	return b
 }
 
-func (b *FaveGetPagesBuilder) Fields(v []BaseUserGroupFields) *FaveGetPagesBuilder {
+func (b *FaveGetPagesBuilder) Fields(v ...api.BaseUserGroupFields) *FaveGetPagesBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -3910,7 +3912,7 @@ func NewFaveReorderTagsBuilder() *FaveReorderTagsBuilder {
 	return &FaveReorderTagsBuilder{api.Params{}}
 }
 
-func (b *FaveReorderTagsBuilder) IDs(v []int64) *FaveReorderTagsBuilder {
+func (b *FaveReorderTagsBuilder) IDs(v ...int64) *FaveReorderTagsBuilder {
 	b.Params["ids"] = v
 	return b
 }
@@ -3937,7 +3939,7 @@ func (b *FaveSetPageTagsBuilder) GroupID(v int64) *FaveSetPageTagsBuilder {
 	return b
 }
 
-func (b *FaveSetPageTagsBuilder) TagIDs(v []int64) *FaveSetPageTagsBuilder {
+func (b *FaveSetPageTagsBuilder) TagIDs(v ...int64) *FaveSetPageTagsBuilder {
 	b.Params["tag_ids"] = v
 	return b
 }
@@ -3969,7 +3971,7 @@ func (b *FaveSetTagsBuilder) ItemID(v int64) *FaveSetTagsBuilder {
 	return b
 }
 
-func (b *FaveSetTagsBuilder) TagIDs(v []int64) *FaveSetTagsBuilder {
+func (b *FaveSetTagsBuilder) TagIDs(v ...int64) *FaveSetTagsBuilder {
 	b.Params["tag_ids"] = v
 	return b
 }
@@ -4059,7 +4061,7 @@ func (b *FriendsAddListBuilder) Name(v string) *FriendsAddListBuilder {
 }
 
 // IDs of users to be added to the friend list.
-func (b *FriendsAddListBuilder) UserIDs(v []int64) *FriendsAddListBuilder {
+func (b *FriendsAddListBuilder) UserIDs(v ...int64) *FriendsAddListBuilder {
 	b.Params["user_ids"] = v
 	return b
 }
@@ -4079,7 +4081,7 @@ func NewFriendsAreFriendsBuilder() *FriendsAreFriendsBuilder {
 }
 
 // IDs of the users whose friendship status to check.
-func (b *FriendsAreFriendsBuilder) UserIDs(v []int64) *FriendsAreFriendsBuilder {
+func (b *FriendsAreFriendsBuilder) UserIDs(v ...int64) *FriendsAreFriendsBuilder {
 	b.Params["user_ids"] = v
 	return b
 }
@@ -4171,7 +4173,7 @@ func (b *FriendsEditBuilder) UserID(v int64) *FriendsEditBuilder {
 }
 
 // IDs of the friend lists to which to add the user.
-func (b *FriendsEditBuilder) ListIDs(v []int64) *FriendsEditBuilder {
+func (b *FriendsEditBuilder) ListIDs(v ...int64) *FriendsEditBuilder {
 	b.Params["list_ids"] = v
 	return b
 }
@@ -4203,19 +4205,19 @@ func (b *FriendsEditListBuilder) ListID(v int64) *FriendsEditListBuilder {
 }
 
 // IDs of users in the friend list.
-func (b *FriendsEditListBuilder) UserIDs(v []int64) *FriendsEditListBuilder {
+func (b *FriendsEditListBuilder) UserIDs(v ...int64) *FriendsEditListBuilder {
 	b.Params["user_ids"] = v
 	return b
 }
 
 // (Applies if 'user_ids' parameter is not set.), User IDs to add to the friend list.
-func (b *FriendsEditListBuilder) AddUserIDs(v []int64) *FriendsEditListBuilder {
+func (b *FriendsEditListBuilder) AddUserIDs(v ...int64) *FriendsEditListBuilder {
 	b.Params["add_user_ids"] = v
 	return b
 }
 
 // (Applies if 'user_ids' parameter is not set.), User IDs to delete from the friend list.
-func (b *FriendsEditListBuilder) DeleteUserIDs(v []int64) *FriendsEditListBuilder {
+func (b *FriendsEditListBuilder) DeleteUserIDs(v ...int64) *FriendsEditListBuilder {
 	b.Params["delete_user_ids"] = v
 	return b
 }
@@ -4265,7 +4267,7 @@ func (b *FriendsGetBuilder) Offset(v int64) *FriendsGetBuilder {
 }
 
 // Profile fields to return. Sample values: 'uid', 'first_name', 'last_name', 'nickname', 'sex', 'bdate' (birthdate), 'city', 'country', 'timezone', 'photo', 'photo_medium', 'photo_big', 'domain', 'has_mobile', 'rate', 'contacts', 'education'.
-func (b *FriendsGetBuilder) Fields(v []UsersFields) *FriendsGetBuilder {
+func (b *FriendsGetBuilder) Fields(v ...api.UsersFields) *FriendsGetBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -4310,13 +4312,13 @@ func NewFriendsGetByPhonesBuilder() *FriendsGetByPhonesBuilder {
 }
 
 // List of phone numbers in MSISDN format (maximum 1000). Example: "+79219876543,+79111234567"
-func (b *FriendsGetByPhonesBuilder) Phones(v []string) *FriendsGetByPhonesBuilder {
+func (b *FriendsGetByPhonesBuilder) Phones(v ...string) *FriendsGetByPhonesBuilder {
 	b.Params["phones"] = v
 	return b
 }
 
 // Profile fields to return. Sample values: 'nickname', 'screen_name', 'sex', 'bdate' (birthdate), 'city', 'country', 'timezone', 'photo', 'photo_medium', 'photo_big', 'has_mobile', 'rate', 'contacts', 'education', 'online, counters'.
-func (b *FriendsGetByPhonesBuilder) Fields(v []UsersFields) *FriendsGetByPhonesBuilder {
+func (b *FriendsGetByPhonesBuilder) Fields(v ...api.UsersFields) *FriendsGetByPhonesBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -4374,7 +4376,7 @@ func (b *FriendsGetMutualBuilder) TargetUid(v int64) *FriendsGetMutualBuilder {
 }
 
 // IDs of the users whose friends will be checked against the friends of the user specified in 'source_uid'.
-func (b *FriendsGetMutualBuilder) TargetUids(v []int64) *FriendsGetMutualBuilder {
+func (b *FriendsGetMutualBuilder) TargetUids(v ...int64) *FriendsGetMutualBuilder {
 	b.Params["target_uids"] = v
 	return b
 }
@@ -4533,7 +4535,7 @@ func (b *FriendsGetRequestsBuilder) Ref(v string) *FriendsGetRequestsBuilder {
 	return b
 }
 
-func (b *FriendsGetRequestsBuilder) Fields(v []UsersFields) *FriendsGetRequestsBuilder {
+func (b *FriendsGetRequestsBuilder) Fields(v ...api.UsersFields) *FriendsGetRequestsBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -4553,7 +4555,7 @@ func NewFriendsGetSuggestionsBuilder() *FriendsGetSuggestionsBuilder {
 }
 
 // Types of potential friends to return: 'mutual' — users with many mutual friends , 'contacts' — users found with the [vk.com/dev/account.importContacts|account.importContacts] method , 'mutual_contacts' — users who imported the same contacts as the current user with the [vk.com/dev/account.importContacts|account.importContacts] method
-func (b *FriendsGetSuggestionsBuilder) Filter(v []string) *FriendsGetSuggestionsBuilder {
+func (b *FriendsGetSuggestionsBuilder) Filter(v ...string) *FriendsGetSuggestionsBuilder {
 	b.Params["filter"] = v
 	return b
 }
@@ -4571,7 +4573,7 @@ func (b *FriendsGetSuggestionsBuilder) Offset(v int64) *FriendsGetSuggestionsBui
 }
 
 // Profile fields to return. Sample values: 'nickname', 'screen_name', 'sex', 'bdate' (birthdate), 'city', 'country', 'timezone', 'photo', 'photo_medium', 'photo_big', 'has_mobile', 'rate', 'contacts', 'education', 'online', 'counters'.
-func (b *FriendsGetSuggestionsBuilder) Fields(v []UsersFields) *FriendsGetSuggestionsBuilder {
+func (b *FriendsGetSuggestionsBuilder) Fields(v ...api.UsersFields) *FriendsGetSuggestionsBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -4609,7 +4611,7 @@ func (b *FriendsSearchBuilder) Q(v string) *FriendsSearchBuilder {
 }
 
 // Profile fields to return. Sample values: 'nickname', 'screen_name', 'sex', 'bdate' (birthdate), 'city', 'country', 'timezone', 'photo', 'photo_medium', 'photo_big', 'has_mobile', 'rate', 'contacts', 'education', 'online',
-func (b *FriendsSearchBuilder) Fields(v []UsersFields) *FriendsSearchBuilder {
+func (b *FriendsSearchBuilder) Fields(v ...api.UsersFields) *FriendsSearchBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -4726,7 +4728,7 @@ func (b *GroupsAddAddressBuilder) Phone(v string) *GroupsAddAddressBuilder {
 	return b
 }
 
-func (b *GroupsAddAddressBuilder) WorkInfoStatus(v GroupsAddressWorkInfoStatus) *GroupsAddAddressBuilder {
+func (b *GroupsAddAddressBuilder) WorkInfoStatus(v api.GroupsAddressWorkInfoStatus) *GroupsAddAddressBuilder {
 	b.Params["work_info_status"] = v
 	return b
 }
@@ -5021,7 +5023,7 @@ func (b *GroupsEditBuilder) ScreenName(v string) *GroupsEditBuilder {
 }
 
 // Community type. Possible values: *'0' – open,, *'1' – closed,, *'2' – private.
-func (b *GroupsEditBuilder) Access(v GroupsGroupAccess) *GroupsEditBuilder {
+func (b *GroupsEditBuilder) Access(v api.GroupsGroupAccess) *GroupsEditBuilder {
 	b.Params["access"] = v
 	return b
 }
@@ -5033,7 +5035,7 @@ func (b *GroupsEditBuilder) Website(v string) *GroupsEditBuilder {
 }
 
 // Community subject. Possible values: , *'1' – auto/moto,, *'2' – activity holidays,, *'3' – business,, *'4' – pets,, *'5' – health,, *'6' – dating and communication, , *'7' – games,, *'8' – IT (computers and software),, *'9' – cinema,, *'10' – beauty and fashion,, *'11' – cooking,, *'12' – art and culture,, *'13' – literature,, *'14' – mobile services and internet,, *'15' – music,, *'16' – science and technology,, *'17' – real estate,, *'18' – news and media,, *'19' – security,, *'20' – education,, *'21' – home and renovations,, *'22' – politics,, *'23' – food,, *'24' – industry,, *'25' – travel,, *'26' – work,, *'27' – entertainment,, *'28' – religion,, *'29' – family,, *'30' – sports,, *'31' – insurance,, *'32' – television,, *'33' – goods and services,, *'34' – hobbies,, *'35' – finance,, *'36' – photo,, *'37' – esoterics,, *'38' – electronics and appliances,, *'39' – erotic,, *'40' – humor,, *'41' – society, humanities,, *'42' – design and graphics.
-func (b *GroupsEditBuilder) Subject(v GroupsGroupSubject) *GroupsEditBuilder {
+func (b *GroupsEditBuilder) Subject(v api.GroupsGroupSubject) *GroupsEditBuilder {
 	b.Params["subject"] = v
 	return b
 }
@@ -5093,31 +5095,31 @@ func (b *GroupsEditBuilder) PublicDate(v string) *GroupsEditBuilder {
 }
 
 // Wall settings. Possible values: *'0' – disabled,, *'1' – open,, *'2' – limited (groups and events only),, *'3' – closed (groups and events only).
-func (b *GroupsEditBuilder) Wall(v GroupsGroupWall) *GroupsEditBuilder {
+func (b *GroupsEditBuilder) Wall(v api.GroupsGroupWall) *GroupsEditBuilder {
 	b.Params["wall"] = v
 	return b
 }
 
 // Board topics settings. Possbile values: , *'0' – disabled,, *'1' – open,, *'2' – limited (for groups and events only).
-func (b *GroupsEditBuilder) Topics(v GroupsGroupTopics) *GroupsEditBuilder {
+func (b *GroupsEditBuilder) Topics(v api.GroupsGroupTopics) *GroupsEditBuilder {
 	b.Params["topics"] = v
 	return b
 }
 
 // Photos settings. Possible values: *'0' – disabled,, *'1' – open,, *'2' – limited (for groups and events only).
-func (b *GroupsEditBuilder) Photos(v GroupsGroupPhotos) *GroupsEditBuilder {
+func (b *GroupsEditBuilder) Photos(v api.GroupsGroupPhotos) *GroupsEditBuilder {
 	b.Params["photos"] = v
 	return b
 }
 
 // Video settings. Possible values: *'0' – disabled,, *'1' – open,, *'2' – limited (for groups and events only).
-func (b *GroupsEditBuilder) Video(v GroupsGroupVideo) *GroupsEditBuilder {
+func (b *GroupsEditBuilder) Video(v api.GroupsGroupVideo) *GroupsEditBuilder {
 	b.Params["video"] = v
 	return b
 }
 
 // Audio settings. Possible values: *'0' – disabled,, *'1' – open,, *'2' – limited (for groups and events only).
-func (b *GroupsEditBuilder) Audio(v GroupsGroupAudio) *GroupsEditBuilder {
+func (b *GroupsEditBuilder) Audio(v api.GroupsGroupAudio) *GroupsEditBuilder {
 	b.Params["audio"] = v
 	return b
 }
@@ -5147,13 +5149,13 @@ func (b *GroupsEditBuilder) Contacts(v bool) *GroupsEditBuilder {
 }
 
 // Documents settings. Possible values: *'0' – disabled,, *'1' – open,, *'2' – limited (for groups and events only).
-func (b *GroupsEditBuilder) Docs(v GroupsGroupDocs) *GroupsEditBuilder {
+func (b *GroupsEditBuilder) Docs(v api.GroupsGroupDocs) *GroupsEditBuilder {
 	b.Params["docs"] = v
 	return b
 }
 
 // Wiki pages settings. Possible values: *'0' – disabled,, *'1' – open,, *'2' – limited (for groups and events only).
-func (b *GroupsEditBuilder) Wiki(v GroupsGroupWiki) *GroupsEditBuilder {
+func (b *GroupsEditBuilder) Wiki(v api.GroupsGroupWiki) *GroupsEditBuilder {
 	b.Params["wiki"] = v
 	return b
 }
@@ -5175,7 +5177,7 @@ func (b *GroupsEditBuilder) Addresses(v bool) *GroupsEditBuilder {
 }
 
 // Community age limits. Possible values: *'1' — no limits,, *'2' — 16+,, *'3' — 18+.
-func (b *GroupsEditBuilder) AgeLimits(v GroupsGroupAgeLimits) *GroupsEditBuilder {
+func (b *GroupsEditBuilder) AgeLimits(v api.GroupsGroupAgeLimits) *GroupsEditBuilder {
 	b.Params["age_limits"] = v
 	return b
 }
@@ -5193,19 +5195,19 @@ func (b *GroupsEditBuilder) MarketComments(v bool) *GroupsEditBuilder {
 }
 
 // Market delivery countries.
-func (b *GroupsEditBuilder) MarketCountry(v []int64) *GroupsEditBuilder {
+func (b *GroupsEditBuilder) MarketCountry(v ...int64) *GroupsEditBuilder {
 	b.Params["market_country"] = v
 	return b
 }
 
 // Market delivery cities (if only one country is specified).
-func (b *GroupsEditBuilder) MarketCity(v []int64) *GroupsEditBuilder {
+func (b *GroupsEditBuilder) MarketCity(v ...int64) *GroupsEditBuilder {
 	b.Params["market_city"] = v
 	return b
 }
 
 // Market currency settings. Possbile values: , *'643' – Russian rubles,, *'980' – Ukrainian hryvnia,, *'398' – Kazakh tenge,, *'978' – Euro,, *'840' – US dollars
-func (b *GroupsEditBuilder) MarketCurrency(v GroupsGroupMarketCurrency) *GroupsEditBuilder {
+func (b *GroupsEditBuilder) MarketCurrency(v api.GroupsGroupMarketCurrency) *GroupsEditBuilder {
 	b.Params["market_currency"] = v
 	return b
 }
@@ -5235,7 +5237,7 @@ func (b *GroupsEditBuilder) ObsceneStopwords(v bool) *GroupsEditBuilder {
 }
 
 // Keywords for stopwords filter.
-func (b *GroupsEditBuilder) ObsceneWords(v []string) *GroupsEditBuilder {
+func (b *GroupsEditBuilder) ObsceneWords(v ...string) *GroupsEditBuilder {
 	b.Params["obscene_words"] = v
 	return b
 }
@@ -5329,7 +5331,7 @@ func (b *GroupsEditAddressBuilder) Phone(v string) *GroupsEditAddressBuilder {
 	return b
 }
 
-func (b *GroupsEditAddressBuilder) WorkInfoStatus(v GroupsAddressWorkInfoStatus) *GroupsEditAddressBuilder {
+func (b *GroupsEditAddressBuilder) WorkInfoStatus(v api.GroupsAddressWorkInfoStatus) *GroupsEditAddressBuilder {
 	b.Params["work_info_status"] = v
 	return b
 }
@@ -5440,7 +5442,7 @@ func (b *GroupsEditManagerBuilder) UserID(v int64) *GroupsEditManagerBuilder {
 }
 
 // Manager role. Possible values: *'moderator',, *'editor',, *'administrator',, *'advertiser'.
-func (b *GroupsEditManagerBuilder) Role(v GroupsGroupRole) *GroupsEditManagerBuilder {
+func (b *GroupsEditManagerBuilder) Role(v api.GroupsGroupRole) *GroupsEditManagerBuilder {
 	b.Params["role"] = v
 	return b
 }
@@ -5513,13 +5515,13 @@ func (b *GroupsGetBuilder) Extended(v bool) *GroupsGetBuilder {
 }
 
 // Types of communities to return: 'admin' — to return communities administered by the user , 'editor' — to return communities where the user is an administrator or editor, 'moder' — to return communities where the user is an administrator, editor, or moderator, 'groups' — to return only groups, 'publics' — to return only public pages, 'events' — to return only events
-func (b *GroupsGetBuilder) Filter(v []GroupsFilter) *GroupsGetBuilder {
+func (b *GroupsGetBuilder) Filter(v ...api.GroupsFilter) *GroupsGetBuilder {
 	b.Params["filter"] = v
 	return b
 }
 
 // Profile fields to return.
-func (b *GroupsGetBuilder) Fields(v []GroupsFields) *GroupsGetBuilder {
+func (b *GroupsGetBuilder) Fields(v ...api.GroupsFields) *GroupsGetBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -5556,7 +5558,7 @@ func (b *GroupsGetAddressesBuilder) GroupID(v int64) *GroupsGetAddressesBuilder 
 	return b
 }
 
-func (b *GroupsGetAddressesBuilder) AddressIDs(v []int64) *GroupsGetAddressesBuilder {
+func (b *GroupsGetAddressesBuilder) AddressIDs(v ...int64) *GroupsGetAddressesBuilder {
 	b.Params["address_ids"] = v
 	return b
 }
@@ -5586,7 +5588,7 @@ func (b *GroupsGetAddressesBuilder) Count(v int64) *GroupsGetAddressesBuilder {
 }
 
 // Address fields
-func (b *GroupsGetAddressesBuilder) Fields(v []AddressesFields) *GroupsGetAddressesBuilder {
+func (b *GroupsGetAddressesBuilder) Fields(v ...api.AddressesFields) *GroupsGetAddressesBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -5623,7 +5625,7 @@ func (b *GroupsGetBannedBuilder) Count(v int64) *GroupsGetBannedBuilder {
 	return b
 }
 
-func (b *GroupsGetBannedBuilder) Fields(v []BaseUserGroupFields) *GroupsGetBannedBuilder {
+func (b *GroupsGetBannedBuilder) Fields(v ...api.BaseUserGroupFields) *GroupsGetBannedBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -5648,7 +5650,7 @@ func NewGroupsGetByIDBuilder() *GroupsGetByIDBuilder {
 }
 
 // IDs or screen names of communities.
-func (b *GroupsGetByIDBuilder) GroupIDs(v []string) *GroupsGetByIDBuilder {
+func (b *GroupsGetByIDBuilder) GroupIDs(v ...string) *GroupsGetByIDBuilder {
 	b.Params["group_ids"] = v
 	return b
 }
@@ -5660,7 +5662,7 @@ func (b *GroupsGetByIDBuilder) GroupID(v string) *GroupsGetByIDBuilder {
 }
 
 // Group fields to return.
-func (b *GroupsGetByIDBuilder) Fields(v []GroupsFields) *GroupsGetByIDBuilder {
+func (b *GroupsGetByIDBuilder) Fields(v ...api.GroupsFields) *GroupsGetByIDBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -5702,7 +5704,7 @@ func (b *GroupsGetCallbackServersBuilder) GroupID(v int64) *GroupsGetCallbackSer
 	return b
 }
 
-func (b *GroupsGetCallbackServersBuilder) ServerIDs(v []int64) *GroupsGetCallbackServersBuilder {
+func (b *GroupsGetCallbackServersBuilder) ServerIDs(v ...int64) *GroupsGetCallbackServersBuilder {
 	b.Params["server_ids"] = v
 	return b
 }
@@ -5818,7 +5820,7 @@ func (b *GroupsGetInvitedUsersBuilder) Count(v int64) *GroupsGetInvitedUsersBuil
 }
 
 // List of additional fields to be returned. Available values: 'sex, bdate, city, country, photo_50, photo_100, photo_200_orig, photo_200, photo_400_orig, photo_max, photo_max_orig, online, online_mobile, lists, domain, has_mobile, contacts, connections, site, education, universities, schools, can_post, can_see_all_posts, can_see_audio, can_write_private_message, status, last_seen, common_count, relation, relatives, counters'.
-func (b *GroupsGetInvitedUsersBuilder) Fields(v []UsersFields) *GroupsGetInvitedUsersBuilder {
+func (b *GroupsGetInvitedUsersBuilder) Fields(v ...api.UsersFields) *GroupsGetInvitedUsersBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -5940,7 +5942,7 @@ func (b *GroupsGetMembersBuilder) Count(v int64) *GroupsGetMembersBuilder {
 }
 
 // List of additional fields to be returned. Available values: 'sex, bdate, city, country, photo_50, photo_100, photo_200_orig, photo_200, photo_400_orig, photo_max, photo_max_orig, online, online_mobile, lists, domain, has_mobile, contacts, connections, site, education, universities, schools, can_post, can_see_all_posts, can_see_audio, can_write_private_message, status, last_seen, common_count, relation, relatives, counters'.
-func (b *GroupsGetMembersBuilder) Fields(v []UsersFields) *GroupsGetMembersBuilder {
+func (b *GroupsGetMembersBuilder) Fields(v ...api.UsersFields) *GroupsGetMembersBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -5984,7 +5986,7 @@ func (b *GroupsGetRequestsBuilder) Count(v int64) *GroupsGetRequestsBuilder {
 }
 
 // Profile fields to return.
-func (b *GroupsGetRequestsBuilder) Fields(v []UsersFields) *GroupsGetRequestsBuilder {
+func (b *GroupsGetRequestsBuilder) Fields(v ...api.UsersFields) *GroupsGetRequestsBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -6074,7 +6076,7 @@ func (b *GroupsIsMemberBuilder) UserID(v int64) *GroupsIsMemberBuilder {
 }
 
 // User IDs.
-func (b *GroupsIsMemberBuilder) UserIDs(v []int64) *GroupsIsMemberBuilder {
+func (b *GroupsIsMemberBuilder) UserIDs(v ...int64) *GroupsIsMemberBuilder {
 	b.Params["user_ids"] = v
 	return b
 }
@@ -7085,7 +7087,7 @@ func NewLikesAddBuilder() *LikesAddBuilder {
 }
 
 // Object type: 'post' — post on user or community wall, 'comment' — comment on a wall post, 'photo' — photo, 'audio' — audio, 'video' — video, 'note' — note, 'photo_comment' — comment on the photo, 'video_comment' — comment on the video, 'topic_comment' — comment in the discussion, 'sitepage' — page of the site where the [vk.com/dev/Like|Like widget] is installed
-func (b *LikesAddBuilder) Type(v LikesType) *LikesAddBuilder {
+func (b *LikesAddBuilder) Type(v api.LikesType) *LikesAddBuilder {
 	b.Params["type"] = v
 	return b
 }
@@ -7123,7 +7125,7 @@ func NewLikesDeleteBuilder() *LikesDeleteBuilder {
 }
 
 // Object type: 'post' — post on user or community wall, 'comment' — comment on a wall post, 'photo' — photo, 'audio' — audio, 'video' — video, 'note' — note, 'photo_comment' — comment on the photo, 'video_comment' — comment on the video, 'topic_comment' — comment in the discussion, 'sitepage' — page of the site where the [vk.com/dev/Like|Like widget] is installed
-func (b *LikesDeleteBuilder) Type(v LikesType) *LikesDeleteBuilder {
+func (b *LikesDeleteBuilder) Type(v api.LikesType) *LikesDeleteBuilder {
 	b.Params["type"] = v
 	return b
 }
@@ -7161,7 +7163,7 @@ func NewLikesGetListBuilder() *LikesGetListBuilder {
 }
 
 // , Object type: 'post' — post on user or community wall, 'comment' — comment on a wall post, 'photo' — photo, 'audio' — audio, 'video' — video, 'note' — note, 'photo_comment' — comment on the photo, 'video_comment' — comment on the video, 'topic_comment' — comment in the discussion, 'sitepage' — page of the site where the [vk.com/dev/Like|Like widget] is installed
-func (b *LikesGetListBuilder) Type(v LikesType) *LikesGetListBuilder {
+func (b *LikesGetListBuilder) Type(v api.LikesType) *LikesGetListBuilder {
 	b.Params["type"] = v
 	return b
 }
@@ -7240,7 +7242,7 @@ func (b *LikesIsLikedBuilder) UserID(v int64) *LikesIsLikedBuilder {
 }
 
 // Object type: 'post' — post on user or community wall, 'comment' — comment on a wall post, 'photo' — photo, 'audio' — audio, 'video' — video, 'note' — note, 'photo_comment' — comment on the photo, 'video_comment' — comment on the video, 'topic_comment' — comment in the discussion
-func (b *LikesIsLikedBuilder) Type(v LikesType) *LikesIsLikedBuilder {
+func (b *LikesIsLikedBuilder) Type(v api.LikesType) *LikesIsLikedBuilder {
 	b.Params["type"] = v
 	return b
 }
@@ -7319,7 +7321,7 @@ func (b *MarketAddBuilder) MainPhotoID(v int64) *MarketAddBuilder {
 }
 
 // IDs of additional photos.
-func (b *MarketAddBuilder) PhotoIDs(v []int64) *MarketAddBuilder {
+func (b *MarketAddBuilder) PhotoIDs(v ...int64) *MarketAddBuilder {
 	b.Params["photo_ids"] = v
 	return b
 }
@@ -7415,7 +7417,7 @@ func (b *MarketAddToAlbumBuilder) ItemID(v int64) *MarketAddToAlbumBuilder {
 }
 
 // Collections IDs to add item to.
-func (b *MarketAddToAlbumBuilder) AlbumIDs(v []int64) *MarketAddToAlbumBuilder {
+func (b *MarketAddToAlbumBuilder) AlbumIDs(v ...int64) *MarketAddToAlbumBuilder {
 	b.Params["album_ids"] = v
 	return b
 }
@@ -7453,7 +7455,7 @@ func (b *MarketCreateCommentBuilder) Message(v string) *MarketCreateCommentBuild
 }
 
 // Comma-separated list of objects attached to a comment. The field is submitted the following way: , "'<owner_id>_<media_id>,<owner_id>_<media_id>'", , '' - media attachment type: "'photo' - photo, 'video' - video, 'audio' - audio, 'doc' - document", , '<owner_id>' - media owner id, '<media_id>' - media attachment id, , For example: "photo100172_166443618,photo66748_265827614",
-func (b *MarketCreateCommentBuilder) Attachments(v []string) *MarketCreateCommentBuilder {
+func (b *MarketCreateCommentBuilder) Attachments(v ...string) *MarketCreateCommentBuilder {
 	b.Params["attachments"] = v
 	return b
 }
@@ -7623,7 +7625,7 @@ func (b *MarketEditBuilder) MainPhotoID(v int64) *MarketEditBuilder {
 }
 
 // IDs of additional photos.
-func (b *MarketEditBuilder) PhotoIDs(v []int64) *MarketEditBuilder {
+func (b *MarketEditBuilder) PhotoIDs(v ...int64) *MarketEditBuilder {
 	b.Params["photo_ids"] = v
 	return b
 }
@@ -7711,7 +7713,7 @@ func (b *MarketEditCommentBuilder) Message(v string) *MarketEditCommentBuilder {
 }
 
 // Comma-separated list of objects attached to a comment. The field is submitted the following way: , "'<owner_id>_<media_id>,<owner_id>_<media_id>'", , '' - media attachment type: "'photo' - photo, 'video' - video, 'audio' - audio, 'doc' - document", , '<owner_id>' - media owner id, '<media_id>' - media attachment id, , For example: "photo100172_166443618,photo66748_265827614",
-func (b *MarketEditCommentBuilder) Attachments(v []string) *MarketEditCommentBuilder {
+func (b *MarketEditCommentBuilder) Attachments(v ...string) *MarketEditCommentBuilder {
 	b.Params["attachments"] = v
 	return b
 }
@@ -7780,7 +7782,7 @@ func (b *MarketGetAlbumByIDBuilder) OwnerID(v int64) *MarketGetAlbumByIDBuilder 
 }
 
 // collections identifiers to obtain data from
-func (b *MarketGetAlbumByIDBuilder) AlbumIDs(v []int64) *MarketGetAlbumByIDBuilder {
+func (b *MarketGetAlbumByIDBuilder) AlbumIDs(v ...int64) *MarketGetAlbumByIDBuilder {
 	b.Params["album_ids"] = v
 	return b
 }
@@ -7832,7 +7834,7 @@ func NewMarketGetByIDBuilder() *MarketGetByIDBuilder {
 }
 
 // Comma-separated ids list: {user id}_{item id}. If an item belongs to a community -{community id} is used. " 'Videos' value example: , '-4363_136089719,13245770_137352259'"
-func (b *MarketGetByIDBuilder) ItemIDs(v []string) *MarketGetByIDBuilder {
+func (b *MarketGetByIDBuilder) ItemIDs(v ...string) *MarketGetByIDBuilder {
 	b.Params["item_ids"] = v
 	return b
 }
@@ -7931,7 +7933,7 @@ func (b *MarketGetCommentsBuilder) Extended(v bool) *MarketGetCommentsBuilder {
 }
 
 // List of additional profile fields to return. See the [vk.com/dev/fields|details]
-func (b *MarketGetCommentsBuilder) Fields(v []UsersFields) *MarketGetCommentsBuilder {
+func (b *MarketGetCommentsBuilder) Fields(v ...api.UsersFields) *MarketGetCommentsBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -7963,7 +7965,7 @@ func (b *MarketRemoveFromAlbumBuilder) ItemID(v int64) *MarketRemoveFromAlbumBui
 }
 
 // Collections IDs to remove item from.
-func (b *MarketRemoveFromAlbumBuilder) AlbumIDs(v []int64) *MarketRemoveFromAlbumBuilder {
+func (b *MarketRemoveFromAlbumBuilder) AlbumIDs(v ...int64) *MarketRemoveFromAlbumBuilder {
 	b.Params["album_ids"] = v
 	return b
 }
@@ -8314,7 +8316,7 @@ func NewMessagesCreateChatBuilder() *MessagesCreateChatBuilder {
 }
 
 // IDs of the users to be added to the chat.
-func (b *MessagesCreateChatBuilder) UserIDs(v []int64) *MessagesCreateChatBuilder {
+func (b *MessagesCreateChatBuilder) UserIDs(v ...int64) *MessagesCreateChatBuilder {
 	b.Params["user_ids"] = v
 	return b
 }
@@ -8345,7 +8347,7 @@ func NewMessagesDeleteBuilder() *MessagesDeleteBuilder {
 }
 
 // Message IDs.
-func (b *MessagesDeleteBuilder) MessageIDs(v []int64) *MessagesDeleteBuilder {
+func (b *MessagesDeleteBuilder) MessageIDs(v ...int64) *MessagesDeleteBuilder {
 	b.Params["message_ids"] = v
 	return b
 }
@@ -8579,7 +8581,7 @@ func (b *MessagesGetByConversationMessageIDBuilder) PeerID(v int64) *MessagesGet
 }
 
 // Conversation message IDs.
-func (b *MessagesGetByConversationMessageIDBuilder) ConversationMessageIDs(v []int64) *MessagesGetByConversationMessageIDBuilder {
+func (b *MessagesGetByConversationMessageIDBuilder) ConversationMessageIDs(v ...int64) *MessagesGetByConversationMessageIDBuilder {
 	b.Params["conversation_message_ids"] = v
 	return b
 }
@@ -8591,7 +8593,7 @@ func (b *MessagesGetByConversationMessageIDBuilder) Extended(v bool) *MessagesGe
 }
 
 // Profile fields to return.
-func (b *MessagesGetByConversationMessageIDBuilder) Fields(v []UsersFields) *MessagesGetByConversationMessageIDBuilder {
+func (b *MessagesGetByConversationMessageIDBuilder) Fields(v ...api.UsersFields) *MessagesGetByConversationMessageIDBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -8617,7 +8619,7 @@ func NewMessagesGetByIDBuilder() *MessagesGetByIDBuilder {
 }
 
 // Message IDs.
-func (b *MessagesGetByIDBuilder) MessageIDs(v []int64) *MessagesGetByIDBuilder {
+func (b *MessagesGetByIDBuilder) MessageIDs(v ...int64) *MessagesGetByIDBuilder {
 	b.Params["message_ids"] = v
 	return b
 }
@@ -8635,7 +8637,7 @@ func (b *MessagesGetByIDBuilder) Extended(v bool) *MessagesGetByIDBuilder {
 }
 
 // Profile fields to return.
-func (b *MessagesGetByIDBuilder) Fields(v []UsersFields) *MessagesGetByIDBuilder {
+func (b *MessagesGetByIDBuilder) Fields(v ...api.UsersFields) *MessagesGetByIDBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -8670,7 +8672,7 @@ func (b *MessagesGetChatPreviewBuilder) Link(v string) *MessagesGetChatPreviewBu
 }
 
 // Profile fields to return.
-func (b *MessagesGetChatPreviewBuilder) Fields(v []UsersFields) *MessagesGetChatPreviewBuilder {
+func (b *MessagesGetChatPreviewBuilder) Fields(v ...api.UsersFields) *MessagesGetChatPreviewBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -8696,7 +8698,7 @@ func (b *MessagesGetConversationMembersBuilder) PeerID(v int64) *MessagesGetConv
 }
 
 // Profile fields to return.
-func (b *MessagesGetConversationMembersBuilder) Fields(v []UsersFields) *MessagesGetConversationMembersBuilder {
+func (b *MessagesGetConversationMembersBuilder) Fields(v ...api.UsersFields) *MessagesGetConversationMembersBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -8752,7 +8754,7 @@ func (b *MessagesGetConversationsBuilder) StartMessageID(v int64) *MessagesGetCo
 }
 
 // Profile and communities fields to return.
-func (b *MessagesGetConversationsBuilder) Fields(v []BaseUserGroupFields) *MessagesGetConversationsBuilder {
+func (b *MessagesGetConversationsBuilder) Fields(v ...api.BaseUserGroupFields) *MessagesGetConversationsBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -8778,7 +8780,7 @@ func NewMessagesGetConversationsByIDBuilder() *MessagesGetConversationsByIDBuild
 }
 
 // Destination IDs. "For user: 'User ID', e.g. '12345'. For chat: '2000000000' + 'chat_id', e.g. '2000000001'. For community: '- community ID', e.g. '-12345'. "
-func (b *MessagesGetConversationsByIDBuilder) PeerIDs(v []int64) *MessagesGetConversationsByIDBuilder {
+func (b *MessagesGetConversationsByIDBuilder) PeerIDs(v ...int64) *MessagesGetConversationsByIDBuilder {
 	b.Params["peer_ids"] = v
 	return b
 }
@@ -8790,7 +8792,7 @@ func (b *MessagesGetConversationsByIDBuilder) Extended(v bool) *MessagesGetConve
 }
 
 // Profile and communities fields to return.
-func (b *MessagesGetConversationsByIDBuilder) Fields(v []BaseUserGroupFields) *MessagesGetConversationsByIDBuilder {
+func (b *MessagesGetConversationsByIDBuilder) Fields(v ...api.BaseUserGroupFields) *MessagesGetConversationsByIDBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -8857,7 +8859,7 @@ func (b *MessagesGetHistoryBuilder) Extended(v bool) *MessagesGetHistoryBuilder 
 }
 
 // Profile fields to return.
-func (b *MessagesGetHistoryBuilder) Fields(v []UsersFields) *MessagesGetHistoryBuilder {
+func (b *MessagesGetHistoryBuilder) Fields(v ...api.UsersFields) *MessagesGetHistoryBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -8913,7 +8915,7 @@ func (b *MessagesGetHistoryAttachmentsBuilder) PhotoSizes(v bool) *MessagesGetHi
 }
 
 // Additional profile [vk.com/dev/fields|fields] to return.
-func (b *MessagesGetHistoryAttachmentsBuilder) Fields(v []UsersFields) *MessagesGetHistoryAttachmentsBuilder {
+func (b *MessagesGetHistoryAttachmentsBuilder) Fields(v ...api.UsersFields) *MessagesGetHistoryAttachmentsBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -9023,7 +9025,7 @@ func (b *MessagesGetLongPollHistoryBuilder) Onlines(v bool) *MessagesGetLongPoll
 }
 
 // Additional profile [vk.com/dev/fields|fields] to return.
-func (b *MessagesGetLongPollHistoryBuilder) Fields(v []UsersFields) *MessagesGetLongPollHistoryBuilder {
+func (b *MessagesGetLongPollHistoryBuilder) Fields(v ...api.UsersFields) *MessagesGetLongPollHistoryBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -9190,7 +9192,7 @@ func NewMessagesMarkAsImportantBuilder() *MessagesMarkAsImportantBuilder {
 }
 
 // IDs of messages to mark as important.
-func (b *MessagesMarkAsImportantBuilder) MessageIDs(v []int64) *MessagesMarkAsImportantBuilder {
+func (b *MessagesMarkAsImportantBuilder) MessageIDs(v ...int64) *MessagesMarkAsImportantBuilder {
 	b.Params["message_ids"] = v
 	return b
 }
@@ -9248,7 +9250,7 @@ func NewMessagesMarkAsReadBuilder() *MessagesMarkAsReadBuilder {
 }
 
 // IDs of messages to mark as read.
-func (b *MessagesMarkAsReadBuilder) MessageIDs(v []int64) *MessagesMarkAsReadBuilder {
+func (b *MessagesMarkAsReadBuilder) MessageIDs(v ...int64) *MessagesMarkAsReadBuilder {
 	b.Params["message_ids"] = v
 	return b
 }
@@ -9413,7 +9415,7 @@ func (b *MessagesSearchBuilder) Extended(v bool) *MessagesSearchBuilder {
 	return b
 }
 
-func (b *MessagesSearchBuilder) Fields(v []string) *MessagesSearchBuilder {
+func (b *MessagesSearchBuilder) Fields(v ...string) *MessagesSearchBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -9457,7 +9459,7 @@ func (b *MessagesSearchConversationsBuilder) Extended(v bool) *MessagesSearchCon
 }
 
 // Profile fields to return.
-func (b *MessagesSearchConversationsBuilder) Fields(v []UsersFields) *MessagesSearchConversationsBuilder {
+func (b *MessagesSearchConversationsBuilder) Fields(v ...api.UsersFields) *MessagesSearchConversationsBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -9513,7 +9515,7 @@ func (b *MessagesSendBuilder) ChatID(v int64) *MessagesSendBuilder {
 }
 
 // IDs of message recipients (if new conversation shall be started).
-func (b *MessagesSendBuilder) UserIDs(v []int64) *MessagesSendBuilder {
+func (b *MessagesSendBuilder) UserIDs(v ...int64) *MessagesSendBuilder {
 	b.Params["user_ids"] = v
 	return b
 }
@@ -9548,7 +9550,7 @@ func (b *MessagesSendBuilder) ReplyTo(v int64) *MessagesSendBuilder {
 }
 
 // ID of forwarded messages, separated with a comma. Listed messages of the sender will be shown in the message body at the recipient's. Example: "123,431,544"
-func (b *MessagesSendBuilder) ForwardMessages(v []int64) *MessagesSendBuilder {
+func (b *MessagesSendBuilder) ForwardMessages(v ...int64) *MessagesSendBuilder {
 	b.Params["forward_messages"] = v
 	return b
 }
@@ -9565,7 +9567,7 @@ func (b *MessagesSendBuilder) GroupID(v int64) *MessagesSendBuilder {
 	return b
 }
 
-func (b *MessagesSendBuilder) Keyboard(v MessagesKeyboard) *MessagesSendBuilder {
+func (b *MessagesSendBuilder) Keyboard(v api.MessagesKeyboard) *MessagesSendBuilder {
 	b.Params["keyboard"] = v
 	return b
 }
@@ -9721,12 +9723,12 @@ func NewNewsfeedAddBanBuilder() *NewsfeedAddBanBuilder {
 	return &NewsfeedAddBanBuilder{api.Params{}}
 }
 
-func (b *NewsfeedAddBanBuilder) UserIDs(v []int64) *NewsfeedAddBanBuilder {
+func (b *NewsfeedAddBanBuilder) UserIDs(v ...int64) *NewsfeedAddBanBuilder {
 	b.Params["user_ids"] = v
 	return b
 }
 
-func (b *NewsfeedAddBanBuilder) GroupIDs(v []int64) *NewsfeedAddBanBuilder {
+func (b *NewsfeedAddBanBuilder) GroupIDs(v ...int64) *NewsfeedAddBanBuilder {
 	b.Params["group_ids"] = v
 	return b
 }
@@ -9745,12 +9747,12 @@ func NewNewsfeedDeleteBanBuilder() *NewsfeedDeleteBanBuilder {
 	return &NewsfeedDeleteBanBuilder{api.Params{}}
 }
 
-func (b *NewsfeedDeleteBanBuilder) UserIDs(v []int64) *NewsfeedDeleteBanBuilder {
+func (b *NewsfeedDeleteBanBuilder) UserIDs(v ...int64) *NewsfeedDeleteBanBuilder {
 	b.Params["user_ids"] = v
 	return b
 }
 
-func (b *NewsfeedDeleteBanBuilder) GroupIDs(v []int64) *NewsfeedDeleteBanBuilder {
+func (b *NewsfeedDeleteBanBuilder) GroupIDs(v ...int64) *NewsfeedDeleteBanBuilder {
 	b.Params["group_ids"] = v
 	return b
 }
@@ -9787,7 +9789,7 @@ func NewNewsfeedGetBuilder() *NewsfeedGetBuilder {
 }
 
 // Filters to apply: 'post' — new wall posts, 'photo' — new photos, 'photo_tag' — new photo tags, 'wall_photo' — new wall photos, 'friend' — new friends, 'note' — new notes
-func (b *NewsfeedGetBuilder) Filters(v []NewsfeedFilters) *NewsfeedGetBuilder {
+func (b *NewsfeedGetBuilder) Filters(v ...api.NewsfeedFilters) *NewsfeedGetBuilder {
 	b.Params["filters"] = v
 	return b
 }
@@ -9835,7 +9837,7 @@ func (b *NewsfeedGetBuilder) Count(v int64) *NewsfeedGetBuilder {
 }
 
 // Additional fields of [vk.com/dev/fields|profiles] and [vk.com/dev/fields_groups|communities] to return.
-func (b *NewsfeedGetBuilder) Fields(v []BaseUserGroupFields) *NewsfeedGetBuilder {
+func (b *NewsfeedGetBuilder) Fields(v ...api.BaseUserGroupFields) *NewsfeedGetBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -9866,7 +9868,7 @@ func (b *NewsfeedGetBannedBuilder) Extended(v bool) *NewsfeedGetBannedBuilder {
 }
 
 // Profile fields to return.
-func (b *NewsfeedGetBannedBuilder) Fields(v []UsersFields) *NewsfeedGetBannedBuilder {
+func (b *NewsfeedGetBannedBuilder) Fields(v ...api.UsersFields) *NewsfeedGetBannedBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -9898,7 +9900,7 @@ func (b *NewsfeedGetCommentsBuilder) Count(v int64) *NewsfeedGetCommentsBuilder 
 }
 
 // Filters to apply: 'post' — new comments on wall posts, 'photo' — new comments on photos, 'video' — new comments on videos, 'topic' — new comments on discussions, 'note' — new comments on notes,
-func (b *NewsfeedGetCommentsBuilder) Filters(v []NewsfeedCommentsFilters) *NewsfeedGetCommentsBuilder {
+func (b *NewsfeedGetCommentsBuilder) Filters(v ...api.NewsfeedCommentsFilters) *NewsfeedGetCommentsBuilder {
 	b.Params["filters"] = v
 	return b
 }
@@ -9933,7 +9935,7 @@ func (b *NewsfeedGetCommentsBuilder) StartFrom(v string) *NewsfeedGetCommentsBui
 }
 
 // Additional fields of [vk.com/dev/fields|profiles] and [vk.com/dev/fields_groups|communities] to return.
-func (b *NewsfeedGetCommentsBuilder) Fields(v []BaseUserGroupFields) *NewsfeedGetCommentsBuilder {
+func (b *NewsfeedGetCommentsBuilder) Fields(v ...api.BaseUserGroupFields) *NewsfeedGetCommentsBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -9953,7 +9955,7 @@ func NewNewsfeedGetListsBuilder() *NewsfeedGetListsBuilder {
 }
 
 // numeric list identifiers.
-func (b *NewsfeedGetListsBuilder) ListIDs(v []int64) *NewsfeedGetListsBuilder {
+func (b *NewsfeedGetListsBuilder) ListIDs(v ...int64) *NewsfeedGetListsBuilder {
 	b.Params["list_ids"] = v
 	return b
 }
@@ -10053,7 +10055,7 @@ func (b *NewsfeedGetRecommendedBuilder) Count(v int64) *NewsfeedGetRecommendedBu
 }
 
 // Additional fields of [vk.com/dev/fields|profiles] and [vk.com/dev/fields_groups|communities] to return.
-func (b *NewsfeedGetRecommendedBuilder) Fields(v []BaseUserGroupFields) *NewsfeedGetRecommendedBuilder {
+func (b *NewsfeedGetRecommendedBuilder) Fields(v ...api.BaseUserGroupFields) *NewsfeedGetRecommendedBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -10091,7 +10093,7 @@ func (b *NewsfeedGetSuggestedSourcesBuilder) Shuffle(v bool) *NewsfeedGetSuggest
 }
 
 // list of extra fields to be returned. See available fields for [vk.com/dev/fields|users] and [vk.com/dev/fields_groups|communities].
-func (b *NewsfeedGetSuggestedSourcesBuilder) Fields(v []BaseUserGroupFields) *NewsfeedGetSuggestedSourcesBuilder {
+func (b *NewsfeedGetSuggestedSourcesBuilder) Fields(v ...api.BaseUserGroupFields) *NewsfeedGetSuggestedSourcesBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -10111,7 +10113,7 @@ func NewNewsfeedIgnoreItemBuilder() *NewsfeedIgnoreItemBuilder {
 }
 
 // Item type. Possible values: *'wall' – post on the wall,, *'tag' – tag on a photo,, *'profilephoto' – profile photo,, *'video' – video,, *'audio' – audio.
-func (b *NewsfeedIgnoreItemBuilder) Type(v NewsfeedIgnoreItemType) *NewsfeedIgnoreItemBuilder {
+func (b *NewsfeedIgnoreItemBuilder) Type(v api.NewsfeedIgnoreItemType) *NewsfeedIgnoreItemBuilder {
 	b.Params["type"] = v
 	return b
 }
@@ -10155,7 +10157,7 @@ func (b *NewsfeedSaveListBuilder) Title(v string) *NewsfeedSaveListBuilder {
 }
 
 // users and communities identifiers to be added to the list. Community identifiers must be negative numbers.
-func (b *NewsfeedSaveListBuilder) SourceIDs(v []int64) *NewsfeedSaveListBuilder {
+func (b *NewsfeedSaveListBuilder) SourceIDs(v ...int64) *NewsfeedSaveListBuilder {
 	b.Params["source_ids"] = v
 	return b
 }
@@ -10228,7 +10230,7 @@ func (b *NewsfeedSearchBuilder) StartFrom(v string) *NewsfeedSearchBuilder {
 }
 
 // Additional fields of [vk.com/dev/fields|profiles] and [vk.com/dev/fields_groups|communities] to return.
-func (b *NewsfeedSearchBuilder) Fields(v []BaseUserGroupFields) *NewsfeedSearchBuilder {
+func (b *NewsfeedSearchBuilder) Fields(v ...api.BaseUserGroupFields) *NewsfeedSearchBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -10248,7 +10250,7 @@ func NewNewsfeedUnignoreItemBuilder() *NewsfeedUnignoreItemBuilder {
 }
 
 // Item type. Possible values: *'wall' – post on the wall,, *'tag' – tag on a photo,, *'profilephoto' – profile photo,, *'video' – video,, *'audio' – audio.
-func (b *NewsfeedUnignoreItemBuilder) Type(v NewsfeedIgnoreItemType) *NewsfeedUnignoreItemBuilder {
+func (b *NewsfeedUnignoreItemBuilder) Type(v api.NewsfeedIgnoreItemType) *NewsfeedUnignoreItemBuilder {
 	b.Params["type"] = v
 	return b
 }
@@ -10329,12 +10331,12 @@ func (b *NotesAddBuilder) Text(v string) *NotesAddBuilder {
 	return b
 }
 
-func (b *NotesAddBuilder) PrivacyView(v []string) *NotesAddBuilder {
+func (b *NotesAddBuilder) PrivacyView(v ...string) *NotesAddBuilder {
 	b.Params["privacy_view"] = v
 	return b
 }
 
-func (b *NotesAddBuilder) PrivacyComment(v []string) *NotesAddBuilder {
+func (b *NotesAddBuilder) PrivacyComment(v ...string) *NotesAddBuilder {
 	b.Params["privacy_comment"] = v
 	return b
 }
@@ -10460,12 +10462,12 @@ func (b *NotesEditBuilder) Text(v string) *NotesEditBuilder {
 	return b
 }
 
-func (b *NotesEditBuilder) PrivacyView(v []string) *NotesEditBuilder {
+func (b *NotesEditBuilder) PrivacyView(v ...string) *NotesEditBuilder {
 	b.Params["privacy_view"] = v
 	return b
 }
 
-func (b *NotesEditBuilder) PrivacyComment(v []string) *NotesEditBuilder {
+func (b *NotesEditBuilder) PrivacyComment(v ...string) *NotesEditBuilder {
 	b.Params["privacy_comment"] = v
 	return b
 }
@@ -10517,7 +10519,7 @@ func NewNotesGetBuilder() *NotesGetBuilder {
 }
 
 // Note IDs.
-func (b *NotesGetBuilder) NoteIDs(v []int64) *NotesGetBuilder {
+func (b *NotesGetBuilder) NoteIDs(v ...int64) *NotesGetBuilder {
 	b.Params["note_ids"] = v
 	return b
 }
@@ -10669,7 +10671,7 @@ func (b *NotificationsGetBuilder) StartFrom(v string) *NotificationsGetBuilder {
 }
 
 // Type of notifications to return: 'wall' — wall posts, 'mentions' — mentions in wall posts, comments, or topics, 'comments' — comments to wall posts, photos, and videos, 'likes' — likes, 'reposted' — wall posts that are copied from the current user's wall, 'followers' — new followers, 'friends' — accepted friend requests
-func (b *NotificationsGetBuilder) Filters(v []string) *NotificationsGetBuilder {
+func (b *NotificationsGetBuilder) Filters(v ...string) *NotificationsGetBuilder {
 	b.Params["filters"] = v
 	return b
 }
@@ -10712,7 +10714,7 @@ func NewNotificationsSendMessageBuilder() *NotificationsSendMessageBuilder {
 	return &NotificationsSendMessageBuilder{api.Params{}}
 }
 
-func (b *NotificationsSendMessageBuilder) UserIDs(v []int64) *NotificationsSendMessageBuilder {
+func (b *NotificationsSendMessageBuilder) UserIDs(v ...int64) *NotificationsSendMessageBuilder {
 	b.Params["user_ids"] = v
 	return b
 }
@@ -10850,7 +10852,7 @@ func (b *OrdersGetAmountBuilder) UserID(v int64) *OrdersGetAmountBuilder {
 	return b
 }
 
-func (b *OrdersGetAmountBuilder) Votes(v []string) *OrdersGetAmountBuilder {
+func (b *OrdersGetAmountBuilder) Votes(v ...string) *OrdersGetAmountBuilder {
 	b.Params["votes"] = v
 	return b
 }
@@ -10876,7 +10878,7 @@ func (b *OrdersGetByIDBuilder) OrderID(v int64) *OrdersGetByIDBuilder {
 }
 
 // order IDs (when information about several orders is requested).
-func (b *OrdersGetByIDBuilder) OrderIDs(v []int64) *OrdersGetByIDBuilder {
+func (b *OrdersGetByIDBuilder) OrderIDs(v ...int64) *OrdersGetByIDBuilder {
 	b.Params["order_ids"] = v
 	return b
 }
@@ -11324,12 +11326,12 @@ func (b *PhotosCreateAlbumBuilder) Description(v string) *PhotosCreateAlbumBuild
 	return b
 }
 
-func (b *PhotosCreateAlbumBuilder) PrivacyView(v []string) *PhotosCreateAlbumBuilder {
+func (b *PhotosCreateAlbumBuilder) PrivacyView(v ...string) *PhotosCreateAlbumBuilder {
 	b.Params["privacy_view"] = v
 	return b
 }
 
-func (b *PhotosCreateAlbumBuilder) PrivacyComment(v []string) *PhotosCreateAlbumBuilder {
+func (b *PhotosCreateAlbumBuilder) PrivacyComment(v ...string) *PhotosCreateAlbumBuilder {
 	b.Params["privacy_comment"] = v
 	return b
 }
@@ -11377,7 +11379,7 @@ func (b *PhotosCreateCommentBuilder) Message(v string) *PhotosCreateCommentBuild
 }
 
 // (Required if 'message' is not set.) List of objects attached to the post, in the following format: "<owner_id>_<media_id>,<owner_id>_<media_id>", '' — Type of media attachment: 'photo' — photo, 'video' — video, 'audio' — audio, 'doc' — document, '<owner_id>' — Media attachment owner ID. '<media_id>' — Media attachment ID. Example: "photo100172_166443618,photo66748_265827614"
-func (b *PhotosCreateCommentBuilder) Attachments(v []string) *PhotosCreateCommentBuilder {
+func (b *PhotosCreateCommentBuilder) Attachments(v ...string) *PhotosCreateCommentBuilder {
 	b.Params["attachments"] = v
 	return b
 }
@@ -11581,12 +11583,12 @@ func (b *PhotosEditAlbumBuilder) OwnerID(v int64) *PhotosEditAlbumBuilder {
 	return b
 }
 
-func (b *PhotosEditAlbumBuilder) PrivacyView(v []string) *PhotosEditAlbumBuilder {
+func (b *PhotosEditAlbumBuilder) PrivacyView(v ...string) *PhotosEditAlbumBuilder {
 	b.Params["privacy_view"] = v
 	return b
 }
 
-func (b *PhotosEditAlbumBuilder) PrivacyComment(v []string) *PhotosEditAlbumBuilder {
+func (b *PhotosEditAlbumBuilder) PrivacyComment(v ...string) *PhotosEditAlbumBuilder {
 	b.Params["privacy_comment"] = v
 	return b
 }
@@ -11634,7 +11636,7 @@ func (b *PhotosEditCommentBuilder) Message(v string) *PhotosEditCommentBuilder {
 }
 
 // (Required if 'message' is not set.) List of objects attached to the post, in the following format: "<owner_id>_<media_id>,<owner_id>_<media_id>", '' — Type of media attachment: 'photo' — photo, 'video' — video, 'audio' — audio, 'doc' — document, '<owner_id>' — Media attachment owner ID. '<media_id>' — Media attachment ID. Example: "photo100172_166443618,photo66748_265827614"
-func (b *PhotosEditCommentBuilder) Attachments(v []string) *PhotosEditCommentBuilder {
+func (b *PhotosEditCommentBuilder) Attachments(v ...string) *PhotosEditCommentBuilder {
 	b.Params["attachments"] = v
 	return b
 }
@@ -11666,7 +11668,7 @@ func (b *PhotosGetBuilder) AlbumID(v string) *PhotosGetBuilder {
 }
 
 // Photo IDs.
-func (b *PhotosGetBuilder) PhotoIDs(v []string) *PhotosGetBuilder {
+func (b *PhotosGetBuilder) PhotoIDs(v ...string) *PhotosGetBuilder {
 	b.Params["photo_ids"] = v
 	return b
 }
@@ -11732,7 +11734,7 @@ func (b *PhotosGetAlbumsBuilder) OwnerID(v int64) *PhotosGetAlbumsBuilder {
 }
 
 // Album IDs.
-func (b *PhotosGetAlbumsBuilder) AlbumIDs(v []int64) *PhotosGetAlbumsBuilder {
+func (b *PhotosGetAlbumsBuilder) AlbumIDs(v ...int64) *PhotosGetAlbumsBuilder {
 	b.Params["album_ids"] = v
 	return b
 }
@@ -11914,7 +11916,7 @@ func NewPhotosGetByIDBuilder() *PhotosGetByIDBuilder {
 }
 
 // IDs separated with a comma, that are IDs of users who posted photos and IDs of photos themselves with an underscore character between such IDs. To get information about a photo in the group album, you shall specify group ID instead of user ID. Example: "1_129207899,6492_135055734, , -20629724_271945303"
-func (b *PhotosGetByIDBuilder) Photos(v []string) *PhotosGetByIDBuilder {
+func (b *PhotosGetByIDBuilder) Photos(v ...string) *PhotosGetByIDBuilder {
 	b.Params["photos"] = v
 	return b
 }
@@ -12032,7 +12034,7 @@ func (b *PhotosGetCommentsBuilder) Extended(v bool) *PhotosGetCommentsBuilder {
 	return b
 }
 
-func (b *PhotosGetCommentsBuilder) Fields(v []UsersFields) *PhotosGetCommentsBuilder {
+func (b *PhotosGetCommentsBuilder) Fields(v ...api.UsersFields) *PhotosGetCommentsBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -13065,7 +13067,7 @@ func (b *PollsAddVoteBuilder) PollID(v int64) *PollsAddVoteBuilder {
 	return b
 }
 
-func (b *PollsAddVoteBuilder) AnswerIDs(v []int64) *PollsAddVoteBuilder {
+func (b *PollsAddVoteBuilder) AnswerIDs(v ...int64) *PollsAddVoteBuilder {
 	b.Params["answer_ids"] = v
 	return b
 }
@@ -13282,7 +13284,7 @@ func (b *PollsGetByIDBuilder) FriendsCount(v int64) *PollsGetByIDBuilder {
 	return b
 }
 
-func (b *PollsGetByIDBuilder) Fields(v []string) *PollsGetByIDBuilder {
+func (b *PollsGetByIDBuilder) Fields(v ...string) *PollsGetByIDBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -13319,7 +13321,7 @@ func (b *PollsGetVotersBuilder) PollID(v int64) *PollsGetVotersBuilder {
 }
 
 // Answer IDs.
-func (b *PollsGetVotersBuilder) AnswerIDs(v []int64) *PollsGetVotersBuilder {
+func (b *PollsGetVotersBuilder) AnswerIDs(v ...int64) *PollsGetVotersBuilder {
 	b.Params["answer_ids"] = v
 	return b
 }
@@ -13348,7 +13350,7 @@ func (b *PollsGetVotersBuilder) Count(v int64) *PollsGetVotersBuilder {
 }
 
 // Profile fields to return. Sample values: 'nickname', 'screen_name', 'sex', 'bdate (birthdate)', 'city', 'country', 'timezone', 'photo', 'photo_medium', 'photo_big', 'has_mobile', 'rate', 'contacts', 'education', 'online', 'counters'.
-func (b *PollsGetVotersBuilder) Fields(v []UsersFields) *PollsGetVotersBuilder {
+func (b *PollsGetVotersBuilder) Fields(v ...api.UsersFields) *PollsGetVotersBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -13524,7 +13526,7 @@ func (b *PrettyCardsGetByIDBuilder) OwnerID(v int64) *PrettyCardsGetByIDBuilder 
 	return b
 }
 
-func (b *PrettyCardsGetByIDBuilder) CardIDs(v []int64) *PrettyCardsGetByIDBuilder {
+func (b *PrettyCardsGetByIDBuilder) CardIDs(v ...int64) *PrettyCardsGetByIDBuilder {
 	b.Params["card_ids"] = v
 	return b
 }
@@ -13573,12 +13575,12 @@ func (b *SearchGetHintsBuilder) Limit(v int64) *SearchGetHintsBuilder {
 	return b
 }
 
-func (b *SearchGetHintsBuilder) Filters(v []string) *SearchGetHintsBuilder {
+func (b *SearchGetHintsBuilder) Filters(v ...string) *SearchGetHintsBuilder {
 	b.Params["filters"] = v
 	return b
 }
 
-func (b *SearchGetHintsBuilder) Fields(v []string) *SearchGetHintsBuilder {
+func (b *SearchGetHintsBuilder) Fields(v ...string) *SearchGetHintsBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -13755,7 +13757,7 @@ func NewSecureGetUserLevelBuilder() *SecureGetUserLevelBuilder {
 	return &SecureGetUserLevelBuilder{api.Params{}}
 }
 
-func (b *SecureGetUserLevelBuilder) UserIDs(v []int64) *SecureGetUserLevelBuilder {
+func (b *SecureGetUserLevelBuilder) UserIDs(v ...int64) *SecureGetUserLevelBuilder {
 	b.Params["user_ids"] = v
 	return b
 }
@@ -13774,7 +13776,7 @@ func NewSecureGiveEventStickerBuilder() *SecureGiveEventStickerBuilder {
 	return &SecureGiveEventStickerBuilder{api.Params{}}
 }
 
-func (b *SecureGiveEventStickerBuilder) UserIDs(v []int64) *SecureGiveEventStickerBuilder {
+func (b *SecureGiveEventStickerBuilder) UserIDs(v ...int64) *SecureGiveEventStickerBuilder {
 	b.Params["user_ids"] = v
 	return b
 }
@@ -13798,7 +13800,7 @@ func NewSecureSendNotificationBuilder() *SecureSendNotificationBuilder {
 	return &SecureSendNotificationBuilder{api.Params{}}
 }
 
-func (b *SecureSendNotificationBuilder) UserIDs(v []int64) *SecureSendNotificationBuilder {
+func (b *SecureSendNotificationBuilder) UserIDs(v ...int64) *SecureSendNotificationBuilder {
 	b.Params["user_ids"] = v
 	return b
 }
@@ -13854,7 +13856,7 @@ func NewSecureSetCounterBuilder() *SecureSetCounterBuilder {
 	return &SecureSetCounterBuilder{api.Params{}}
 }
 
-func (b *SecureSetCounterBuilder) Counters(v []string) *SecureSetCounterBuilder {
+func (b *SecureSetCounterBuilder) Counters(v ...string) *SecureSetCounterBuilder {
 	b.Params["counters"] = v
 	return b
 }
@@ -13921,12 +13923,12 @@ func (b *StatsGetBuilder) IntervalsCount(v int64) *StatsGetBuilder {
 	return b
 }
 
-func (b *StatsGetBuilder) Filters(v []string) *StatsGetBuilder {
+func (b *StatsGetBuilder) Filters(v ...string) *StatsGetBuilder {
 	b.Params["filters"] = v
 	return b
 }
 
-func (b *StatsGetBuilder) StatsGroups(v []string) *StatsGetBuilder {
+func (b *StatsGetBuilder) StatsGroups(v ...string) *StatsGetBuilder {
 	b.Params["stats_groups"] = v
 	return b
 }
@@ -13957,7 +13959,7 @@ func (b *StatsGetPostReachBuilder) OwnerID(v string) *StatsGetPostReachBuilder {
 }
 
 // wall posts id
-func (b *StatsGetPostReachBuilder) PostIDs(v []int64) *StatsGetPostReachBuilder {
+func (b *StatsGetPostReachBuilder) PostIDs(v ...int64) *StatsGetPostReachBuilder {
 	b.Params["post_ids"] = v
 	return b
 }
@@ -14049,7 +14051,7 @@ func (b *StorageGetBuilder) Key(v string) *StorageGetBuilder {
 	return b
 }
 
-func (b *StorageGetBuilder) Keys(v []string) *StorageGetBuilder {
+func (b *StorageGetBuilder) Keys(v ...string) *StorageGetBuilder {
 	b.Params["keys"] = v
 	return b
 }
@@ -14134,7 +14136,7 @@ func NewStoriesBanOwnerBuilder() *StoriesBanOwnerBuilder {
 }
 
 // List of sources IDs
-func (b *StoriesBanOwnerBuilder) OwnersIDs(v []int64) *StoriesBanOwnerBuilder {
+func (b *StoriesBanOwnerBuilder) OwnersIDs(v ...int64) *StoriesBanOwnerBuilder {
 	b.Params["owners_ids"] = v
 	return b
 }
@@ -14191,7 +14193,7 @@ func (b *StoriesGetBuilder) Extended(v bool) *StoriesGetBuilder {
 	return b
 }
 
-func (b *StoriesGetBuilder) Fields(v []BaseUserGroupFields) *StoriesGetBuilder {
+func (b *StoriesGetBuilder) Fields(v ...api.BaseUserGroupFields) *StoriesGetBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -14217,7 +14219,7 @@ func (b *StoriesGetBannedBuilder) Extended(v bool) *StoriesGetBannedBuilder {
 }
 
 // Additional fields to return
-func (b *StoriesGetBannedBuilder) Fields(v []BaseUserGroupFields) *StoriesGetBannedBuilder {
+func (b *StoriesGetBannedBuilder) Fields(v ...api.BaseUserGroupFields) *StoriesGetBannedBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -14237,7 +14239,7 @@ func NewStoriesGetByIDBuilder() *StoriesGetByIDBuilder {
 }
 
 // Stories IDs separated by commas. Use format {owner_id}+'_'+{story_id}, for example, 12345_54331.
-func (b *StoriesGetByIDBuilder) Stories(v []string) *StoriesGetByIDBuilder {
+func (b *StoriesGetByIDBuilder) Stories(v ...string) *StoriesGetByIDBuilder {
 	b.Params["stories"] = v
 	return b
 }
@@ -14249,7 +14251,7 @@ func (b *StoriesGetByIDBuilder) Extended(v bool) *StoriesGetByIDBuilder {
 }
 
 // Additional fields to return
-func (b *StoriesGetByIDBuilder) Fields(v []BaseUserGroupFields) *StoriesGetByIDBuilder {
+func (b *StoriesGetByIDBuilder) Fields(v ...api.BaseUserGroupFields) *StoriesGetByIDBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -14275,7 +14277,7 @@ func (b *StoriesGetPhotoUploadServerBuilder) AddToNews(v bool) *StoriesGetPhotoU
 }
 
 // List of users IDs who can see the story.
-func (b *StoriesGetPhotoUploadServerBuilder) UserIDs(v []int64) *StoriesGetPhotoUploadServerBuilder {
+func (b *StoriesGetPhotoUploadServerBuilder) UserIDs(v ...int64) *StoriesGetPhotoUploadServerBuilder {
 	b.Params["user_ids"] = v
 	return b
 }
@@ -14287,7 +14289,7 @@ func (b *StoriesGetPhotoUploadServerBuilder) ReplyToStory(v string) *StoriesGetP
 }
 
 // Link text (for community's stories only).
-func (b *StoriesGetPhotoUploadServerBuilder) LinkText(v StoriesUploadLinkText) *StoriesGetPhotoUploadServerBuilder {
+func (b *StoriesGetPhotoUploadServerBuilder) LinkText(v api.StoriesUploadLinkText) *StoriesGetPhotoUploadServerBuilder {
 	b.Params["link_text"] = v
 	return b
 }
@@ -14348,7 +14350,7 @@ func (b *StoriesGetRepliesBuilder) Extended(v bool) *StoriesGetRepliesBuilder {
 }
 
 // Additional fields to return
-func (b *StoriesGetRepliesBuilder) Fields(v []BaseUserGroupFields) *StoriesGetRepliesBuilder {
+func (b *StoriesGetRepliesBuilder) Fields(v ...api.BaseUserGroupFields) *StoriesGetRepliesBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -14400,7 +14402,7 @@ func (b *StoriesGetVideoUploadServerBuilder) AddToNews(v bool) *StoriesGetVideoU
 }
 
 // List of users IDs who can see the story.
-func (b *StoriesGetVideoUploadServerBuilder) UserIDs(v []int64) *StoriesGetVideoUploadServerBuilder {
+func (b *StoriesGetVideoUploadServerBuilder) UserIDs(v ...int64) *StoriesGetVideoUploadServerBuilder {
 	b.Params["user_ids"] = v
 	return b
 }
@@ -14412,7 +14414,7 @@ func (b *StoriesGetVideoUploadServerBuilder) ReplyToStory(v string) *StoriesGetV
 }
 
 // Link text (for community's stories only).
-func (b *StoriesGetVideoUploadServerBuilder) LinkText(v StoriesUploadLinkText) *StoriesGetVideoUploadServerBuilder {
+func (b *StoriesGetVideoUploadServerBuilder) LinkText(v api.StoriesUploadLinkText) *StoriesGetVideoUploadServerBuilder {
 	b.Params["link_text"] = v
 	return b
 }
@@ -14581,7 +14583,7 @@ func (b *StoriesSearchBuilder) Extended(v bool) *StoriesSearchBuilder {
 	return b
 }
 
-func (b *StoriesSearchBuilder) Fields(v []string) *StoriesSearchBuilder {
+func (b *StoriesSearchBuilder) Fields(v ...string) *StoriesSearchBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -14601,7 +14603,7 @@ func NewStoriesUnbanOwnerBuilder() *StoriesUnbanOwnerBuilder {
 }
 
 // List of hidden sources to show stories from.
-func (b *StoriesUnbanOwnerBuilder) OwnersIDs(v []int64) *StoriesUnbanOwnerBuilder {
+func (b *StoriesUnbanOwnerBuilder) OwnersIDs(v ...int64) *StoriesUnbanOwnerBuilder {
 	b.Params["owners_ids"] = v
 	return b
 }
@@ -14652,13 +14654,13 @@ func NewUsersGetBuilder() *UsersGetBuilder {
 }
 
 // User IDs or screen names ('screen_name'). By default, current user ID.
-func (b *UsersGetBuilder) UserIDs(v []string) *UsersGetBuilder {
+func (b *UsersGetBuilder) UserIDs(v ...string) *UsersGetBuilder {
 	b.Params["user_ids"] = v
 	return b
 }
 
 // Profile fields to return. Sample values: 'nickname', 'screen_name', 'sex', 'bdate' (birthdate), 'city', 'country', 'timezone', 'photo', 'photo_medium', 'photo_big', 'has_mobile', 'contacts', 'education', 'online', 'counters', 'relation', 'last_seen', 'activity', 'can_write_private_message', 'can_see_all_posts', 'can_post', 'universities', 'can_invite_to_chats'
-func (b *UsersGetBuilder) Fields(v []UsersFields) *UsersGetBuilder {
+func (b *UsersGetBuilder) Fields(v ...api.UsersFields) *UsersGetBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -14702,7 +14704,7 @@ func (b *UsersGetFollowersBuilder) Count(v int64) *UsersGetFollowersBuilder {
 }
 
 // Profile fields to return. Sample values: 'nickname', 'screen_name', 'sex', 'bdate' (birthdate), 'city', 'country', 'timezone', 'photo', 'photo_medium', 'photo_big', 'has_mobile', 'rate', 'contacts', 'education', 'online'.
-func (b *UsersGetFollowersBuilder) Fields(v []UsersFields) *UsersGetFollowersBuilder {
+func (b *UsersGetFollowersBuilder) Fields(v ...api.UsersFields) *UsersGetFollowersBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -14751,7 +14753,7 @@ func (b *UsersGetSubscriptionsBuilder) Count(v int64) *UsersGetSubscriptionsBuil
 	return b
 }
 
-func (b *UsersGetSubscriptionsBuilder) Fields(v []UsersFields) *UsersGetSubscriptionsBuilder {
+func (b *UsersGetSubscriptionsBuilder) Fields(v ...api.UsersFields) *UsersGetSubscriptionsBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -14827,7 +14829,7 @@ func (b *UsersSearchBuilder) Count(v int64) *UsersSearchBuilder {
 }
 
 // Profile fields to return. Sample values: 'nickname', 'screen_name', 'sex', 'bdate' (birthdate), 'city', 'country', 'timezone', 'photo', 'photo_medium', 'photo_big', 'has_mobile', 'rate', 'contacts', 'education', 'online',
-func (b *UsersSearchBuilder) Fields(v []UsersFields) *UsersSearchBuilder {
+func (b *UsersSearchBuilder) Fields(v ...api.UsersFields) *UsersSearchBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -14987,7 +14989,7 @@ func (b *UsersSearchBuilder) GroupID(v int64) *UsersSearchBuilder {
 	return b
 }
 
-func (b *UsersSearchBuilder) FromList(v []string) *UsersSearchBuilder {
+func (b *UsersSearchBuilder) FromList(v ...string) *UsersSearchBuilder {
 	b.Params["from_list"] = v
 	return b
 }
@@ -15227,7 +15229,7 @@ func (b *VideoAddAlbumBuilder) Title(v string) *VideoAddAlbumBuilder {
 }
 
 // new access permissions for the album. Possible values: , *'0' – all users,, *'1' – friends only,, *'2' – friends and friends of friends,, *'3' – "only me".
-func (b *VideoAddAlbumBuilder) Privacy(v []string) *VideoAddAlbumBuilder {
+func (b *VideoAddAlbumBuilder) Privacy(v ...string) *VideoAddAlbumBuilder {
 	b.Params["privacy"] = v
 	return b
 }
@@ -15254,7 +15256,7 @@ func (b *VideoAddToAlbumBuilder) AlbumID(v int64) *VideoAddToAlbumBuilder {
 	return b
 }
 
-func (b *VideoAddToAlbumBuilder) AlbumIDs(v []int64) *VideoAddToAlbumBuilder {
+func (b *VideoAddToAlbumBuilder) AlbumIDs(v ...int64) *VideoAddToAlbumBuilder {
 	b.Params["album_ids"] = v
 	return b
 }
@@ -15302,7 +15304,7 @@ func (b *VideoCreateCommentBuilder) Message(v string) *VideoCreateCommentBuilder
 }
 
 // List of objects attached to the comment, in the following format: "<owner_id>_<media_id>,<owner_id>_<media_id>", '' — Type of media attachment: 'photo' — photo, 'video' — video, 'audio' — audio, 'doc' — document, '<owner_id>' — ID of the media attachment owner. '<media_id>' — Media attachment ID. Example: "photo100172_166443618,photo66748_265827614"
-func (b *VideoCreateCommentBuilder) Attachments(v []string) *VideoCreateCommentBuilder {
+func (b *VideoCreateCommentBuilder) Attachments(v ...string) *VideoCreateCommentBuilder {
 	b.Params["attachments"] = v
 	return b
 }
@@ -15450,13 +15452,13 @@ func (b *VideoEditBuilder) Desc(v string) *VideoEditBuilder {
 }
 
 // Privacy settings in a [vk.com/dev/privacy_setting|special format]. Privacy setting is available for videos uploaded to own profile by user.
-func (b *VideoEditBuilder) PrivacyView(v []string) *VideoEditBuilder {
+func (b *VideoEditBuilder) PrivacyView(v ...string) *VideoEditBuilder {
 	b.Params["privacy_view"] = v
 	return b
 }
 
 // Privacy settings for comments in a [vk.com/dev/privacy_setting|special format].
-func (b *VideoEditBuilder) PrivacyComment(v []string) *VideoEditBuilder {
+func (b *VideoEditBuilder) PrivacyComment(v ...string) *VideoEditBuilder {
 	b.Params["privacy_comment"] = v
 	return b
 }
@@ -15506,7 +15508,7 @@ func (b *VideoEditAlbumBuilder) Title(v string) *VideoEditAlbumBuilder {
 }
 
 // new access permissions for the album. Possible values: , *'0' – all users,, *'1' – friends only,, *'2' – friends and friends of friends,, *'3' – "only me".
-func (b *VideoEditAlbumBuilder) Privacy(v []string) *VideoEditAlbumBuilder {
+func (b *VideoEditAlbumBuilder) Privacy(v ...string) *VideoEditAlbumBuilder {
 	b.Params["privacy"] = v
 	return b
 }
@@ -15544,7 +15546,7 @@ func (b *VideoEditCommentBuilder) Message(v string) *VideoEditCommentBuilder {
 }
 
 // List of objects attached to the comment, in the following format: "<owner_id>_<media_id>,<owner_id>_<media_id>", '' — Type of media attachment: 'photo' — photo, 'video' — video, 'audio' — audio, 'doc' — document, '<owner_id>' — ID of the media attachment owner. '<media_id>' — Media attachment ID. Example: "photo100172_166443618,photo66748_265827614"
-func (b *VideoEditCommentBuilder) Attachments(v []string) *VideoEditCommentBuilder {
+func (b *VideoEditCommentBuilder) Attachments(v ...string) *VideoEditCommentBuilder {
 	b.Params["attachments"] = v
 	return b
 }
@@ -15570,7 +15572,7 @@ func (b *VideoGetBuilder) OwnerID(v int64) *VideoGetBuilder {
 }
 
 // Video IDs, in the following format: "<owner_id>_<media_id>,<owner_id>_<media_id>", Use a negative value to designate a community ID. Example: "-4363_136089719,13245770_137352259"
-func (b *VideoGetBuilder) Videos(v []string) *VideoGetBuilder {
+func (b *VideoGetBuilder) Videos(v ...string) *VideoGetBuilder {
 	b.Params["videos"] = v
 	return b
 }
@@ -15760,7 +15762,7 @@ func (b *VideoGetCommentsBuilder) Extended(v bool) *VideoGetCommentsBuilder {
 	return b
 }
 
-func (b *VideoGetCommentsBuilder) Fields(v []string) *VideoGetCommentsBuilder {
+func (b *VideoGetCommentsBuilder) Fields(v ...string) *VideoGetCommentsBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -15787,7 +15789,7 @@ func (b *VideoRemoveFromAlbumBuilder) AlbumID(v int64) *VideoRemoveFromAlbumBuil
 	return b
 }
 
-func (b *VideoRemoveFromAlbumBuilder) AlbumIDs(v []int64) *VideoRemoveFromAlbumBuilder {
+func (b *VideoRemoveFromAlbumBuilder) AlbumIDs(v ...int64) *VideoRemoveFromAlbumBuilder {
 	b.Params["album_ids"] = v
 	return b
 }
@@ -16086,12 +16088,12 @@ func (b *VideoSaveBuilder) AlbumID(v int64) *VideoSaveBuilder {
 	return b
 }
 
-func (b *VideoSaveBuilder) PrivacyView(v []string) *VideoSaveBuilder {
+func (b *VideoSaveBuilder) PrivacyView(v ...string) *VideoSaveBuilder {
 	b.Params["privacy_view"] = v
 	return b
 }
 
-func (b *VideoSaveBuilder) PrivacyComment(v []string) *VideoSaveBuilder {
+func (b *VideoSaveBuilder) PrivacyComment(v ...string) *VideoSaveBuilder {
 	b.Params["privacy_comment"] = v
 	return b
 }
@@ -16151,7 +16153,7 @@ func (b *VideoSearchBuilder) Adult(v bool) *VideoSearchBuilder {
 }
 
 // Filters to apply: 'youtube' — return YouTube videos only, 'vimeo' — return Vimeo videos only, 'short' — return short videos only, 'long' — return long videos only
-func (b *VideoSearchBuilder) Filters(v []string) *VideoSearchBuilder {
+func (b *VideoSearchBuilder) Filters(v ...string) *VideoSearchBuilder {
 	b.Params["filters"] = v
 	return b
 }
@@ -16255,7 +16257,7 @@ func (b *WallCreateCommentBuilder) ReplyToComment(v int64) *WallCreateCommentBui
 }
 
 // (Required if 'message' is not set.) List of media objects attached to the comment, in the following format: "<owner_id>_<media_id>,<owner_id>_<media_id>", '' — Type of media ojbect: 'photo' — photo, 'video' — video, 'audio' — audio, 'doc' — document, '<owner_id>' — ID of the media owner. '<media_id>' — Media ID. For example: "photo100172_166443618,photo66748_265827614"
-func (b *WallCreateCommentBuilder) Attachments(v []string) *WallCreateCommentBuilder {
+func (b *WallCreateCommentBuilder) Attachments(v ...string) *WallCreateCommentBuilder {
 	b.Params["attachments"] = v
 	return b
 }
@@ -16361,7 +16363,7 @@ func (b *WallEditBuilder) Message(v string) *WallEditBuilder {
 }
 
 // (Required if 'message' is not set.) List of objects attached to the post, in the following format: "<owner_id>_<media_id>,<owner_id>_<media_id>", '' — Type of media attachment: 'photo' — photo, 'video' — video, 'audio' — audio, 'doc' — document, '<owner_id>' — ID of the media application owner. '<media_id>' — Media application ID. Example: "photo100172_166443618,photo66748_265827614", May contain a link to an external page to include in the post. Example: "photo66748_265827614,http://habrahabr.ru", "NOTE: If more than one link is being attached, an error is thrown."
-func (b *WallEditBuilder) Attachments(v []string) *WallEditBuilder {
+func (b *WallEditBuilder) Attachments(v ...string) *WallEditBuilder {
 	b.Params["attachments"] = v
 	return b
 }
@@ -16459,7 +16461,7 @@ func (b *WallEditAdsStealthBuilder) Message(v string) *WallEditAdsStealthBuilder
 }
 
 // (Required if 'message' is not set.) List of objects attached to the post, in the following format: "<owner_id>_<media_id>,<owner_id>_<media_id>", '' — Type of media attachment: 'photo' — photo, 'video' — video, 'audio' — audio, 'doc' — document, 'page' — wiki-page, 'note' — note, 'poll' — poll, 'album' — photo album, '<owner_id>' — ID of the media application owner. '<media_id>' — Media application ID. Example: "photo100172_166443618,photo66748_265827614", May contain a link to an external page to include in the post. Example: "photo66748_265827614,http://habrahabr.ru", "NOTE: If more than one link is being attached, an error will be thrown."
-func (b *WallEditAdsStealthBuilder) Attachments(v []string) *WallEditAdsStealthBuilder {
+func (b *WallEditAdsStealthBuilder) Attachments(v ...string) *WallEditAdsStealthBuilder {
 	b.Params["attachments"] = v
 	return b
 }
@@ -16545,7 +16547,7 @@ func (b *WallEditCommentBuilder) Message(v string) *WallEditCommentBuilder {
 }
 
 // List of objects attached to the comment, in the following format: , "<owner_id>_<media_id>,<owner_id>_<media_id>", '' — Type of media attachment: 'photo' — photo, 'video' — video, 'audio' — audio, 'doc' — document, '<owner_id>' — ID of the media attachment owner. '<media_id>' — Media attachment ID. For example: "photo100172_166443618,photo66748_265827614"
-func (b *WallEditCommentBuilder) Attachments(v []string) *WallEditCommentBuilder {
+func (b *WallEditCommentBuilder) Attachments(v ...string) *WallEditCommentBuilder {
 	b.Params["attachments"] = v
 	return b
 }
@@ -16600,7 +16602,7 @@ func (b *WallGetBuilder) Extended(v bool) *WallGetBuilder {
 	return b
 }
 
-func (b *WallGetBuilder) Fields(v []BaseUserGroupFields) *WallGetBuilder {
+func (b *WallGetBuilder) Fields(v ...api.BaseUserGroupFields) *WallGetBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -16620,7 +16622,7 @@ func NewWallGetByIDBuilder() *WallGetByIDBuilder {
 }
 
 // User or community IDs and post IDs, separated by underscores. Use a negative value to designate a community ID. Example: "93388_21539,93388_20904,2943_4276,-1_1"
-func (b *WallGetByIDBuilder) Posts(v []string) *WallGetByIDBuilder {
+func (b *WallGetByIDBuilder) Posts(v ...string) *WallGetByIDBuilder {
 	b.Params["posts"] = v
 	return b
 }
@@ -16637,7 +16639,7 @@ func (b *WallGetByIDBuilder) CopyHistoryDepth(v int64) *WallGetByIDBuilder {
 	return b
 }
 
-func (b *WallGetByIDBuilder) Fields(v []BaseUserGroupFields) *WallGetByIDBuilder {
+func (b *WallGetByIDBuilder) Fields(v ...api.BaseUserGroupFields) *WallGetByIDBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -16673,7 +16675,7 @@ func (b *WallGetCommentBuilder) Extended(v bool) *WallGetCommentBuilder {
 	return b
 }
 
-func (b *WallGetCommentBuilder) Fields(v []BaseUserGroupFields) *WallGetCommentBuilder {
+func (b *WallGetCommentBuilder) Fields(v ...api.BaseUserGroupFields) *WallGetCommentBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -16744,7 +16746,7 @@ func (b *WallGetCommentsBuilder) Extended(v bool) *WallGetCommentsBuilder {
 	return b
 }
 
-func (b *WallGetCommentsBuilder) Fields(v []BaseUserGroupFields) *WallGetCommentsBuilder {
+func (b *WallGetCommentsBuilder) Fields(v ...api.BaseUserGroupFields) *WallGetCommentsBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -16886,7 +16888,7 @@ func (b *WallPostBuilder) Message(v string) *WallPostBuilder {
 }
 
 // (Required if 'message' is not set.) List of objects attached to the post, in the following format: "<owner_id>_<media_id>,<owner_id>_<media_id>", '' — Type of media attachment: 'photo' — photo, 'video' — video, 'audio' — audio, 'doc' — document, 'page' — wiki-page, 'note' — note, 'poll' — poll, 'album' — photo album, '<owner_id>' — ID of the media application owner. '<media_id>' — Media application ID. Example: "photo100172_166443618,photo66748_265827614", May contain a link to an external page to include in the post. Example: "photo66748_265827614,http://habrahabr.ru", "NOTE: If more than one link is being attached, an error will be thrown."
-func (b *WallPostBuilder) Attachments(v []string) *WallPostBuilder {
+func (b *WallPostBuilder) Attachments(v ...string) *WallPostBuilder {
 	b.Params["attachments"] = v
 	return b
 }
@@ -16985,7 +16987,7 @@ func (b *WallPostAdsStealthBuilder) Message(v string) *WallPostAdsStealthBuilder
 }
 
 // (Required if 'message' is not set.) List of objects attached to the post, in the following format: "<owner_id>_<media_id>,<owner_id>_<media_id>", '' — Type of media attachment: 'photo' — photo, 'video' — video, 'audio' — audio, 'doc' — document, 'page' — wiki-page, 'note' — note, 'poll' — poll, 'album' — photo album, '<owner_id>' — ID of the media application owner. '<media_id>' — Media application ID. Example: "photo100172_166443618,photo66748_265827614", May contain a link to an external page to include in the post. Example: "photo66748_265827614,http://habrahabr.ru", "NOTE: If more than one link is being attached, an error will be thrown."
-func (b *WallPostAdsStealthBuilder) Attachments(v []string) *WallPostAdsStealthBuilder {
+func (b *WallPostAdsStealthBuilder) Attachments(v ...string) *WallPostAdsStealthBuilder {
 	b.Params["attachments"] = v
 	return b
 }
@@ -17258,7 +17260,7 @@ func (b *WallSearchBuilder) Extended(v bool) *WallSearchBuilder {
 	return b
 }
 
-func (b *WallSearchBuilder) Fields(v []BaseUserGroupFields) *WallSearchBuilder {
+func (b *WallSearchBuilder) Fields(v ...api.BaseUserGroupFields) *WallSearchBuilder {
 	b.Params["fields"] = v
 	return b
 }
@@ -17323,7 +17325,7 @@ func (b *WidgetsGetCommentsBuilder) Order(v string) *WidgetsGetCommentsBuilder {
 	return b
 }
 
-func (b *WidgetsGetCommentsBuilder) Fields(v []UsersFields) *WidgetsGetCommentsBuilder {
+func (b *WidgetsGetCommentsBuilder) Fields(v ...api.UsersFields) *WidgetsGetCommentsBuilder {
 	b.Params["fields"] = v
 	return b
 }
