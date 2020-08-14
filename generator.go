@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"go/format"
 	"io/ioutil"
+	"sort"
 	"strconv"
 	"strings"
 	"unicode"
@@ -730,9 +731,15 @@ func (g Generator) allofExtractFields(expr schema.ObjectExpr) map[string][]schem
 
 func (g Generator) allofExprToGolang(expr schema.ObjectExpr) string {
 	var sb strings.Builder
-	fields := g.allofExtractFields(expr)
+	mergingFields := g.allofExtractFields(expr)
+	var keys []string
+	for name := range mergingFields {
+		keys = append(keys, name)
+	}
+	sort.Strings(keys)
 	sb.WriteString("struct{\n")
-	for propName, fields := range fields {
+	for _, propName := range keys {
+		fields := mergingFields[propName]
 		if len(fields) == 0 {
 			panic("no fields")
 		}
