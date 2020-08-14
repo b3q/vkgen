@@ -16,11 +16,11 @@ type ResponseExpr struct {
 	Required []string
 }
 
-func ParseResponses(schema []byte) ([]ResponseDefinition, error) {
+func (p *Parser) ParseResponses(schema []byte) ([]ResponseDefinition, error) {
 	var defs []ResponseDefinition
 	var err error
 	gjson.ParseBytes(schema).Get("definitions").ForEach(func(respName, respData gjson.Result) bool {
-		expr, parseErr := parseResponseExpression(respData)
+		expr, parseErr := p.parseResponseExpression(respData, 0)
 		if parseErr != nil {
 			err = parseErr
 			return false
@@ -35,14 +35,14 @@ func ParseResponses(schema []byte) ([]ResponseDefinition, error) {
 	return defs, err
 }
 
-func parseResponseExpression(resp gjson.Result) (ResponseExpr, error) {
+func (p *Parser) parseResponseExpression(resp gjson.Result, depth int) (ResponseExpr, error) {
 	var expr ResponseExpr
 	r := resp.Get("properties.response")
 	if !r.Exists() {
 		return expr, fmt.Errorf("properties.response field does not exists")
 	}
 
-	objExpr, err := parseObjectExpression(r)
+	objExpr, err := p.parseObjectExpression(r)
 	if err != nil {
 		return expr, err
 	}

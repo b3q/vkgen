@@ -15,10 +15,10 @@ type MethodParam struct {
 	ObjectExpr
 }
 
-func ParseMethods(schema []byte) ([]MethodDefinition, error) {
+func (p *Parser) ParseMethods(schema []byte) ([]MethodDefinition, error) {
 	var defs []MethodDefinition
 	for _, method := range gjson.ParseBytes(schema).Get("methods").Array() {
-		def, err := parseMethod(method)
+		def, err := p.parseMethod(method)
 		if err != nil {
 			return nil, err
 		}
@@ -28,7 +28,7 @@ func ParseMethods(schema []byte) ([]MethodDefinition, error) {
 	return defs, nil
 }
 
-func parseMethod(method gjson.Result) (MethodDefinition, error) {
+func (p *Parser) parseMethod(method gjson.Result) (MethodDefinition, error) {
 	var mdef MethodDefinition
 	mdef.Name = method.Get("name").String()
 	if desc := method.Get("description"); desc.Exists() {
@@ -42,7 +42,7 @@ func parseMethod(method gjson.Result) (MethodDefinition, error) {
 	mdef.AccessType = access
 
 	for _, param := range method.Get("parameters").Array() {
-		paramExpr, err := parseObjectExpression(param)
+		paramExpr, err := p.parseObjectExpression(param)
 		if err != nil {
 			return mdef, err
 		}
@@ -54,7 +54,7 @@ func parseMethod(method gjson.Result) (MethodDefinition, error) {
 
 	var err error
 	method.Get("responses").ForEach(func(respName, respData gjson.Result) bool {
-		expr, parseErr := parseObjectExpression(respData)
+		expr, parseErr := p.parseObjectExpression(respData)
 		if parseErr != nil {
 			err = parseErr
 			return false
