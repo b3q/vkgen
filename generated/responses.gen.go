@@ -13,7 +13,7 @@ type AccountGetActiveOffersResponse struct {
 }
 
 // Permissions mask
-type AccountGetAppPermissionsResponse int64
+type AccountGetAppPermissionsResponse = int64
 
 type AccountGetBannedResponse struct {
 	Count    int64          `json:"count"` // Total number
@@ -36,28 +36,28 @@ type AccountSaveProfileInfoResponse struct {
 }
 
 // true if success
-type AdsAddOfficeUsersResponse bool
+type AdsAddOfficeUsersResponse = bool
 
 type AdsCheckLinkResponse AdsLinkStatus
 
-type AdsCreateAdsResponse []int64
+type AdsCreateAdsResponse = []int64
 
-type AdsCreateCampaignsResponse []int64
+type AdsCreateCampaignsResponse = []int64
 
-type AdsCreateClientsResponse []int64
+type AdsCreateClientsResponse = []int64
 
 type AdsCreateTargetGroupResponse struct {
 	ID    int64  `json:"id"`    // Group ID
 	Pixel string `json:"pixel"` // Pixel code
 }
 
-type AdsDeleteAdsResponse []int64
+type AdsDeleteAdsResponse = []int64
 
 // 0 if success
-type AdsDeleteCampaignsResponse int64
+type AdsDeleteCampaignsResponse = int64
 
 // 0 if sucess
-type AdsDeleteClientsResponse int64
+type AdsDeleteClientsResponse = int64
 
 type AdsGetAccountsResponse []AdsAccount
 
@@ -68,7 +68,7 @@ type AdsGetAdsTargetingResponse []AdsTargSettings
 type AdsGetAdsResponse []AdsAd
 
 // Budget
-type AdsGetBudgetResponse int64
+type AdsGetBudgetResponse = int64
 
 type AdsGetCampaignsResponse []AdsCampaign
 
@@ -113,24 +113,24 @@ type AdsGetTargetGroupsResponse []AdsTargetGroup
 type AdsGetTargetingStatsResponse AdsTargStats
 
 // Photo upload URL
-type AdsGetUploadURLResponse string
+type AdsGetUploadURLResponse = string
 
 // Video upload URL
-type AdsGetVideoUploadURLResponse string
+type AdsGetVideoUploadURLResponse = string
 
 // Imported contacts number
-type AdsImportTargetContactsResponse int64
+type AdsImportTargetContactsResponse = int64
 
 // true if success
-type AdsRemoveOfficeUsersResponse bool
+type AdsRemoveOfficeUsersResponse = bool
 
-type AdsUpdateAdsResponse []int64
+type AdsUpdateAdsResponse = []int64
 
 // Campaign ID
-type AdsUpdateCampaignsResponse int64
+type AdsUpdateCampaignsResponse = int64
 
 // Client ID
-type AdsUpdateClientsResponse int64
+type AdsUpdateClientsResponse = int64
 
 type AppsGetCatalogResponse struct {
 	Count int64     `json:"count"` // Total number
@@ -159,7 +159,7 @@ type AppsGetScopesResponse struct {
 }
 
 // Score number
-type AppsGetScoreResponse int64
+type AppsGetScoreResponse = int64
 
 type AppsGetResponse struct {
 	Count int64     `json:"count"` // Total number of applications
@@ -167,7 +167,7 @@ type AppsGetResponse struct {
 }
 
 // Request ID
-type AppsSendRequestResponse int64
+type AppsSendRequestResponse = int64
 
 type AuthRestoreResponse struct {
 	Success int64  `json:"success"` // 1 if success
@@ -185,10 +185,10 @@ const (
 )
 
 // Topic ID
-type BoardAddTopicResponse int64
+type BoardAddTopicResponse = int64
 
 // Comment ID
-type BoardCreateCommentResponse int64
+type BoardCreateCommentResponse = int64
 
 type BoardGetCommentsExtendedResponse struct {
 	Count    int64               `json:"count"` // Total number
@@ -351,7 +351,7 @@ type FriendsDeleteResponse struct {
 	SuggestionDeleted int64 `json:"suggestion_deleted,omitempty"`  // Returns 1 if suggestion has been declined
 }
 
-type FriendsGetAppUsersResponse []int64
+type FriendsGetAppUsersResponse = []int64
 
 type FriendsGetByPhonesResponse []FriendsUserXtrPhone
 
@@ -360,7 +360,7 @@ type FriendsGetListsResponse struct {
 	Items []FriendsFriendsList `json:"items"`
 }
 
-type FriendsGetMutualResponse []int64
+type FriendsGetMutualResponse = []int64
 
 type FriendsGetMutualTargetUidsResponse []FriendsMutualFriend
 
@@ -369,9 +369,9 @@ type FriendsGetOnlineOnlineMobileResponse struct {
 	OnlineMobile []int64 `json:"online_mobile"`
 }
 
-type FriendsGetOnlineResponse []int64
+type FriendsGetOnlineResponse = []int64
 
-type FriendsGetRecentResponse []int64
+type FriendsGetRecentResponse = []int64
 
 type FriendsGetRequestsExtendedResponse struct {
 	Count int64                       `json:"count"` // Total requests number
@@ -636,7 +636,7 @@ type MarketAddResponse struct {
 }
 
 // Comment ID
-type MarketCreateCommentResponse int64
+type MarketCreateCommentResponse = int64
 
 // Returns 1 if request has been processed successfully (0 if the comment is not found)
 type MarketDeleteCommentResponse BaseBoolInt
@@ -695,7 +695,7 @@ type MarketSearchResponse struct {
 }
 
 // Chat ID
-type MessagesCreateChatResponse int64
+type MessagesCreateChatResponse = int64
 
 type MessagesDeleteChatPhotoResponse struct {
 	MessageID int64        `json:"message_id"` // Service message ID
@@ -807,7 +807,7 @@ type MessagesJoinChatByInviteLinkResponse struct {
 	ChatID int64 `json:"chat_id"`
 }
 
-type MessagesMarkAsImportantResponse []int64
+type MessagesMarkAsImportantResponse = []int64
 
 type MessagesPinResponse MessagesPinnedMessage
 
@@ -824,7 +824,7 @@ type MessagesSearchResponse struct {
 }
 
 // Message ID
-type MessagesSendResponse int64
+type MessagesSendResponse = int64
 
 type MessagesSendUserIDsResponse []struct {
 	PeerID    int64            `json:"peer_id"`
@@ -880,78 +880,78 @@ type NewsfeedGetRecommendedResponse struct {
 type NewsfeedGetSuggestedSourcesResponse struct {
 	Count int64 `json:"count"` // Total number
 	Items []struct {
-		Counters             GroupsCountersGroup         `json:"counters"`
-		CropPhoto            BaseCropPhoto               `json:"crop_photo"`
+		Activity             string                      `json:"activity"`
+		Addresses            GroupsAddressesInfo         `json:"addresses"`
+		AdminLevel           GroupsGroupAdminLevel       `json:"admin_level"`
+		AgeLimits            GroupsGroupFullAgeLimits    `json:"age_limits"`
+		BanInfo              GroupsGroupBanInfo          `json:"ban_info"`
+		CanAccessClosed      bool                        `json:"can_access_closed"`
+		CanCreateTopic       BaseBoolInt                 `json:"can_create_topic"`
+		CanMessage           BaseBoolInt                 `json:"can_message"`
+		CanPost              BaseBoolInt                 `json:"can_post"`
+		CanSeeAllPosts       BaseBoolInt                 `json:"can_see_all_posts"`
+		CanSendNotify        BaseBoolInt                 `json:"can_send_notify"`
+		CanSubscribePodcasts bool                        `json:"can_subscribe_podcasts"`
+		CanSubscribePosts    bool                        `json:"can_subscribe_posts"`
+		CanUploadDoc         BaseBoolInt                 `json:"can_upload_doc"`
+		CanUploadStory       BaseBoolInt                 `json:"can_upload_story"`
 		CanUploadVideo       BaseBoolInt                 `json:"can_upload_video"`
-		WikiPage             string                      `json:"wiki_page"`
-		MembersCount         int64                       `json:"members_count"`
-		FixedPost            int64                       `json:"fixed_post"`
-		LiveCovers           GroupsLiveCovers            `json:"live_covers"`
-		Deactivated          string                      `json:"deactivated"`
-		Cover                GroupsCover                 `json:"cover"`
-		Sex                  BaseSex                     `json:"sex"`
-		OnlineApp            int64                       `json:"online_app"`
-		IsAdvertiser         BaseBoolInt                 `json:"is_advertiser"`
-		FinishDate           int64                       `json:"finish_date"`
-		IsClosed             json.RawMessage             `json:"is_closed"`
-		LastName             string                      `json:"last_name"`
-		FriendStatus         FriendsFriendStatusStatus   `json:"friend_status"`
-		IsMember             BaseBoolInt                 `json:"is_member"`
-		Status               string                      `json:"status"`
-		MemberStatus         GroupsGroupFullMemberStatus `json:"member_status"`
-		IsAdult              BaseBoolInt                 `json:"is_adult"`
-		HasPhoto             BaseBoolInt                 `json:"has_photo"`
-		Mutual               FriendsRequestsMutual       `json:"mutual"`
 		City                 BaseObject                  `json:"city"`
 		Contacts             []GroupsContactsItem        `json:"contacts"`
-		BanInfo              GroupsGroupBanInfo          `json:"ban_info"`
+		Counters             GroupsCountersGroup         `json:"counters"`
+		Country              BaseCountry                 `json:"country"`
+		Cover                GroupsCover                 `json:"cover"`
+		CropPhoto            BaseCropPhoto               `json:"crop_photo"`
+		Deactivated          string                      `json:"deactivated"`
+		Description          string                      `json:"description"`
+		FinishDate           int64                       `json:"finish_date"`
+		FirstName            string                      `json:"first_name"`
+		FixedPost            int64                       `json:"fixed_post"`
+		FriendStatus         FriendsFriendStatusStatus   `json:"friend_status"`
+		HasMarketApp         bool                        `json:"has_market_app"`
+		HasPhoto             BaseBoolInt                 `json:"has_photo"`
+		Hidden               int64                       `json:"hidden"`
 		ID                   int64                       `json:"id"`
-		CanCreateTopic       BaseBoolInt                 `json:"can_create_topic"`
+		IsAdmin              BaseBoolInt                 `json:"is_admin"`
+		IsAdult              BaseBoolInt                 `json:"is_adult"`
+		IsAdvertiser         BaseBoolInt                 `json:"is_advertiser"`
+		IsClosed             json.RawMessage             `json:"is_closed"`
+		IsFavorite           BaseBoolInt                 `json:"is_favorite"`
 		IsHiddenFromFeed     BaseBoolInt                 `json:"is_hidden_from_feed"`
-		CanUploadStory       BaseBoolInt                 `json:"can_upload_story"`
+		IsMember             BaseBoolInt                 `json:"is_member"`
 		IsMessagesBlocked    BaseBoolInt                 `json:"is_messages_blocked"`
-		MainSection          GroupsGroupFullMainSection  `json:"main_section"`
-		CanSubscribePodcasts bool                        `json:"can_subscribe_podcasts"`
-		VideoLiveLevel       int64                       `json:"video_live_level"`
-		CanSeeAllPosts       BaseBoolInt                 `json:"can_see_all_posts"`
-		ScreenName           string                      `json:"screen_name"`
-		Photo50              string                      `json:"photo_50"`
 		IsSubscribed         BaseBoolInt                 `json:"is_subscribed"`
 		IsSubscribedPodcasts bool                        `json:"is_subscribed_podcasts"`
+		LastName             string                      `json:"last_name"`
 		Links                []GroupsLinksItem           `json:"links"`
-		Activity             string                      `json:"activity"`
-		AgeLimits            GroupsGroupFullAgeLimits    `json:"age_limits"`
-		FirstName            string                      `json:"first_name"`
-		CanAccessClosed      bool                        `json:"can_access_closed"`
-		Country              BaseCountry                 `json:"country"`
-		Market               GroupsMarketInfo            `json:"market"`
-		HasMarketApp         bool                        `json:"has_market_app"`
-		OnlineMobile         BaseBoolInt                 `json:"online_mobile"`
-		Name                 string                      `json:"name"`
-		Wall                 int64                       `json:"wall"`
-		StartDate            int64                       `json:"start_date"`
-		Trending             BaseBoolInt                 `json:"trending"`
-		OnlineInfo           UsersOnlineInfo             `json:"online_info"`
-		CanSubscribePosts    bool                        `json:"can_subscribe_posts"`
-		IsAdmin              BaseBoolInt                 `json:"is_admin"`
-		Site                 string                      `json:"site"`
-		OnlineStatus         GroupsOnlineStatus          `json:"online_status"`
-		CanSendNotify        BaseBoolInt                 `json:"can_send_notify"`
-		CanPost              BaseBoolInt                 `json:"can_post"`
-		CanUploadDoc         BaseBoolInt                 `json:"can_upload_doc"`
-		AdminLevel           GroupsGroupAdminLevel       `json:"admin_level"`
-		Online               BaseBoolInt                 `json:"online"`
-		VideoLiveCount       int64                       `json:"video_live_count"`
+		LiveCovers           GroupsLiveCovers            `json:"live_covers"`
 		MainAlbumID          int64                       `json:"main_album_id"`
+		MainSection          GroupsGroupFullMainSection  `json:"main_section"`
+		Market               GroupsMarketInfo            `json:"market"`
+		MemberStatus         GroupsGroupFullMemberStatus `json:"member_status"`
+		MembersCount         int64                       `json:"members_count"`
+		Mutual               FriendsRequestsMutual       `json:"mutual"`
+		Name                 string                      `json:"name"`
+		Online               BaseBoolInt                 `json:"online"`
+		OnlineApp            int64                       `json:"online_app"`
+		OnlineInfo           UsersOnlineInfo             `json:"online_info"`
+		OnlineMobile         BaseBoolInt                 `json:"online_mobile"`
+		OnlineStatus         GroupsOnlineStatus          `json:"online_status"`
 		Photo100             string                      `json:"photo_100"`
-		Description          string                      `json:"description"`
-		CanMessage           BaseBoolInt                 `json:"can_message"`
-		Addresses            GroupsAddressesInfo         `json:"addresses"`
 		Photo200             string                      `json:"photo_200"`
+		Photo50              string                      `json:"photo_50"`
+		ScreenName           string                      `json:"screen_name"`
+		Sex                  BaseSex                     `json:"sex"`
+		Site                 string                      `json:"site"`
+		StartDate            int64                       `json:"start_date"`
+		Status               string                      `json:"status"`
+		Trending             BaseBoolInt                 `json:"trending"`
 		Type                 json.RawMessage             `json:"type"`
-		Hidden               int64                       `json:"hidden"`
-		IsFavorite           BaseBoolInt                 `json:"is_favorite"`
 		Verified             BaseBoolInt                 `json:"verified"`
+		VideoLiveCount       int64                       `json:"video_live_count"`
+		VideoLiveLevel       int64                       `json:"video_live_level"`
+		Wall                 int64                       `json:"wall"`
+		WikiPage             string                      `json:"wiki_page"`
 	} `json:"items"`
 }
 
@@ -963,7 +963,7 @@ type NewsfeedGetResponse struct {
 }
 
 // List ID
-type NewsfeedSaveListResponse int64
+type NewsfeedSaveListResponse = int64
 
 type NewsfeedSearchExtendedResponse struct {
 	Items            []WallWallpostFull `json:"items"`
@@ -984,10 +984,10 @@ type NewsfeedSearchResponse struct {
 }
 
 // Note ID
-type NotesAddResponse int64
+type NotesAddResponse = int64
 
 // Comment ID
-type NotesCreateCommentResponse int64
+type NotesCreateCommentResponse = int64
 
 type NotesGetByIDResponse NotesNote
 
@@ -1023,7 +1023,7 @@ type NotificationsSendMessageResponse []NotificationsSendMessageItem
 type OrdersCancelSubscriptionResponse BaseBoolInt
 
 // New state
-type OrdersChangeStateResponse string
+type OrdersChangeStateResponse = string
 
 type OrdersGetAmountResponse OrdersAmount
 
@@ -1050,27 +1050,27 @@ type PagesGetVersionResponse PagesWikipageFull
 type PagesGetResponse PagesWikipageFull
 
 // HTML source
-type PagesParseWikiResponse string
+type PagesParseWikiResponse = string
 
 // Page ID
-type PagesSaveAccessResponse int64
+type PagesSaveAccessResponse = int64
 
 // Page ID
-type PagesSaveResponse int64
+type PagesSaveResponse = int64
 
 // Photo ID
-type PhotosCopyResponse int64
+type PhotosCopyResponse = int64
 
 type PhotosCreateAlbumResponse PhotosPhotoAlbumFull
 
 // Created comment ID
-type PhotosCreateCommentResponse int64
+type PhotosCreateCommentResponse = int64
 
 // Returns 1 if request has been processed successfully, 0 if the comment is not found
 type PhotosDeleteCommentResponse BaseBoolInt
 
 // Albums number
-type PhotosGetAlbumsCountResponse int64
+type PhotosGetAlbumsCountResponse = int64
 
 type PhotosGetAlbumsResponse struct {
 	Count int64                  `json:"count"` // Total number
@@ -1148,7 +1148,7 @@ type PhotosGetResponse struct {
 }
 
 // Created tag ID
-type PhotosPutTagResponse int64
+type PhotosPutTagResponse = int64
 
 // Returns 1 if request has been processed successfully, 0 if the comment is not found
 type PhotosRestoreCommentResponse BaseBoolInt
@@ -1210,7 +1210,7 @@ type PrettyCardsEditResponse struct {
 type PrettyCardsGetByIDResponse []PrettyCardsPrettyCard
 
 // Upload URL
-type PrettyCardsGetUploadURLResponse string
+type PrettyCardsGetUploadURLResponse = string
 
 type PrettyCardsGetResponse struct {
 	Count int64                   `json:"count"` // Total number
@@ -1226,7 +1226,7 @@ type SearchGetHintsResponse struct {
 type SecureCheckTokenResponse SecureTokenChecked
 
 // App balance
-type SecureGetAppBalanceResponse int64
+type SecureGetAppBalanceResponse = int64
 
 type SecureGetSMSHistoryResponse []SecureSmsNotification
 
@@ -1239,7 +1239,7 @@ type SecureGiveEventStickerResponse []struct {
 	Status string `json:"status"`
 }
 
-type SecureSendNotificationResponse []int64
+type SecureSendNotificationResponse = []int64
 
 type StatsGetPostReachResponse []StatsWallpostStat
 
@@ -1247,10 +1247,10 @@ type StatsGetResponse []StatsPeriod
 
 type StatusGetResponse StatusStatus
 
-type StorageGetKeysResponse []string
+type StorageGetKeysResponse = []string
 
 // Value of key
-type StorageGetResponse string
+type StorageGetResponse = string
 
 type StorageGetV5110Response []StorageValue
 
@@ -1368,7 +1368,7 @@ type UtilsGetLinkStatsExtendedResponse UtilsLinkStatsExtended
 type UtilsGetLinkStatsResponse UtilsLinkStats
 
 // Time as Unixtime
-type UtilsGetServerTimeResponse int64
+type UtilsGetServerTimeResponse = int64
 
 type UtilsGetShortLinkResponse UtilsShortLink
 
@@ -1379,7 +1379,7 @@ type VideoAddAlbumResponse struct {
 }
 
 // Created comment ID
-type VideoCreateCommentResponse int64
+type VideoCreateCommentResponse = int64
 
 type VideoGetAlbumByIDResponse VideoVideoAlbumFull
 
@@ -1388,7 +1388,7 @@ type VideoGetAlbumsByVideoExtendedResponse struct {
 	Items []VideoVideoAlbumFull `json:"items"`
 }
 
-type VideoGetAlbumsByVideoResponse []int64
+type VideoGetAlbumsByVideoResponse = []int64
 
 type VideoGetAlbumsExtendedResponse struct {
 	Count int64                 `json:"count"` // Total number
