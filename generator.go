@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"fmt"
 	"go/format"
 	"io/ioutil"
 	"strconv"
@@ -56,27 +57,27 @@ func (g Generator) Generate() (err error) {
 
 	err = g.generateResponses()
 	if err != nil {
-		return err
+		return fmt.Errorf("responses: %w", err)
 	}
 
 	err = g.generateMethods()
 	if err != nil {
-		return err
+		return fmt.Errorf("methods: %w", err)
 	}
 
 	err = g.generateMethodsTypeSafe()
 	if err != nil {
-		return err
+		return fmt.Errorf("methods type-safe: %w", err)
 	}
 
 	err = g.generateBuilders()
 	if err != nil {
-		return err
+		return fmt.Errorf("builders: %w", err)
 	}
 
 	err = g.generateRequests()
 	if err != nil {
-		return err
+		return fmt.Errorf("requests: %w", err)
 	}
 
 	return
@@ -271,6 +272,7 @@ func (g Generator) generateBuilders() error {
 
 					gparam := g.objectExprToGolang(parameter.ObjectExpr)
 					aLevel := strings.Count(gparam, "[]")
+					gparam = strings.ReplaceAll(gparam, "[]", "")
 					_, isBuiltin := builtinTypes[gparam]
 					if !isBuiltin {
 						gparam = "api." + gparam
