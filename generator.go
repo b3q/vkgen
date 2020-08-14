@@ -8,7 +8,7 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/b3q/vkgen/schema"
+	"github.com/cqln/vkgen/schema"
 )
 
 const (
@@ -17,13 +17,14 @@ const (
 )
 
 type Generator struct {
+	parser        *schema.Parser
 	nofmt         bool
 	nogoify       bool
 	debug         bool
 	goifyReplacer *strings.Replacer
 }
 
-func NewGenerator(nofmt, nogoify, debug bool) Generator {
+func NewGenerator(nofmt, nogoify, debug bool, objectsSchema []byte) Generator {
 	repl := []string{
 		"_", "",
 		" ", "",
@@ -39,6 +40,7 @@ func NewGenerator(nofmt, nogoify, debug bool) Generator {
 	}
 
 	return Generator{
+		parser:        schema.NewParser(objectsSchema),
 		nofmt:         nofmt,
 		nogoify:       nogoify,
 		debug:         debug,
@@ -62,7 +64,17 @@ func (g Generator) Generate() (err error) {
 		return err
 	}
 
+	err = g.generateMethodsTypeSafe()
+	if err != nil {
+		return err
+	}
+
 	err = g.generateBuilders()
+	if err != nil {
+		return err
+	}
+
+	err = g.generateRequests()
 	if err != nil {
 		return err
 	}
@@ -105,11 +117,10 @@ func (g Generator) generate(schemaFile, outputName string, cb callback) error {
 func (g Generator) generateObjects() error {
 	return g.generate("objects.json", pkgName+"/objects.gen.go",
 		func(b *bytes.Buffer, objectsSchema []byte) error {
-			objects, err := schema.ParseObjects(objectsSchema)
+			objects, err := g.parser.ParseObjects(objectsSchema)
 			if err != nil {
 				return err
 			}
-
 			for _, object := range objects {
 				b.WriteString(g.ObjectDefinitionToGolang(object) + "\n")
 			}
@@ -121,13 +132,14 @@ func (g Generator) generateObjects() error {
 func (g Generator) generateResponses() error {
 	return g.generate("responses.json", pkgName+"/responses.gen.go",
 		func(b *bytes.Buffer, responsesSchema []byte) error {
-			responses, err := schema.ParseResponses(responsesSchema)
+			responses, err := g.parser.ParseResponses(responsesSchema)
 			if err != nil {
 				return err
 			}
 
 			for _, response := range responses {
-				b.WriteString(g.ResponseDefinitionToGolang(response) + "\n")
+				typ := g.ResponseDefinitionToGolang(response)
+				b.WriteString(typ + "\n")
 			}
 			return nil
 		})
@@ -136,13 +148,87 @@ func (g Generator) generateResponses() error {
 func (g Generator) generateMethods() error {
 	return g.generate("methods.json", pkgName+"/methods.gen.go",
 		func(b *bytes.Buffer, methodsSchema []byte) error {
-			methods, err := schema.ParseMethods(methodsSchema)
+			methods, err := g.parser.ParseMethods(methodsSchema)
 			if err != nil {
 				return err
 			}
 
 			for _, method := range methods {
-				b.WriteString(g.MethodDefinitionToGolang(method) + "\n\n")
+				for _, response := range method.Responses {
+					extended := strings.Contains(strings.ToLower(response.Name), "extended")
+					if method.Description != nil {
+						b.WriteString("// " + *method.Description + "\n")
+					}
+					methodPostfix := g.goify(response.Name)
+					if len(method.Responses) == 1 || response.Name == "response" {
+						methodPostfix = ""
+					}
+					if strings.HasSuffix(response.Name, "Response") {
+						repl := strings.ReplaceAll(response.Name, "Response", "")
+						if repl != "" {
+							methodPostfix = g.goify(repl)
+						}
+					}
+
+					gresponse := g.objectExprToGolang(response.Expr)
+					if gresponse == "StorageGetWithKeysResponse" {
+						methodPostfix = "With" + methodPostfix
+					}
+					b.WriteString("func (vk *VK) " + g.goify(method.Name) + methodPostfix + "(params Params) (response " + gresponse + ", err error) {\n")
+					if extended {
+						b.WriteString("\tparams[\"extended\"] = true\n")
+					}
+					b.WriteString("\terr = vk.RequestUnmarshal(\"" + method.Name + "\", params, &response)\n")
+					b.WriteString("\treturn\n")
+					b.WriteString("}")
+					b.WriteString("\n\n")
+				}
+			}
+			return nil
+		})
+}
+
+func (g Generator) generateMethodsTypeSafe() error {
+	return g.generate("methods.json", pkgName+"/methods_safe.gen.go",
+		func(b *bytes.Buffer, methodsSchema []byte) error {
+			methods, err := g.parser.ParseMethods(methodsSchema)
+			if err != nil {
+				return err
+			}
+
+			for _, method := range methods {
+				for _, response := range method.Responses {
+					extended := strings.Contains(strings.ToLower(response.Name), "extended")
+					if method.Description != nil {
+						b.WriteString("// " + *method.Description + "\n")
+					}
+					methodPostfix := g.goify(response.Name)
+					if len(method.Responses) == 1 || response.Name == "response" {
+						methodPostfix = ""
+					}
+					if strings.HasSuffix(response.Name, "Response") {
+						repl := strings.ReplaceAll(response.Name, "Response", "")
+						if repl != "" {
+							methodPostfix = g.goify(repl)
+						}
+					}
+					gresponse := g.objectExprToGolang(response.Expr)
+					if gresponse == "StorageGetWithKeysResponse" {
+						methodPostfix = "With" + methodPostfix
+					}
+					b.WriteString("func (vk *VK) " + g.goify(method.Name) + methodPostfix + "Safe(req " + g.goify(method.Name) + ") (response " + gresponse + ", err error) {\n")
+					if extended {
+						b.WriteString("\tparams := req.params()\n")
+						b.WriteString("\tparams[\"extended\"] = true\n")
+						b.WriteString("\terr = vk.RequestUnmarshal(\"" + method.Name + "\", params, &response)\n")
+					} else {
+						b.WriteString("\terr = vk.RequestUnmarshal(\"" + method.Name + "\", req.params(), &response)\n")
+					}
+
+					b.WriteString("\treturn\n")
+					b.WriteString("}")
+					b.WriteString("\n\n")
+				}
 			}
 			return nil
 		})
@@ -151,7 +237,8 @@ func (g Generator) generateMethods() error {
 func (g Generator) generateBuilders() error {
 	return g.generate("methods.json", pkgName+"/builders.gen.go",
 		func(b *bytes.Buffer, methodsSchema []byte) error {
-			methods, err := schema.ParseMethods(methodsSchema)
+			b.WriteString("import \"github.com/SevereCloud/vksdk/api\"\n\n")
+			methods, err := g.parser.ParseMethods(methodsSchema)
 			if err != nil {
 				return err
 			}
@@ -182,11 +269,88 @@ func (g Generator) generateBuilders() error {
 						b.WriteString("// " + *parameter.Description + "\n")
 					}
 
-					b.WriteString("func (b *" + builderName + ") " + g.goify(parameter.Name) + "(v " + g.objectExprToGolang(parameter.ObjectExpr) + ") *" + builderName + " {\n")
+					gparam := g.objectExprToGolang(parameter.ObjectExpr)
+					aLevel := strings.Count(gparam, "[]")
+					_, isBuiltin := builtinTypes[gparam]
+					if !isBuiltin {
+						gparam = "api." + gparam
+					}
+					if aLevel == 1 {
+						gparam = "..." + gparam
+					} else {
+						for i := 0; i < aLevel; i++ {
+							gparam = "[]" + gparam
+						}
+					}
+					b.WriteString("func (b *" + builderName + ") " + g.goify(parameter.Name) + "(v " + gparam + ") *" + builderName + " {\n")
 					b.WriteString("\tb.Params[\"" + parameter.Name + "\"] = v\n")
 					b.WriteString("\treturn b\n")
 					b.WriteString("}\n\n")
 				}
+			}
+			return nil
+		})
+}
+
+func (g Generator) generateRequests() error {
+	return g.generate("methods.json", pkgName+"/requests.gen.go",
+		func(b *bytes.Buffer, methodsSchema []byte) error {
+			methods, err := g.parser.ParseMethods(methodsSchema)
+			if err != nil {
+				return err
+			}
+
+			for _, method := range methods {
+				// define struct
+				requestName := g.goify(method.Name)
+				b.WriteString("// " + requestName + ".\n")
+				b.WriteString("// \n")
+				if method.Description != nil {
+					b.WriteString("// " + *method.Description + "\n")
+					b.WriteString("// \n")
+				}
+
+				b.WriteString("// https://vk.com/dev/" + method.Name + "\n")
+				b.WriteString("type " + requestName + " struct{\n")
+				for _, parameter := range method.Parameters {
+					paramName := g.goify(parameter.Name)
+					paramType := g.objectExprToGolang(parameter.ObjectExpr)
+					if _, isBuiltin := builtinTypes[paramType]; !isBuiltin && !strings.HasPrefix(paramType, "[]") {
+						paramType = "*" + paramType
+					}
+					b.WriteString("\t" + paramName + " " + paramType)
+					if parameter.Description != nil {
+						b.WriteString("// " + *parameter.Description)
+					}
+					b.WriteString("\n")
+				}
+				b.WriteString("}\n\n")
+
+				b.WriteString("func (req " + requestName + ") params() Params {\n")
+				b.WriteString("\tparams := make(Params)\n")
+				for _, parameter := range method.Parameters {
+					pname := g.goify(parameter.Name)
+					ptype := g.objectExprToGolang(parameter.ObjectExpr)
+					b.WriteString("\tif ")
+					if strings.HasPrefix(ptype, "[]") {
+						b.WriteString("len(req." + pname + ") > 0")
+					} else if ptype == "bool" {
+						b.WriteString("req." + pname)
+					} else if ptype == "string" {
+						b.WriteString("req." + pname + " != \"\"")
+					} else if ptype == "int64" || ptype == "float64" {
+						b.WriteString("req." + pname + " != 0")
+					} else {
+						b.WriteString("req." + pname + " != nil")
+					}
+
+					b.WriteString(" {\n")
+					b.WriteString("\t\tparams[\"" + parameter.Name + "\"] = req." + g.goify(parameter.Name) + "\n")
+					b.WriteString("\t}\n")
+				}
+				b.WriteString("\treturn params\n")
+				b.WriteString("}\n\n")
+
 			}
 			return nil
 		})
@@ -201,6 +365,9 @@ func (g Generator) goify(name string) string {
 	runes[0] = unicode.ToUpper(runes[0])
 	for i, r := range runes {
 		if r == '_' || r == ' ' || r == '.' {
+			if i+1 == len(runes) {
+				break
+			}
 			runes[i+1] = unicode.ToUpper(runes[i+1])
 		}
 	}
@@ -214,16 +381,23 @@ func (g Generator) ObjectDefinitionToGolang(obj schema.ObjectDefinition) string 
 		sb.WriteString("// " + *obj.Expr.Description + "\n")
 	}
 
+	gname := g.goify(obj.Name)
+	if gname == "LeadsComplete" || gname == "LeadsStart" {
+		gname += "Object"
+	}
 	if obj.Expr.IsBaseType || obj.Expr.IsReference {
-		sb.WriteString("type " + g.goify(obj.Name) + " " + g.objectExprToGolang(obj.Expr) + "\n")
+		gtype := g.objectExprToGolang(obj.Expr)
+		// alias
+		if isBuiltin(gtype) {
+			sb.WriteString("type " + gname + " = " + gtype + "\n")
+			return sb.String()
+		}
+		sb.WriteString("type " + gname + " " + gtype + "\n")
 		return sb.String()
 	}
 
 	if obj.Expr.IsEnum {
-		// if obj.Expr.Description == nil{
-		// 	sb.WriteString("// enum " + obj.Name + "\n")
-		// }
-		sb.WriteString("type " + g.goify(obj.Name) + " " + g.objectExprToGolang(obj.Expr) + "\n")
+		sb.WriteString("type " + gname + " " + g.objectExprToGolang(obj.Expr) + "\n")
 		if len(obj.Expr.Enum) == 0 {
 			return sb.String()
 		}
@@ -253,32 +427,30 @@ func (g Generator) ObjectDefinitionToGolang(obj schema.ObjectDefinition) string 
 				val = `"` + val + `"`
 			}
 
-			fieldName := g.goify(obj.Name) + g.goify(fieldNamePostfix)
-			sb.WriteString("\t" + fieldName + " " + g.goify(obj.Name) + " = " + val + "\n")
+			fieldName := gname + g.goify(fieldNamePostfix)
+			sb.WriteString("\t" + fieldName + " " + gname + " = " + val + "\n")
 		}
 		sb.WriteString(")\n")
 		return sb.String()
 	}
 
-	if obj.Expr.IsAllOf || obj.Expr.IsOneOf {
-		var values []schema.ObjectExpr
-		if obj.Expr.IsAllOf {
-			if obj.Expr.Description == nil {
-				sb.WriteString("// allof " + obj.Name + "\n")
-			}
-			values = obj.Expr.AllOf
-		}
-		if obj.Expr.IsOneOf {
-			if obj.Expr.Description == nil {
-				sb.WriteString("// oneof " + obj.Name + "\n")
-			}
-			values = obj.Expr.OneOf
-		}
+	if obj.Expr.IsAllOf {
+		s := "// allof " + obj.Name
+		s = "type " + g.goify(obj.Name) + " " + g.allofExprToGolang(obj.Expr)
+		return s
+	}
 
-		sb.WriteString("type " + g.goify(obj.Name) + " struct {\n")
+	if obj.Expr.IsOneOf {
+		var values []schema.ObjectExpr = obj.Expr.OneOf
+
+		sb.WriteString("type " + gname + " struct {\n")
 		for _, val := range values {
 			if val.IsReference {
-				jtag := "`json:\"" + *val.RefTo + ",omitempty\"`"
+				ref, err := val.Ref()
+				if err != nil {
+					panic(err)
+				}
+				jtag := "`json:\"" + *&ref.Name + ",omitempty\"`"
 				sb.WriteString("\t*" + g.objectExprToGolang(val) + " " + jtag + "\n")
 				continue
 			}
@@ -292,14 +464,18 @@ func (g Generator) ObjectDefinitionToGolang(obj schema.ObjectDefinition) string 
 		return sb.String()
 	}
 
-	sb.WriteString("type " + g.goify(obj.Name) + " struct {\n")
+	sb.WriteString("type " + gname + " struct {\n")
 	for _, prop := range obj.Expr.Properties {
 		jsonTag := "`json:\"" + prop.Name
 		jsonTag += "\"`"
 		goType := g.objectExprToGolang(prop.Expr)
 
 		if prop.Expr.IsReference {
-			if obj.Name == *prop.Expr.RefTo {
+			ref, err := prop.Expr.Ref()
+			if err != nil {
+				panic(err)
+			}
+			if obj.Name == *&ref.Name {
 				goType = "*" + goType
 			}
 		}
@@ -317,32 +493,15 @@ func (g Generator) ObjectDefinitionToGolang(obj schema.ObjectDefinition) string 
 
 func (g Generator) objectExprToGolang(expr schema.ObjectExpr) string {
 	if expr.IsReference {
-		return g.goify(*expr.RefTo)
+		ref, err := expr.Ref()
+		if err != nil {
+			panic(err)
+		}
+		return g.goify(*&ref.Name)
 	}
 
 	if expr.IsAllOf {
-		if len(expr.AllOf) > 0 {
-			var sb strings.Builder
-			sb.WriteString("struct{\n")
-			for _, val := range expr.AllOf {
-				if val.IsReference {
-					sb.WriteString("\t*" + g.goify(*val.RefTo) + "\n")
-					continue
-				}
-
-				if len(val.Properties) == 0 {
-					panic("wtf")
-				}
-
-				sb.WriteString("*struct{\n")
-				for _, prop := range val.Properties {
-					sb.WriteString("\t*" + g.goify(prop.Name) + "\n")
-				}
-				sb.WriteString("}\n")
-			}
-			sb.WriteString("}")
-			return sb.String()
-		}
+		return g.allofExprToGolang(expr)
 	}
 
 	switch expr.Type {
@@ -382,22 +541,31 @@ func (g Generator) ResponseDefinitionToGolang(resp schema.ResponseDefinition) st
 	if resp.Expr.Description != nil {
 		sb.WriteString("// " + *resp.Expr.Description + "\n")
 	}
-
+	gname := g.goify(resp.Name)
+	if !strings.HasSuffix(gname, "Response") {
+		gname = gname + "Response"
+	}
 	if forcedType, ok := responseRules[resp.Name]; ok {
-		sb.WriteString("type " + g.goify(resp.Name) + " " + forcedType + "\n")
+		sb.WriteString("type " + gname + " " + forcedType + "\n")
 		return sb.String()
 	}
 
 	if resp.Expr.IsBaseType || resp.Expr.IsReference {
-		sb.WriteString("type " + g.goify(resp.Name) + " " + g.objectExprToGolang(resp.Expr.ObjectExpr) + "\n")
+		gtype := g.objectExprToGolang(resp.Expr.ObjectExpr)
+		// alias
+		if isBuiltin(gtype) {
+			sb.WriteString("type " + gname + " = " + gtype + "\n")
+			return sb.String()
+		}
+		sb.WriteString("type " + gname + " " + gtype + "\n")
 		return sb.String()
 	}
 
 	if resp.Expr.IsEnum {
-		// if obj.Expr.Description == nil{
-		// 	sb.WriteString("// enum " + obj.Name + "\n")
-		// }
-		sb.WriteString("type " + g.goify(resp.Name) + " " + g.objectExprToGolang(resp.Expr.ObjectExpr) + "\n")
+		if resp.Expr.Description != nil {
+			sb.WriteString("// " + *resp.Expr.Description + "\n")
+		}
+		sb.WriteString("type " + gname + " " + g.objectExprToGolang(resp.Expr.ObjectExpr) + "\n")
 		if len(resp.Expr.Enum) == 0 {
 			return sb.String()
 		}
@@ -427,32 +595,30 @@ func (g Generator) ResponseDefinitionToGolang(resp schema.ResponseDefinition) st
 				val = `"` + val + `"`
 			}
 
-			fieldName := g.goify(resp.Name) + g.goify(fieldNamePostfix)
-			sb.WriteString("\t" + fieldName + " " + g.goify(resp.Name) + " = " + val + "\n")
+			fieldName := gname + g.goify(fieldNamePostfix)
+			sb.WriteString("\t" + fieldName + " " + gname + " = " + val + "\n")
 		}
 		sb.WriteString(")\n")
 		return sb.String()
 	}
 
-	if resp.Expr.IsAllOf || resp.Expr.IsOneOf {
-		var values []schema.ObjectExpr
-		if resp.Expr.IsAllOf {
-			// if obj.Expr.Description == nil{
-			// 	sb.WriteString("// allof " + obj.Name + "\n")
-			// }
-			values = resp.Expr.AllOf
-		}
-		if resp.Expr.IsOneOf {
-			// if obj.Expr.Description == nil{
-			// 	sb.WriteString("// oneof " + obj.Name + "\n")
-			// }
-			values = resp.Expr.OneOf
-		}
+	if resp.Expr.IsAllOf {
+		s := "// allof" + resp.Name
+		s = "type" + g.goify(resp.Name) + " " + g.allofExprToGolang(resp.Expr.ObjectExpr)
+		return s
+	}
 
-		sb.WriteString("type " + g.goify(resp.Name) + " struct {\n")
+	if resp.Expr.IsOneOf {
+		var values []schema.ObjectExpr = resp.Expr.OneOf
+
+		sb.WriteString("type " + gname + " struct {\n")
 		for _, val := range values {
 			if val.IsReference {
-				jtag := "`json:\"" + *val.RefTo + ",omitempty\"`"
+				ref, err := val.Ref()
+				if err != nil {
+					panic(err)
+				}
+				jtag := "`json:\"" + *&ref.Name + ",omitempty\"`"
 				sb.WriteString("\t*" + g.objectExprToGolang(val) + " " + jtag + "\n")
 				continue
 			}
@@ -471,7 +637,7 @@ func (g Generator) ResponseDefinitionToGolang(resp schema.ResponseDefinition) st
 		requiredFields[field] = struct{}{}
 	}
 	allFieldsRequired := len(requiredFields) == 0
-	sb.WriteString("type " + g.goify(resp.Name) + " struct {\n")
+	sb.WriteString("type " + gname + " struct {\n")
 	for _, prop := range resp.Expr.Properties {
 		jsonTag := "`json:\"" + prop.Name
 		ptr := false
@@ -483,7 +649,11 @@ func (g Generator) ResponseDefinitionToGolang(resp schema.ResponseDefinition) st
 		goType := g.objectExprToGolang(prop.Expr)
 
 		if prop.Expr.IsReference {
-			if resp.Name == *prop.Expr.RefTo || ptr {
+			ref, err := prop.Expr.Ref()
+			if err != nil {
+				panic(err)
+			}
+			if resp.Name == *&ref.Name || ptr {
 				goType = "*" + goType
 			}
 		}
@@ -499,23 +669,221 @@ func (g Generator) ResponseDefinitionToGolang(resp schema.ResponseDefinition) st
 	return sb.String()
 }
 
-func (g Generator) MethodDefinitionToGolang(method schema.MethodDefinition) string {
-	var b strings.Builder
-	if method.Description != nil {
-		b.WriteString("// " + *method.Description + "\n")
+func (g Generator) allofExtractFields(expr schema.ObjectExpr) map[string][]schema.ObjectExpr {
+	if !expr.IsAllOf {
+		panic("expr is not allof")
+	}
+	if len(expr.AllOf) == 0 {
+		panic("empty allof")
 	}
 
-	if len(method.Responses) == 1 {
-		resp := method.Responses[0]
-		b.WriteString("func (vk *VK) " + g.goify(method.Name) + "(params Params) (response " + g.objectExprToGolang(resp.Expr) + ", err error) {\n")
-		b.WriteString("\terr = vk.RequestUnmarshal(\"" + method.Name + "\", params, &response)\n")
-		b.WriteString("\treturn\n")
-		b.WriteString("}")
-		return b.String()
+	fields := make(map[string][]schema.ObjectExpr)
+	for _, val := range expr.AllOf {
+		if val.IsReference {
+			ref, err := val.Ref()
+			if err != nil {
+				panic(err)
+			}
+			if ref.Expr.IsAllOf {
+				for name, allofFields := range g.allofExtractFields(ref.Expr) {
+					tmp, ok := fields[name]
+					if !ok {
+						tmp = make([]schema.ObjectExpr, 0)
+					}
+					tmp = append(tmp, allofFields...)
+					fields[name] = tmp
+				}
+				continue
+			}
+
+			if ref.Expr.IsReference {
+				panic("reference extr. unimplemented")
+			}
+
+			for _, prop := range ref.Expr.Properties {
+				tmp, ok := fields[prop.Name]
+				if !ok {
+					tmp = make([]schema.ObjectExpr, 0)
+				}
+				tmp = append(tmp, prop.Expr)
+				fields[prop.Name] = tmp
+			}
+			continue
+		}
+
+		if len(val.Properties) == 0 {
+			panic("allof no props")
+		}
+		for _, prop := range val.Properties {
+			tmp, ok := fields[prop.Name]
+			if !ok {
+				tmp = make([]schema.ObjectExpr, 0)
+			}
+			tmp = append(tmp, prop.Expr)
+			fields[prop.Name] = tmp
+		}
+	}
+	return fields
+}
+
+func (g Generator) allofExprToGolang(expr schema.ObjectExpr) string {
+	var sb strings.Builder
+	fields := g.allofExtractFields(expr)
+	sb.WriteString("struct{\n")
+	for propName, fields := range fields {
+		if len(fields) == 0 {
+			panic("no fields")
+		}
+		if len(fields) == 1 {
+			sb.WriteString("\t" + g.goify(propName) + " " + g.objectExprToGolang(fields[0]) + "`json:\"" + propName + "\"`\n")
+			continue
+		}
+		equal := true
+		for i := 1; i < len(fields); i++ {
+			if isDifferentExprs(fields[i-1], fields[i]) {
+				equal = false
+				break
+			}
+		}
+		if equal {
+			sb.WriteString("\t" + g.goify(propName) + " " + g.objectExprToGolang(fields[0]) + "`json:\"" + propName + "\"`\n")
+			continue
+		}
+		sb.WriteString("\t" + g.goify(propName) + " json.RawMessage `json:\"" + propName + "\"`\n")
 	}
 
-	b.WriteString("func (vk *VK) " + g.goify(method.Name) + "Raw(params Params) ([]byte, error) {\n")
-	b.WriteString("\treturn vk.Request(\"" + method.Name + "\", params)\n")
-	b.WriteString("}")
-	return b.String()
+	if sb.Len() == 0 {
+		panic("allof empty code")
+	}
+	sb.WriteString("}")
+	return sb.String()
+}
+
+func isDifferentExprs(expr1, expr2 schema.ObjectExpr) bool {
+	if expr1.Type != expr2.Type {
+		return true
+	}
+
+	if expr1.IsBaseType && expr2.IsBaseType {
+		return false
+	}
+
+	if expr1.IsReference && expr2.IsReference {
+		ref1, err := expr1.Ref()
+		if err != nil {
+			panic("gfg")
+		}
+
+		ref2, err := expr2.Ref()
+		if err != nil {
+			panic("gfg2")
+		}
+		return isDifferentDefs(ref1, ref2)
+	} else if expr1.IsReference && !expr2.IsReference ||
+		!expr1.IsReference && expr2.IsReference {
+		return true
+	}
+
+	if len(expr1.Properties) != len(expr2.Properties) {
+		return true
+	}
+	for i := 0; i < len(expr1.Properties); i++ {
+		p1 := expr1.Properties[i]
+		p2 := expr2.Properties[i]
+		if isDifferentDefs(p1, p2) {
+			return true
+		}
+	}
+
+	if expr1.IsEnum && expr2.IsEnum {
+		if !testEqStrings(expr1.EnumNames, expr2.EnumNames) {
+			return true
+		}
+	} else if expr1.IsEnum && !expr2.IsEnum ||
+		!expr1.IsEnum && expr2.IsEnum {
+		return true
+	}
+
+	if expr1.IsAllOf && expr2.IsAllOf {
+		if len(expr1.AllOf) != len(expr2.AllOf) {
+			return true
+		}
+		for i := 0; i < len(expr1.AllOf); i++ {
+			a1 := expr1.AllOf[i]
+			a2 := expr2.AllOf[i]
+			if isDifferentExprs(a1, a2) {
+				return true
+			}
+		}
+	} else if expr1.IsAllOf && !expr2.IsAllOf ||
+		!expr1.IsAllOf && expr2.IsAllOf {
+		return true
+	}
+
+	if expr1.IsOneOf && expr2.IsOneOf {
+		if len(expr1.OneOf) != len(expr2.OneOf) {
+			return true
+		}
+		for i := 0; i < len(expr1.OneOf); i++ {
+			a1 := expr1.OneOf[i]
+			a2 := expr2.OneOf[i]
+			if isDifferentExprs(a1, a2) {
+				return true
+			}
+		}
+	} else if expr1.IsOneOf && !expr2.IsOneOf ||
+		!expr1.IsOneOf && expr2.IsOneOf {
+		return true
+	}
+
+	if expr1.ArrayOf != nil && expr2.ArrayOf != nil {
+		if isDifferentExprs(*expr1.ArrayOf, *expr2.ArrayOf) {
+			return true
+		}
+	} else if expr1.ArrayOf != nil && expr2.ArrayOf == nil ||
+		expr1.ArrayOf == nil && expr2.ArrayOf != nil {
+		return true
+	}
+
+	return false
+}
+
+func isDifferentDefs(def1, def2 schema.ObjectDefinition) bool {
+	if def1.Name != def2.Name {
+		return true
+	}
+	return isDifferentExprs(def1.Expr, def2.Expr)
+}
+
+func testEqStrings(a, b []string) bool {
+
+	// If one is nil, the other must also be nil.
+	if (a == nil) != (b == nil) {
+		return false
+	}
+
+	if len(a) != len(b) {
+		return false
+	}
+
+	for i := range a {
+		if a[i] != b[i] {
+			return false
+		}
+	}
+
+	return true
+}
+
+var builtinTypes = map[string]struct{}{
+	"int64":   {},
+	"float64": {},
+	"string":  {},
+	"bool":    {},
+}
+
+func isBuiltin(s string) bool {
+	s = strings.ReplaceAll(s, "[]", "")
+	_, ok := builtinTypes[s]
+	return ok
 }

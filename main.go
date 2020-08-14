@@ -1,6 +1,7 @@
 package main
 
 import (
+	"io/ioutil"
 	"log"
 	"os"
 
@@ -8,10 +9,15 @@ import (
 )
 
 func generateSchemaCmd(c *cli.Context) error {
+	objschema, err := ioutil.ReadFile("objects.json")
+	if err != nil {
+		return err
+	}
 	return NewGenerator(
 		c.Bool("nofmt"),
 		c.Bool("nogoify"),
 		c.Bool("debug"),
+		objschema,
 	).Generate()
 }
 
