@@ -2,6 +2,8 @@
 
 package generated
 
+import "encoding/json"
+
 type AccountAccountCounters struct {
 	AppRequests            int64 `json:"app_requests"`            // New app requests number
 	Events                 int64 `json:"events"`                  // New events number
@@ -143,36 +145,39 @@ type AccountPushSettings struct {
 }
 
 type AccountUserSettings struct {
-	Bdate            string                       `json:"bdate"`
-	BdateVisibility  int64                        `json:"bdate_visibility"`
-	CanAccessClosed  bool                         `json:"can_access_closed"`
-	City             BaseCity                     `json:"city"`
-	Connections      UsersUserConnections         `json:"connections"`
-	Country          BaseCountry                  `json:"country"`
-	Deactivated      string                       `json:"deactivated"`
-	FirstName        string                       `json:"first_name"`
-	Hidden           int64                        `json:"hidden"`
-	HomeTown         string                       `json:"home_town"`
-	ID               int64                        `json:"id"`
-	Interests        AccountUserSettingsInterests `json:"interests"`
-	IsClosed         bool                         `json:"is_closed"`
-	IsServiceAccount bool                         `json:"is_service_account"`
-	Languages        []string                     `json:"languages"`
-	LastName         string                       `json:"last_name"`
-	MaidenName       string                       `json:"maiden_name"`
-	NameRequest      AccountNameRequest           `json:"name_request"`
-	Personal         UsersPersonal                `json:"personal"`
-	Phone            string                       `json:"phone"`
-	Photo200         string                       `json:"photo_200"`
-	Relation         UsersUserRelation            `json:"relation"`
-	RelationPartner  UsersUserMin                 `json:"relation_partner"`
-	RelationPending  BaseBoolInt                  `json:"relation_pending"`
-	RelationRequests []UsersUserMin               `json:"relation_requests"`
-	ScreenName       string                       `json:"screen_name"`
-	Sex              BaseSex                      `json:"sex"`
-	Status           string                       `json:"status"`
-	StatusAudio      AudioAudio                   `json:"status_audio"`
+	// users_user_min
+	// users_user_settings_xtr
+	Bdate            *string                       `json:"bdate,omitempty"`            // User's date of birth
+	BdateVisibility  *int64                        `json:"bdate_visibility,omitempty"` // Information whether user's birthdate are hidden
+	CanAccessClosed  *bool                         `json:"can_access_closed,omitempty"`
+	City             *BaseCity                     `json:"city,omitempty"`
+	Connections      *UsersUserConnections         `json:"connections,omitempty"`
+	Country          *BaseCountry                  `json:"country,omitempty"`
+	Deactivated      *string                       `json:"deactivated,omitempty"` // Returns if a profile is deleted or blocked
+	FirstName        *string                       `json:"first_name,omitempty"`  // User first name
+	Hidden           *int64                        `json:"hidden,omitempty"`      // Returns if a profile is hidden.
+	HomeTown         *string                       `json:"home_town,omitempty"`   // User's hometown
+	ID               *int64                        `json:"id,omitempty"`          // User ID
+	Interests        *AccountUserSettingsInterests `json:"interests,omitempty"`
+	IsClosed         *bool                         `json:"is_closed,omitempty"`
+	IsServiceAccount *bool                         `json:"is_service_account,omitempty"` // flag about service account
+	Languages        *[]string                     `json:"languages,omitempty"`
+	LastName         *string                       `json:"last_name,omitempty"`   // User last name
+	MaidenName       *string                       `json:"maiden_name,omitempty"` // User maiden name
+	NameRequest      *AccountNameRequest           `json:"name_request,omitempty"`
+	Personal         *UsersPersonal                `json:"personal,omitempty"`
+	Phone            *string                       `json:"phone,omitempty"`     // User phone number with some hidden digits
+	Photo200         *string                       `json:"photo_200,omitempty"` // URL of square photo of the user with 200 pixels in width
+	Relation         *UsersUserRelation            `json:"relation,omitempty"`  // User relationship status
+	RelationPartner  *UsersUserMin                 `json:"relation_partner,omitempty"`
+	RelationPending  *BaseBoolInt                  `json:"relation_pending,omitempty"` // Information whether relation status is pending
+	RelationRequests *[]UsersUserMin               `json:"relation_requests,omitempty"`
+	ScreenName       *string                       `json:"screen_name,omitempty"` // Domain name of the user's page
+	Sex              *BaseSex                      `json:"sex,omitempty"`         // User sex
+	Status           *string                       `json:"status,omitempty"`      // User status
+	StatusAudio      *AudioAudio                   `json:"status_audio,omitempty"`
 }
+
 type AccountUserSettingsInterest struct {
 	Title string `json:"title"`
 	Value string `json:"value"`
@@ -555,39 +560,41 @@ type AdsStatsViewsTimes struct {
 }
 
 type AdsTargSettings struct {
-	AgeFrom              int64              `json:"age_from"`
-	AgeTo                int64              `json:"age_to"`
-	Apps                 string             `json:"apps"`
-	AppsNot              string             `json:"apps_not"`
-	Birthday             int64              `json:"birthday"`
-	CampaignID           int64              `json:"campaign_id"`
-	Cities               string             `json:"cities"`
-	CitiesNot            string             `json:"cities_not"`
-	Country              int64              `json:"country"`
-	Districts            string             `json:"districts"`
-	Groups               string             `json:"groups"`
-	ID                   int64              `json:"id"`
-	InterestCategories   string             `json:"interest_categories"`
-	Interests            string             `json:"interests"`
-	Paying               BaseBoolInt        `json:"paying"`
-	Positions            string             `json:"positions"`
-	Religions            string             `json:"religions"`
-	RetargetingGroups    string             `json:"retargeting_groups"`
-	RetargetingGroupsNot string             `json:"retargeting_groups_not"`
-	SchoolFrom           int64              `json:"school_from"`
-	SchoolTo             int64              `json:"school_to"`
-	Schools              string             `json:"schools"`
-	Sex                  AdsCriteriaSex     `json:"sex"`
-	Stations             string             `json:"stations"`
-	Statuses             string             `json:"statuses"`
-	Streets              string             `json:"streets"`
-	Travellers           BasePropertyExists `json:"travellers"`
-	UniFrom              int64              `json:"uni_from"`
-	UniTo                int64              `json:"uni_to"`
-	UserBrowsers         string             `json:"user_browsers"`
-	UserDevices          string             `json:"user_devices"`
-	UserOs               string             `json:"user_os"`
+	// ads_criteria
+	AgeFrom              *int64              `json:"age_from,omitempty"`               // Age from
+	AgeTo                *int64              `json:"age_to,omitempty"`                 // Age to
+	Apps                 *string             `json:"apps,omitempty"`                   // Apps IDs
+	AppsNot              *string             `json:"apps_not,omitempty"`               // Apps IDs to except
+	Birthday             *int64              `json:"birthday,omitempty"`               // Days to birthday
+	CampaignID           *int64              `json:"campaign_id,omitempty"`            // Campaign ID
+	Cities               *string             `json:"cities,omitempty"`                 // Cities IDs
+	CitiesNot            *string             `json:"cities_not,omitempty"`             // Cities IDs to except
+	Country              *int64              `json:"country,omitempty"`                // Country ID
+	Districts            *string             `json:"districts,omitempty"`              // Districts IDs
+	Groups               *string             `json:"groups,omitempty"`                 // Communities IDs
+	ID                   *int64              `json:"id,omitempty"`                     // Ad ID
+	InterestCategories   *string             `json:"interest_categories,omitempty"`    // Interests categories IDs
+	Interests            *string             `json:"interests,omitempty"`              // Interests
+	Paying               *BaseBoolInt        `json:"paying,omitempty"`                 // Information whether the user has proceeded VK payments before
+	Positions            *string             `json:"positions,omitempty"`              // Positions IDs
+	Religions            *string             `json:"religions,omitempty"`              // Religions IDs
+	RetargetingGroups    *string             `json:"retargeting_groups,omitempty"`     // Retargeting groups IDs
+	RetargetingGroupsNot *string             `json:"retargeting_groups_not,omitempty"` // Retargeting groups IDs to except
+	SchoolFrom           *int64              `json:"school_from,omitempty"`            // School graduation year from
+	SchoolTo             *int64              `json:"school_to,omitempty"`              // School graduation year to
+	Schools              *string             `json:"schools,omitempty"`                // Schools IDs
+	Sex                  *AdsCriteriaSex     `json:"sex,omitempty"`
+	Stations             *string             `json:"stations,omitempty"`      // Stations IDs
+	Statuses             *string             `json:"statuses,omitempty"`      // Relationship statuses
+	Streets              *string             `json:"streets,omitempty"`       // Streets IDs
+	Travellers           *BasePropertyExists `json:"travellers,omitempty"`    // Travellers only
+	UniFrom              *int64              `json:"uni_from,omitempty"`      // University graduation year from
+	UniTo                *int64              `json:"uni_to,omitempty"`        // University graduation year to
+	UserBrowsers         *string             `json:"user_browsers,omitempty"` // Browsers
+	UserDevices          *string             `json:"user_devices,omitempty"`  // Devices
+	UserOs               *string             `json:"user_os,omitempty"`       // Operating systems
 }
+
 type AdsTargStats struct {
 	AudienceCount    int64   `json:"audience_count"`     // Audience
 	RecommendedCpc   float64 `json:"recommended_cpc"`    // Recommended CPC value for 50% reach (old format)
@@ -650,38 +657,39 @@ type AdsUsers struct {
 }
 
 type AppsApp struct {
-	AuthorOwnerID         int64                  `json:"author_owner_id"`
-	AuthorURL             string                 `json:"author_url"`
-	BackgroundLoaderColor string                 `json:"background_loader_color"`
-	Banner1120            string                 `json:"banner_1120"`
-	Banner560             string                 `json:"banner_560"`
-	CatalogPosition       int64                  `json:"catalog_position"`
-	Description           string                 `json:"description"`
-	Friends               []int64                `json:"friends"`
-	Genre                 string                 `json:"genre"`
-	GenreID               int64                  `json:"genre_id"`
-	Icon139               string                 `json:"icon_139"`
-	Icon150               string                 `json:"icon_150"`
-	Icon16                string                 `json:"icon_16"`
-	Icon278               string                 `json:"icon_278"`
-	Icon576               string                 `json:"icon_576"`
-	Icon75                string                 `json:"icon_75"`
-	ID                    int64                  `json:"id"`
-	International         bool                   `json:"international"`
-	IsInCatalog           int64                  `json:"is_in_catalog"`
-	IsInstalled           bool                   `json:"is_installed"`
-	IsNew                 BaseBoolInt            `json:"is_new"`
-	LeaderboardType       AppsAppLeaderboardType `json:"leaderboard_type"`
-	LoaderIcon            string                 `json:"loader_icon"`
-	MembersCount          int64                  `json:"members_count"`
-	PlatformID            string                 `json:"platform_id"`
-	PublishedDate         int64                  `json:"published_date"`
-	PushEnabled           BaseBoolInt            `json:"push_enabled"`
-	ScreenName            string                 `json:"screen_name"`
-	ScreenOrientation     int64                  `json:"screen_orientation"`
-	Section               string                 `json:"section"`
-	Title                 string                 `json:"title"`
-	Type                  AppsAppType            `json:"type"`
+	// apps_app_min
+	AuthorOwnerID         *int64                  `json:"author_owner_id,omitempty"`         // Application author's ID
+	AuthorURL             *string                 `json:"author_url,omitempty"`              // Application author's URL
+	BackgroundLoaderColor *string                 `json:"background_loader_color,omitempty"` // Hex color code without hash sign
+	Banner1120            *string                 `json:"banner_1120,omitempty"`             // URL of the app banner with 1120 px in width
+	Banner560             *string                 `json:"banner_560,omitempty"`              // URL of the app banner with 560 px in width
+	CatalogPosition       *int64                  `json:"catalog_position,omitempty"`        // Catalog position
+	Description           *string                 `json:"description,omitempty"`             // Application description
+	Friends               *[]int64                `json:"friends,omitempty"`
+	Genre                 *string                 `json:"genre,omitempty"`         // Genre name
+	GenreID               *int64                  `json:"genre_id,omitempty"`      // Genre ID
+	Icon139               *string                 `json:"icon_139,omitempty"`      // URL of the app icon with 139 px in width
+	Icon150               *string                 `json:"icon_150,omitempty"`      // URL of the app icon with 150 px in width
+	Icon16                *string                 `json:"icon_16,omitempty"`       // URL of the app icon with 16 px in width
+	Icon278               *string                 `json:"icon_278,omitempty"`      // URL of the app icon with 278 px in width
+	Icon576               *string                 `json:"icon_576,omitempty"`      // URL of the app icon with 576 px in width
+	Icon75                *string                 `json:"icon_75,omitempty"`       // URL of the app icon with 75 px in width
+	ID                    *int64                  `json:"id,omitempty"`            // Application ID
+	International         *bool                   `json:"international,omitempty"` // Information whether the application is multilanguage
+	IsInCatalog           *int64                  `json:"is_in_catalog,omitempty"` // Information whether application is in mobile catalog
+	IsInstalled           *bool                   `json:"is_installed,omitempty"`  // Is application installed
+	IsNew                 *BaseBoolInt            `json:"is_new,omitempty"`        // Is new flag
+	LeaderboardType       *AppsAppLeaderboardType `json:"leaderboard_type,omitempty"`
+	LoaderIcon            *string                 `json:"loader_icon,omitempty"`        // SVG data
+	MembersCount          *int64                  `json:"members_count,omitempty"`      // Members number
+	PlatformID            *string                 `json:"platform_id,omitempty"`        // Application ID in store
+	PublishedDate         *int64                  `json:"published_date,omitempty"`     // Date when the application has been published in Unixtime
+	PushEnabled           *BaseBoolInt            `json:"push_enabled,omitempty"`       // Is push enabled
+	ScreenName            *string                 `json:"screen_name,omitempty"`        // Screen name
+	ScreenOrientation     *int64                  `json:"screen_orientation,omitempty"` // Screen orientation
+	Section               *string                 `json:"section,omitempty"`            // Application section name
+	Title                 *string                 `json:"title,omitempty"`              // Application title
+	Type                  *AppsAppType            `json:"type,omitempty"`
 }
 
 // Leaderboard type
@@ -1355,12 +1363,14 @@ type CommentThread struct {
 }
 
 type DatabaseCity struct {
-	Area      string      `json:"area"`
-	ID        int64       `json:"id"`
-	Important BaseBoolInt `json:"important"`
-	Region    string      `json:"region"`
-	Title     string      `json:"title"`
+	// base_object
+	Area      *string      `json:"area,omitempty"`      // Area title
+	ID        *int64       `json:"id,omitempty"`        // Object ID
+	Important *BaseBoolInt `json:"important,omitempty"` // Information whether the city is included in important cities list
+	Region    *string      `json:"region,omitempty"`    // Region title
+	Title     *string      `json:"title,omitempty"`     // Object title
 }
+
 type DatabaseFaculty struct {
 	ID    int64  `json:"id"`    // Faculty ID
 	Title string `json:"title"` // Faculty title
@@ -1515,11 +1525,13 @@ type FaveTag struct {
 }
 
 type FriendsFriendExtendedStatus struct {
-	FriendStatus    FriendsFriendStatusStatus `json:"friend_status"`
-	IsRequestUnread bool                      `json:"is_request_unread"`
-	Sign            string                    `json:"sign"`
-	UserID          int64                     `json:"user_id"`
+	// friends_friend_status
+	FriendStatus    *FriendsFriendStatusStatus `json:"friend_status,omitempty"`
+	IsRequestUnread *bool                      `json:"is_request_unread,omitempty"` // Is friend request from other user unread
+	Sign            *string                    `json:"sign,omitempty"`              // MD5 hash for the result validation
+	UserID          *int64                     `json:"user_id,omitempty"`           // User ID
 }
+
 type FriendsFriendStatus struct {
 	FriendStatus FriendsFriendStatusStatus `json:"friend_status"`
 	Sign         string                    `json:"sign"`    // MD5 hash for the result validation
@@ -1566,195 +1578,199 @@ type FriendsRequestsXtrMessage struct {
 }
 
 type FriendsUserXtrLists struct {
-	Activity               string                    `json:"activity"`
-	Bdate                  string                    `json:"bdate"`
-	Blacklisted            BaseBoolInt               `json:"blacklisted"`
-	BlacklistedByMe        BaseBoolInt               `json:"blacklisted_by_me"`
-	CanAccessClosed        bool                      `json:"can_access_closed"`
-	CanBeInvitedGroup      bool                      `json:"can_be_invited_group"`
-	CanPost                BaseBoolInt               `json:"can_post"`
-	CanSeeAllPosts         BaseBoolInt               `json:"can_see_all_posts"`
-	CanSeeAudio            BaseBoolInt               `json:"can_see_audio"`
-	CanSendFriendRequest   BaseBoolInt               `json:"can_send_friend_request"`
-	CanSubscribePodcasts   bool                      `json:"can_subscribe_podcasts"`
-	CanSubscribePosts      bool                      `json:"can_subscribe_posts"`
-	CanWritePrivateMessage BaseBoolInt               `json:"can_write_private_message"`
-	Career                 []UsersCareer             `json:"career"`
-	City                   BaseObject                `json:"city"`
-	CommonCount            int64                     `json:"common_count"`
-	Country                BaseCountry               `json:"country"`
-	CropPhoto              BaseCropPhoto             `json:"crop_photo"`
-	Deactivated            string                    `json:"deactivated"`
-	Domain                 string                    `json:"domain"`
-	EducationForm          string                    `json:"education_form"`
-	EducationStatus        string                    `json:"education_status"`
-	Exports                UsersExports              `json:"exports"`
-	Faculty                int64                     `json:"faculty"`
-	FacultyName            string                    `json:"faculty_name"`
-	FirstName              string                    `json:"first_name"`
-	FirstNameAbl           string                    `json:"first_name_abl"`
-	FirstNameAcc           string                    `json:"first_name_acc"`
-	FirstNameDat           string                    `json:"first_name_dat"`
-	FirstNameGen           string                    `json:"first_name_gen"`
-	FirstNameIns           string                    `json:"first_name_ins"`
-	FirstNameNom           string                    `json:"first_name_nom"`
-	FollowersCount         int64                     `json:"followers_count"`
-	FriendStatus           FriendsFriendStatusStatus `json:"friend_status"`
-	Graduation             int64                     `json:"graduation"`
-	HasMobile              BaseBoolInt               `json:"has_mobile"`
-	HasPhoto               BaseBoolInt               `json:"has_photo"`
-	Hidden                 int64                     `json:"hidden"`
-	HomePhone              string                    `json:"home_phone"`
-	HomeTown               string                    `json:"home_town"`
-	ID                     int64                     `json:"id"`
-	IsClosed               bool                      `json:"is_closed"`
-	IsFavorite             BaseBoolInt               `json:"is_favorite"`
-	IsFriend               BaseBoolInt               `json:"is_friend"`
-	IsHiddenFromFeed       BaseBoolInt               `json:"is_hidden_from_feed"`
-	IsSubscribedPodcasts   bool                      `json:"is_subscribed_podcasts"`
-	LastName               string                    `json:"last_name"`
-	LastNameAbl            string                    `json:"last_name_abl"`
-	LastNameAcc            string                    `json:"last_name_acc"`
-	LastNameDat            string                    `json:"last_name_dat"`
-	LastNameGen            string                    `json:"last_name_gen"`
-	LastNameIns            string                    `json:"last_name_ins"`
-	LastNameNom            string                    `json:"last_name_nom"`
-	LastSeen               UsersLastSeen             `json:"last_seen"`
-	Lists                  []int64                   `json:"lists"`
-	MaidenName             string                    `json:"maiden_name"`
-	Military               []UsersMilitary           `json:"military"`
-	MobilePhone            string                    `json:"mobile_phone"`
-	Mutual                 FriendsRequestsMutual     `json:"mutual"`
-	Nickname               string                    `json:"nickname"`
-	Occupation             UsersOccupation           `json:"occupation"`
-	Online                 BaseBoolInt               `json:"online"`
-	OnlineApp              int64                     `json:"online_app"`
-	OnlineInfo             UsersOnlineInfo           `json:"online_info"`
-	OnlineMobile           BaseBoolInt               `json:"online_mobile"`
-	OwnerState             OwnerState                `json:"owner_state"`
-	Personal               UsersPersonal             `json:"personal"`
-	Photo100               string                    `json:"photo_100"`
-	Photo200               string                    `json:"photo_200"`
-	Photo200Orig           string                    `json:"photo_200_orig"`
-	Photo400Orig           string                    `json:"photo_400_orig"`
-	Photo50                string                    `json:"photo_50"`
-	PhotoID                string                    `json:"photo_id"`
-	PhotoMax               string                    `json:"photo_max"`
-	PhotoMaxOrig           string                    `json:"photo_max_orig"`
-	Relation               UsersUserRelation         `json:"relation"`
-	RelationPartner        UsersUserMin              `json:"relation_partner"`
-	Relatives              []UsersRelative           `json:"relatives"`
-	Schools                []UsersSchool             `json:"schools"`
-	ScreenName             string                    `json:"screen_name"`
-	Sex                    BaseSex                   `json:"sex"`
-	Site                   string                    `json:"site"`
-	Status                 string                    `json:"status"`
-	StatusAudio            AudioAudio                `json:"status_audio"`
-	Timezone               int64                     `json:"timezone"`
-	Trending               BaseBoolInt               `json:"trending"`
-	Universities           []UsersUniversity         `json:"universities"`
-	University             int64                     `json:"university"`
-	UniversityName         string                    `json:"university_name"`
-	Verified               BaseBoolInt               `json:"verified"`
-	VideoLiveCount         int64                     `json:"video_live_count"`
-	VideoLiveLevel         int64                     `json:"video_live_level"`
-	WallComments           BaseBoolInt               `json:"wall_comments"`
+	// users_user_full
+	Activity               *string                    `json:"activity,omitempty"`          // User's status
+	Bdate                  *string                    `json:"bdate,omitempty"`             // User's date of birth
+	Blacklisted            *BaseBoolInt               `json:"blacklisted,omitempty"`       // Information whether current user is in the requested user's blacklist.
+	BlacklistedByMe        *BaseBoolInt               `json:"blacklisted_by_me,omitempty"` // Information whether the requested user is in current user's blacklist
+	CanAccessClosed        *bool                      `json:"can_access_closed,omitempty"`
+	CanBeInvitedGroup      *bool                      `json:"can_be_invited_group,omitempty"`      // Information whether current user can be invited to the community
+	CanPost                *BaseBoolInt               `json:"can_post,omitempty"`                  // Information whether current user can post on the user's wall
+	CanSeeAllPosts         *BaseBoolInt               `json:"can_see_all_posts,omitempty"`         // Information whether current user can see other users' audio on the wall
+	CanSeeAudio            *BaseBoolInt               `json:"can_see_audio,omitempty"`             // Information whether current user can see the user's audio
+	CanSendFriendRequest   *BaseBoolInt               `json:"can_send_friend_request,omitempty"`   // Information whether current user can send a friend request
+	CanSubscribePodcasts   *bool                      `json:"can_subscribe_podcasts,omitempty"`    // Owner in whitelist or not
+	CanSubscribePosts      *bool                      `json:"can_subscribe_posts,omitempty"`       // Can subscribe to wall
+	CanWritePrivateMessage *BaseBoolInt               `json:"can_write_private_message,omitempty"` // Information whether current user can write private message
+	Career                 *[]UsersCareer             `json:"career,omitempty"`
+	City                   *BaseObject                `json:"city,omitempty"`
+	CommonCount            *int64                     `json:"common_count,omitempty"` // Number of common friends with current user
+	Country                *BaseCountry               `json:"country,omitempty"`
+	CropPhoto              *BaseCropPhoto             `json:"crop_photo,omitempty"`
+	Deactivated            *string                    `json:"deactivated,omitempty"`      // Returns if a profile is deleted or blocked
+	Domain                 *string                    `json:"domain,omitempty"`           // Domain name of the user's page
+	EducationForm          *string                    `json:"education_form,omitempty"`   // Education form
+	EducationStatus        *string                    `json:"education_status,omitempty"` // User's education status
+	Exports                *UsersExports              `json:"exports,omitempty"`
+	Faculty                *int64                     `json:"faculty,omitempty"`         // Faculty ID
+	FacultyName            *string                    `json:"faculty_name,omitempty"`    // Faculty name
+	FirstName              *string                    `json:"first_name,omitempty"`      // User first name
+	FirstNameAbl           *string                    `json:"first_name_abl,omitempty"`  // User's first name in prepositional case
+	FirstNameAcc           *string                    `json:"first_name_acc,omitempty"`  // User's first name in accusative case
+	FirstNameDat           *string                    `json:"first_name_dat,omitempty"`  // User's first name in dative case
+	FirstNameGen           *string                    `json:"first_name_gen,omitempty"`  // User's first name in genitive case
+	FirstNameIns           *string                    `json:"first_name_ins,omitempty"`  // User's first name in instrumental case
+	FirstNameNom           *string                    `json:"first_name_nom,omitempty"`  // User's first name in nominative case
+	FollowersCount         *int64                     `json:"followers_count,omitempty"` // Number of user's followers
+	FriendStatus           *FriendsFriendStatusStatus `json:"friend_status,omitempty"`
+	Graduation             *int64                     `json:"graduation,omitempty"` // Graduation year
+	HasMobile              *BaseBoolInt               `json:"has_mobile,omitempty"` // Information whether the user specified his phone number
+	HasPhoto               *BaseBoolInt               `json:"has_photo,omitempty"`  // Information whether the user has main photo
+	Hidden                 *int64                     `json:"hidden,omitempty"`     // Returns if a profile is hidden.
+	HomePhone              *string                    `json:"home_phone,omitempty"` // User's additional phone number
+	HomeTown               *string                    `json:"home_town,omitempty"`  // User hometown
+	ID                     *int64                     `json:"id,omitempty"`         // User ID
+	IsClosed               *bool                      `json:"is_closed,omitempty"`
+	IsFavorite             *BaseBoolInt               `json:"is_favorite,omitempty"`            // Information whether the requested user is in faves of current user
+	IsFriend               *BaseBoolInt               `json:"is_friend,omitempty"`              // Information whether the user is a friend of current user
+	IsHiddenFromFeed       *BaseBoolInt               `json:"is_hidden_from_feed,omitempty"`    // Information whether the requested user is hidden from current user's newsfeed
+	IsSubscribedPodcasts   *bool                      `json:"is_subscribed_podcasts,omitempty"` // Information whether current user is subscribed to podcasts
+	LastName               *string                    `json:"last_name,omitempty"`              // User last name
+	LastNameAbl            *string                    `json:"last_name_abl,omitempty"`          // User's last name in prepositional case
+	LastNameAcc            *string                    `json:"last_name_acc,omitempty"`          // User's last name in accusative case
+	LastNameDat            *string                    `json:"last_name_dat,omitempty"`          // User's last name in dative case
+	LastNameGen            *string                    `json:"last_name_gen,omitempty"`          // User's last name in genitive case
+	LastNameIns            *string                    `json:"last_name_ins,omitempty"`          // User's last name in instrumental case
+	LastNameNom            *string                    `json:"last_name_nom,omitempty"`          // User's last name in nominative case
+	LastSeen               *UsersLastSeen             `json:"last_seen,omitempty"`
+	Lists                  *[]int64                   `json:"lists,omitempty"`
+	MaidenName             *string                    `json:"maiden_name,omitempty"` // User maiden name
+	Military               *[]UsersMilitary           `json:"military,omitempty"`
+	MobilePhone            *string                    `json:"mobile_phone,omitempty"` // User's mobile phone number
+	Mutual                 *FriendsRequestsMutual     `json:"mutual,omitempty"`
+	Nickname               *string                    `json:"nickname,omitempty"` // User nickname
+	Occupation             *UsersOccupation           `json:"occupation,omitempty"`
+	Online                 *BaseBoolInt               `json:"online,omitempty"`     // Information whether the user is online
+	OnlineApp              *int64                     `json:"online_app,omitempty"` // Application ID
+	OnlineInfo             *UsersOnlineInfo           `json:"online_info,omitempty"`
+	OnlineMobile           *BaseBoolInt               `json:"online_mobile,omitempty"` // Information whether the user is online in mobile site or application
+	OwnerState             *OwnerState                `json:"owner_state,omitempty"`
+	Personal               *UsersPersonal             `json:"personal,omitempty"`
+	Photo100               *string                    `json:"photo_100,omitempty"`      // URL of square photo of the user with 100 pixels in width
+	Photo200               *string                    `json:"photo_200,omitempty"`      // URL of square photo of the user with 200 pixels in width
+	Photo200Orig           *string                    `json:"photo_200_orig,omitempty"` // URL of user's photo with 200 pixels in width
+	Photo400Orig           *string                    `json:"photo_400_orig,omitempty"` // URL of user's photo with 400 pixels in width
+	Photo50                *string                    `json:"photo_50,omitempty"`       // URL of square photo of the user with 50 pixels in width
+	PhotoID                *string                    `json:"photo_id,omitempty"`       // ID of the user's main photo
+	PhotoMax               *string                    `json:"photo_max,omitempty"`      // URL of square photo of the user with maximum width
+	PhotoMaxOrig           *string                    `json:"photo_max_orig,omitempty"` // URL of user's photo of maximum size
+	Relation               *UsersUserRelation         `json:"relation,omitempty"`       // User relationship status
+	RelationPartner        *UsersUserMin              `json:"relation_partner,omitempty"`
+	Relatives              *[]UsersRelative           `json:"relatives,omitempty"`
+	Schools                *[]UsersSchool             `json:"schools,omitempty"`
+	ScreenName             *string                    `json:"screen_name,omitempty"` // Domain name of the user's page
+	Sex                    *BaseSex                   `json:"sex,omitempty"`         // User sex
+	Site                   *string                    `json:"site,omitempty"`        // User's website
+	Status                 *string                    `json:"status,omitempty"`      // User's status
+	StatusAudio            *AudioAudio                `json:"status_audio,omitempty"`
+	Timezone               *int64                     `json:"timezone,omitempty"` // User's timezone
+	Trending               *BaseBoolInt               `json:"trending,omitempty"` // Information whether the user has a "fire" pictogram.
+	Universities           *[]UsersUniversity         `json:"universities,omitempty"`
+	University             *int64                     `json:"university,omitempty"`       // University ID
+	UniversityName         *string                    `json:"university_name,omitempty"`  // University name
+	Verified               *BaseBoolInt               `json:"verified,omitempty"`         // Information whether the user is verified
+	VideoLiveCount         *int64                     `json:"video_live_count,omitempty"` // Number of user's live streams
+	VideoLiveLevel         *int64                     `json:"video_live_level,omitempty"` // User level in live streams achievements
+	WallComments           *BaseBoolInt               `json:"wall_comments,omitempty"`    // Information whether current user can comment wall posts
 }
+
 type FriendsUserXtrPhone struct {
-	Activity               string                    `json:"activity"`
-	Bdate                  string                    `json:"bdate"`
-	Blacklisted            BaseBoolInt               `json:"blacklisted"`
-	BlacklistedByMe        BaseBoolInt               `json:"blacklisted_by_me"`
-	CanAccessClosed        bool                      `json:"can_access_closed"`
-	CanBeInvitedGroup      bool                      `json:"can_be_invited_group"`
-	CanPost                BaseBoolInt               `json:"can_post"`
-	CanSeeAllPosts         BaseBoolInt               `json:"can_see_all_posts"`
-	CanSeeAudio            BaseBoolInt               `json:"can_see_audio"`
-	CanSendFriendRequest   BaseBoolInt               `json:"can_send_friend_request"`
-	CanSubscribePodcasts   bool                      `json:"can_subscribe_podcasts"`
-	CanSubscribePosts      bool                      `json:"can_subscribe_posts"`
-	CanWritePrivateMessage BaseBoolInt               `json:"can_write_private_message"`
-	Career                 []UsersCareer             `json:"career"`
-	City                   BaseObject                `json:"city"`
-	CommonCount            int64                     `json:"common_count"`
-	Country                BaseCountry               `json:"country"`
-	CropPhoto              BaseCropPhoto             `json:"crop_photo"`
-	Deactivated            string                    `json:"deactivated"`
-	Domain                 string                    `json:"domain"`
-	EducationForm          string                    `json:"education_form"`
-	EducationStatus        string                    `json:"education_status"`
-	Exports                UsersExports              `json:"exports"`
-	Faculty                int64                     `json:"faculty"`
-	FacultyName            string                    `json:"faculty_name"`
-	FirstName              string                    `json:"first_name"`
-	FirstNameAbl           string                    `json:"first_name_abl"`
-	FirstNameAcc           string                    `json:"first_name_acc"`
-	FirstNameDat           string                    `json:"first_name_dat"`
-	FirstNameGen           string                    `json:"first_name_gen"`
-	FirstNameIns           string                    `json:"first_name_ins"`
-	FirstNameNom           string                    `json:"first_name_nom"`
-	FollowersCount         int64                     `json:"followers_count"`
-	FriendStatus           FriendsFriendStatusStatus `json:"friend_status"`
-	Graduation             int64                     `json:"graduation"`
-	HasMobile              BaseBoolInt               `json:"has_mobile"`
-	HasPhoto               BaseBoolInt               `json:"has_photo"`
-	Hidden                 int64                     `json:"hidden"`
-	HomePhone              string                    `json:"home_phone"`
-	HomeTown               string                    `json:"home_town"`
-	ID                     int64                     `json:"id"`
-	IsClosed               bool                      `json:"is_closed"`
-	IsFavorite             BaseBoolInt               `json:"is_favorite"`
-	IsFriend               BaseBoolInt               `json:"is_friend"`
-	IsHiddenFromFeed       BaseBoolInt               `json:"is_hidden_from_feed"`
-	IsSubscribedPodcasts   bool                      `json:"is_subscribed_podcasts"`
-	LastName               string                    `json:"last_name"`
-	LastNameAbl            string                    `json:"last_name_abl"`
-	LastNameAcc            string                    `json:"last_name_acc"`
-	LastNameDat            string                    `json:"last_name_dat"`
-	LastNameGen            string                    `json:"last_name_gen"`
-	LastNameIns            string                    `json:"last_name_ins"`
-	LastNameNom            string                    `json:"last_name_nom"`
-	LastSeen               UsersLastSeen             `json:"last_seen"`
-	MaidenName             string                    `json:"maiden_name"`
-	Military               []UsersMilitary           `json:"military"`
-	MobilePhone            string                    `json:"mobile_phone"`
-	Mutual                 FriendsRequestsMutual     `json:"mutual"`
-	Nickname               string                    `json:"nickname"`
-	Occupation             UsersOccupation           `json:"occupation"`
-	Online                 BaseBoolInt               `json:"online"`
-	OnlineApp              int64                     `json:"online_app"`
-	OnlineInfo             UsersOnlineInfo           `json:"online_info"`
-	OnlineMobile           BaseBoolInt               `json:"online_mobile"`
-	OwnerState             OwnerState                `json:"owner_state"`
-	Personal               UsersPersonal             `json:"personal"`
-	Phone                  string                    `json:"phone"`
-	Photo100               string                    `json:"photo_100"`
-	Photo200               string                    `json:"photo_200"`
-	Photo200Orig           string                    `json:"photo_200_orig"`
-	Photo400Orig           string                    `json:"photo_400_orig"`
-	Photo50                string                    `json:"photo_50"`
-	PhotoID                string                    `json:"photo_id"`
-	PhotoMax               string                    `json:"photo_max"`
-	PhotoMaxOrig           string                    `json:"photo_max_orig"`
-	Relation               UsersUserRelation         `json:"relation"`
-	RelationPartner        UsersUserMin              `json:"relation_partner"`
-	Relatives              []UsersRelative           `json:"relatives"`
-	Schools                []UsersSchool             `json:"schools"`
-	ScreenName             string                    `json:"screen_name"`
-	Sex                    BaseSex                   `json:"sex"`
-	Site                   string                    `json:"site"`
-	Status                 string                    `json:"status"`
-	StatusAudio            AudioAudio                `json:"status_audio"`
-	Timezone               int64                     `json:"timezone"`
-	Trending               BaseBoolInt               `json:"trending"`
-	Universities           []UsersUniversity         `json:"universities"`
-	University             int64                     `json:"university"`
-	UniversityName         string                    `json:"university_name"`
-	Verified               BaseBoolInt               `json:"verified"`
-	VideoLiveCount         int64                     `json:"video_live_count"`
-	VideoLiveLevel         int64                     `json:"video_live_level"`
-	WallComments           BaseBoolInt               `json:"wall_comments"`
+	// users_user_full
+	Activity               *string                    `json:"activity,omitempty"`          // User's status
+	Bdate                  *string                    `json:"bdate,omitempty"`             // User's date of birth
+	Blacklisted            *BaseBoolInt               `json:"blacklisted,omitempty"`       // Information whether current user is in the requested user's blacklist.
+	BlacklistedByMe        *BaseBoolInt               `json:"blacklisted_by_me,omitempty"` // Information whether the requested user is in current user's blacklist
+	CanAccessClosed        *bool                      `json:"can_access_closed,omitempty"`
+	CanBeInvitedGroup      *bool                      `json:"can_be_invited_group,omitempty"`      // Information whether current user can be invited to the community
+	CanPost                *BaseBoolInt               `json:"can_post,omitempty"`                  // Information whether current user can post on the user's wall
+	CanSeeAllPosts         *BaseBoolInt               `json:"can_see_all_posts,omitempty"`         // Information whether current user can see other users' audio on the wall
+	CanSeeAudio            *BaseBoolInt               `json:"can_see_audio,omitempty"`             // Information whether current user can see the user's audio
+	CanSendFriendRequest   *BaseBoolInt               `json:"can_send_friend_request,omitempty"`   // Information whether current user can send a friend request
+	CanSubscribePodcasts   *bool                      `json:"can_subscribe_podcasts,omitempty"`    // Owner in whitelist or not
+	CanSubscribePosts      *bool                      `json:"can_subscribe_posts,omitempty"`       // Can subscribe to wall
+	CanWritePrivateMessage *BaseBoolInt               `json:"can_write_private_message,omitempty"` // Information whether current user can write private message
+	Career                 *[]UsersCareer             `json:"career,omitempty"`
+	City                   *BaseObject                `json:"city,omitempty"`
+	CommonCount            *int64                     `json:"common_count,omitempty"` // Number of common friends with current user
+	Country                *BaseCountry               `json:"country,omitempty"`
+	CropPhoto              *BaseCropPhoto             `json:"crop_photo,omitempty"`
+	Deactivated            *string                    `json:"deactivated,omitempty"`      // Returns if a profile is deleted or blocked
+	Domain                 *string                    `json:"domain,omitempty"`           // Domain name of the user's page
+	EducationForm          *string                    `json:"education_form,omitempty"`   // Education form
+	EducationStatus        *string                    `json:"education_status,omitempty"` // User's education status
+	Exports                *UsersExports              `json:"exports,omitempty"`
+	Faculty                *int64                     `json:"faculty,omitempty"`         // Faculty ID
+	FacultyName            *string                    `json:"faculty_name,omitempty"`    // Faculty name
+	FirstName              *string                    `json:"first_name,omitempty"`      // User first name
+	FirstNameAbl           *string                    `json:"first_name_abl,omitempty"`  // User's first name in prepositional case
+	FirstNameAcc           *string                    `json:"first_name_acc,omitempty"`  // User's first name in accusative case
+	FirstNameDat           *string                    `json:"first_name_dat,omitempty"`  // User's first name in dative case
+	FirstNameGen           *string                    `json:"first_name_gen,omitempty"`  // User's first name in genitive case
+	FirstNameIns           *string                    `json:"first_name_ins,omitempty"`  // User's first name in instrumental case
+	FirstNameNom           *string                    `json:"first_name_nom,omitempty"`  // User's first name in nominative case
+	FollowersCount         *int64                     `json:"followers_count,omitempty"` // Number of user's followers
+	FriendStatus           *FriendsFriendStatusStatus `json:"friend_status,omitempty"`
+	Graduation             *int64                     `json:"graduation,omitempty"` // Graduation year
+	HasMobile              *BaseBoolInt               `json:"has_mobile,omitempty"` // Information whether the user specified his phone number
+	HasPhoto               *BaseBoolInt               `json:"has_photo,omitempty"`  // Information whether the user has main photo
+	Hidden                 *int64                     `json:"hidden,omitempty"`     // Returns if a profile is hidden.
+	HomePhone              *string                    `json:"home_phone,omitempty"` // User's additional phone number
+	HomeTown               *string                    `json:"home_town,omitempty"`  // User hometown
+	ID                     *int64                     `json:"id,omitempty"`         // User ID
+	IsClosed               *bool                      `json:"is_closed,omitempty"`
+	IsFavorite             *BaseBoolInt               `json:"is_favorite,omitempty"`            // Information whether the requested user is in faves of current user
+	IsFriend               *BaseBoolInt               `json:"is_friend,omitempty"`              // Information whether the user is a friend of current user
+	IsHiddenFromFeed       *BaseBoolInt               `json:"is_hidden_from_feed,omitempty"`    // Information whether the requested user is hidden from current user's newsfeed
+	IsSubscribedPodcasts   *bool                      `json:"is_subscribed_podcasts,omitempty"` // Information whether current user is subscribed to podcasts
+	LastName               *string                    `json:"last_name,omitempty"`              // User last name
+	LastNameAbl            *string                    `json:"last_name_abl,omitempty"`          // User's last name in prepositional case
+	LastNameAcc            *string                    `json:"last_name_acc,omitempty"`          // User's last name in accusative case
+	LastNameDat            *string                    `json:"last_name_dat,omitempty"`          // User's last name in dative case
+	LastNameGen            *string                    `json:"last_name_gen,omitempty"`          // User's last name in genitive case
+	LastNameIns            *string                    `json:"last_name_ins,omitempty"`          // User's last name in instrumental case
+	LastNameNom            *string                    `json:"last_name_nom,omitempty"`          // User's last name in nominative case
+	LastSeen               *UsersLastSeen             `json:"last_seen,omitempty"`
+	MaidenName             *string                    `json:"maiden_name,omitempty"` // User maiden name
+	Military               *[]UsersMilitary           `json:"military,omitempty"`
+	MobilePhone            *string                    `json:"mobile_phone,omitempty"` // User's mobile phone number
+	Mutual                 *FriendsRequestsMutual     `json:"mutual,omitempty"`
+	Nickname               *string                    `json:"nickname,omitempty"` // User nickname
+	Occupation             *UsersOccupation           `json:"occupation,omitempty"`
+	Online                 *BaseBoolInt               `json:"online,omitempty"`     // Information whether the user is online
+	OnlineApp              *int64                     `json:"online_app,omitempty"` // Application ID
+	OnlineInfo             *UsersOnlineInfo           `json:"online_info,omitempty"`
+	OnlineMobile           *BaseBoolInt               `json:"online_mobile,omitempty"` // Information whether the user is online in mobile site or application
+	OwnerState             *OwnerState                `json:"owner_state,omitempty"`
+	Personal               *UsersPersonal             `json:"personal,omitempty"`
+	Phone                  *string                    `json:"phone,omitempty"`          // User phone
+	Photo100               *string                    `json:"photo_100,omitempty"`      // URL of square photo of the user with 100 pixels in width
+	Photo200               *string                    `json:"photo_200,omitempty"`      // URL of square photo of the user with 200 pixels in width
+	Photo200Orig           *string                    `json:"photo_200_orig,omitempty"` // URL of user's photo with 200 pixels in width
+	Photo400Orig           *string                    `json:"photo_400_orig,omitempty"` // URL of user's photo with 400 pixels in width
+	Photo50                *string                    `json:"photo_50,omitempty"`       // URL of square photo of the user with 50 pixels in width
+	PhotoID                *string                    `json:"photo_id,omitempty"`       // ID of the user's main photo
+	PhotoMax               *string                    `json:"photo_max,omitempty"`      // URL of square photo of the user with maximum width
+	PhotoMaxOrig           *string                    `json:"photo_max_orig,omitempty"` // URL of user's photo of maximum size
+	Relation               *UsersUserRelation         `json:"relation,omitempty"`       // User relationship status
+	RelationPartner        *UsersUserMin              `json:"relation_partner,omitempty"`
+	Relatives              *[]UsersRelative           `json:"relatives,omitempty"`
+	Schools                *[]UsersSchool             `json:"schools,omitempty"`
+	ScreenName             *string                    `json:"screen_name,omitempty"` // Domain name of the user's page
+	Sex                    *BaseSex                   `json:"sex,omitempty"`         // User sex
+	Site                   *string                    `json:"site,omitempty"`        // User's website
+	Status                 *string                    `json:"status,omitempty"`      // User's status
+	StatusAudio            *AudioAudio                `json:"status_audio,omitempty"`
+	Timezone               *int64                     `json:"timezone,omitempty"` // User's timezone
+	Trending               *BaseBoolInt               `json:"trending,omitempty"` // Information whether the user has a "fire" pictogram.
+	Universities           *[]UsersUniversity         `json:"universities,omitempty"`
+	University             *int64                     `json:"university,omitempty"`       // University ID
+	UniversityName         *string                    `json:"university_name,omitempty"`  // University name
+	Verified               *BaseBoolInt               `json:"verified,omitempty"`         // Information whether the user is verified
+	VideoLiveCount         *int64                     `json:"video_live_count,omitempty"` // Number of user's live streams
+	VideoLiveLevel         *int64                     `json:"video_live_level,omitempty"` // User level in live streams achievements
+	WallComments           *BaseBoolInt               `json:"wall_comments,omitempty"`    // Information whether current user can comment wall posts
 }
+
 type GiftsGift struct {
 	Date     int64            `json:"date"`    // Date when gist has been sent in Unixtime
 	FromID   int64            `json:"from_id"` // Gift sender ID
@@ -2058,68 +2074,70 @@ const (
 )
 
 type GroupsGroupFull struct {
-	Activity             string                      `json:"activity"`
-	Addresses            GroupsAddressesInfo         `json:"addresses"`
-	AdminLevel           GroupsGroupAdminLevel       `json:"admin_level"`
-	AgeLimits            GroupsGroupFullAgeLimits    `json:"age_limits"`
-	BanInfo              GroupsGroupBanInfo          `json:"ban_info"`
-	CanCreateTopic       BaseBoolInt                 `json:"can_create_topic"`
-	CanMessage           BaseBoolInt                 `json:"can_message"`
-	CanPost              BaseBoolInt                 `json:"can_post"`
-	CanSeeAllPosts       BaseBoolInt                 `json:"can_see_all_posts"`
-	CanSendNotify        BaseBoolInt                 `json:"can_send_notify"`
-	CanSubscribePodcasts bool                        `json:"can_subscribe_podcasts"`
-	CanSubscribePosts    bool                        `json:"can_subscribe_posts"`
-	CanUploadDoc         BaseBoolInt                 `json:"can_upload_doc"`
-	CanUploadStory       BaseBoolInt                 `json:"can_upload_story"`
-	CanUploadVideo       BaseBoolInt                 `json:"can_upload_video"`
-	City                 BaseObject                  `json:"city"`
-	Contacts             []GroupsContactsItem        `json:"contacts"`
-	Counters             GroupsCountersGroup         `json:"counters"`
-	Country              BaseCountry                 `json:"country"`
-	Cover                GroupsCover                 `json:"cover"`
-	CropPhoto            BaseCropPhoto               `json:"crop_photo"`
-	Deactivated          string                      `json:"deactivated"`
-	Description          string                      `json:"description"`
-	FinishDate           int64                       `json:"finish_date"`
-	FixedPost            int64                       `json:"fixed_post"`
-	HasMarketApp         bool                        `json:"has_market_app"`
-	HasPhoto             BaseBoolInt                 `json:"has_photo"`
-	ID                   int64                       `json:"id"`
-	IsAdmin              BaseBoolInt                 `json:"is_admin"`
-	IsAdult              BaseBoolInt                 `json:"is_adult"`
-	IsAdvertiser         BaseBoolInt                 `json:"is_advertiser"`
-	IsClosed             GroupsGroupIsClosed         `json:"is_closed"`
-	IsFavorite           BaseBoolInt                 `json:"is_favorite"`
-	IsHiddenFromFeed     BaseBoolInt                 `json:"is_hidden_from_feed"`
-	IsMember             BaseBoolInt                 `json:"is_member"`
-	IsMessagesBlocked    BaseBoolInt                 `json:"is_messages_blocked"`
-	IsSubscribed         BaseBoolInt                 `json:"is_subscribed"`
-	IsSubscribedPodcasts bool                        `json:"is_subscribed_podcasts"`
-	Links                []GroupsLinksItem           `json:"links"`
-	LiveCovers           GroupsLiveCovers            `json:"live_covers"`
-	MainAlbumID          int64                       `json:"main_album_id"`
-	MainSection          GroupsGroupFullMainSection  `json:"main_section"`
-	Market               GroupsMarketInfo            `json:"market"`
-	MemberStatus         GroupsGroupFullMemberStatus `json:"member_status"`
-	MembersCount         int64                       `json:"members_count"`
-	Name                 string                      `json:"name"`
-	OnlineStatus         GroupsOnlineStatus          `json:"online_status"`
-	Photo100             string                      `json:"photo_100"`
-	Photo200             string                      `json:"photo_200"`
-	Photo50              string                      `json:"photo_50"`
-	ScreenName           string                      `json:"screen_name"`
-	Site                 string                      `json:"site"`
-	StartDate            int64                       `json:"start_date"`
-	Status               string                      `json:"status"`
-	Trending             BaseBoolInt                 `json:"trending"`
-	Type                 GroupsGroupType             `json:"type"`
-	Verified             BaseBoolInt                 `json:"verified"`
-	VideoLiveCount       int64                       `json:"video_live_count"`
-	VideoLiveLevel       int64                       `json:"video_live_level"`
-	Wall                 int64                       `json:"wall"`
-	WikiPage             string                      `json:"wiki_page"`
+	// groups_group
+	Activity             *string                      `json:"activity,omitempty"`  // Type of group, start date of event or category of public page
+	Addresses            *GroupsAddressesInfo         `json:"addresses,omitempty"` // Info about addresses in groups
+	AdminLevel           *GroupsGroupAdminLevel       `json:"admin_level,omitempty"`
+	AgeLimits            *GroupsGroupFullAgeLimits    `json:"age_limits,omitempty"`             // Information whether age limit
+	BanInfo              *GroupsGroupBanInfo          `json:"ban_info,omitempty"`               // User ban info
+	CanCreateTopic       *BaseBoolInt                 `json:"can_create_topic,omitempty"`       // Information whether current user can create topic
+	CanMessage           *BaseBoolInt                 `json:"can_message,omitempty"`            // Information whether current user can send a message to community
+	CanPost              *BaseBoolInt                 `json:"can_post,omitempty"`               // Information whether current user can post on community's wall
+	CanSeeAllPosts       *BaseBoolInt                 `json:"can_see_all_posts,omitempty"`      // Information whether current user can see all posts on community's wall
+	CanSendNotify        *BaseBoolInt                 `json:"can_send_notify,omitempty"`        // Information whether community can send notifications by phone number to current user
+	CanSubscribePodcasts *bool                        `json:"can_subscribe_podcasts,omitempty"` // Owner in whitelist or not
+	CanSubscribePosts    *bool                        `json:"can_subscribe_posts,omitempty"`    // Can subscribe to wall
+	CanUploadDoc         *BaseBoolInt                 `json:"can_upload_doc,omitempty"`         // Information whether current user can upload doc
+	CanUploadStory       *BaseBoolInt                 `json:"can_upload_story,omitempty"`       // Information whether current user can upload story
+	CanUploadVideo       *BaseBoolInt                 `json:"can_upload_video,omitempty"`       // Information whether current user can upload video
+	City                 *BaseObject                  `json:"city,omitempty"`
+	Contacts             *[]GroupsContactsItem        `json:"contacts,omitempty"`
+	Counters             *GroupsCountersGroup         `json:"counters,omitempty"`
+	Country              *BaseCountry                 `json:"country,omitempty"`
+	Cover                *GroupsCover                 `json:"cover,omitempty"`
+	CropPhoto            *BaseCropPhoto               `json:"crop_photo,omitempty"`     // Данные о точках, по которым вырезаны профильная и миниатюрная фотографии сообщества
+	Deactivated          *string                      `json:"deactivated,omitempty"`    // Information whether community is banned
+	Description          *string                      `json:"description,omitempty"`    // Community description
+	FinishDate           *int64                       `json:"finish_date,omitempty"`    // Finish date in Unixtime format
+	FixedPost            *int64                       `json:"fixed_post,omitempty"`     // Fixed post ID
+	HasMarketApp         *bool                        `json:"has_market_app,omitempty"` // Information whether community has installed market app
+	HasPhoto             *BaseBoolInt                 `json:"has_photo,omitempty"`      // Information whether community has photo
+	ID                   *int64                       `json:"id,omitempty"`             // Community ID
+	IsAdmin              *BaseBoolInt                 `json:"is_admin,omitempty"`       // Information whether current user is administrator
+	IsAdult              *BaseBoolInt                 `json:"is_adult,omitempty"`       // Information whether community is adult
+	IsAdvertiser         *BaseBoolInt                 `json:"is_advertiser,omitempty"`  // Information whether current user is advertiser
+	IsClosed             *GroupsGroupIsClosed         `json:"is_closed,omitempty"`
+	IsFavorite           *BaseBoolInt                 `json:"is_favorite,omitempty"`            // Information whether community is in faves
+	IsHiddenFromFeed     *BaseBoolInt                 `json:"is_hidden_from_feed,omitempty"`    // Information whether community is hidden from current user's newsfeed
+	IsMember             *BaseBoolInt                 `json:"is_member,omitempty"`              // Information whether current user is member
+	IsMessagesBlocked    *BaseBoolInt                 `json:"is_messages_blocked,omitempty"`    // Information whether community can send a message to current user
+	IsSubscribed         *BaseBoolInt                 `json:"is_subscribed,omitempty"`          // Information whether current user is subscribed
+	IsSubscribedPodcasts *bool                        `json:"is_subscribed_podcasts,omitempty"` // Information whether current user is subscribed to podcasts
+	Links                *[]GroupsLinksItem           `json:"links,omitempty"`
+	LiveCovers           *GroupsLiveCovers            `json:"live_covers,omitempty"`   // Live covers state
+	MainAlbumID          *int64                       `json:"main_album_id,omitempty"` // Community's main photo album ID
+	MainSection          *GroupsGroupFullMainSection  `json:"main_section,omitempty"`
+	Market               *GroupsMarketInfo            `json:"market,omitempty"`
+	MemberStatus         *GroupsGroupFullMemberStatus `json:"member_status,omitempty"` // Current user's member status
+	MembersCount         *int64                       `json:"members_count,omitempty"` // Community members number
+	Name                 *string                      `json:"name,omitempty"`          // Community name
+	OnlineStatus         *GroupsOnlineStatus          `json:"online_status,omitempty"` // Status of replies in community messages
+	Photo100             *string                      `json:"photo_100,omitempty"`     // URL of square photo of the community with 100 pixels in width
+	Photo200             *string                      `json:"photo_200,omitempty"`     // URL of square photo of the community with 200 pixels in width
+	Photo50              *string                      `json:"photo_50,omitempty"`      // URL of square photo of the community with 50 pixels in width
+	ScreenName           *string                      `json:"screen_name,omitempty"`   // Domain of the community page
+	Site                 *string                      `json:"site,omitempty"`          // Community's website
+	StartDate            *int64                       `json:"start_date,omitempty"`    // Start date in Unixtime format
+	Status               *string                      `json:"status,omitempty"`        // Community status
+	Trending             *BaseBoolInt                 `json:"trending,omitempty"`      // Information whether the community has a "fire" pictogram.
+	Type                 *GroupsGroupType             `json:"type,omitempty"`
+	Verified             *BaseBoolInt                 `json:"verified,omitempty"`         // Information whether community is verified
+	VideoLiveCount       *int64                       `json:"video_live_count,omitempty"` // Number of community's live streams
+	VideoLiveLevel       *int64                       `json:"video_live_level,omitempty"` // Community level live streams achievements
+	Wall                 *int64                       `json:"wall,omitempty"`             // Information about wall status in community
+	WikiPage             *string                      `json:"wiki_page,omitempty"`        // Community's main wiki page title
 }
+
 type GroupsGroupFullAgeLimits int64
 
 const (
@@ -2504,100 +2522,102 @@ type GroupsTokenPermissionSetting struct {
 }
 
 type GroupsUserXtrRole struct {
-	Activity               string                    `json:"activity"`
-	Bdate                  string                    `json:"bdate"`
-	Blacklisted            BaseBoolInt               `json:"blacklisted"`
-	BlacklistedByMe        BaseBoolInt               `json:"blacklisted_by_me"`
-	CanAccessClosed        bool                      `json:"can_access_closed"`
-	CanBeInvitedGroup      bool                      `json:"can_be_invited_group"`
-	CanPost                BaseBoolInt               `json:"can_post"`
-	CanSeeAllPosts         BaseBoolInt               `json:"can_see_all_posts"`
-	CanSeeAudio            BaseBoolInt               `json:"can_see_audio"`
-	CanSendFriendRequest   BaseBoolInt               `json:"can_send_friend_request"`
-	CanSubscribePodcasts   bool                      `json:"can_subscribe_podcasts"`
-	CanSubscribePosts      bool                      `json:"can_subscribe_posts"`
-	CanWritePrivateMessage BaseBoolInt               `json:"can_write_private_message"`
-	Career                 []UsersCareer             `json:"career"`
-	City                   BaseObject                `json:"city"`
-	CommonCount            int64                     `json:"common_count"`
-	Country                BaseCountry               `json:"country"`
-	CropPhoto              BaseCropPhoto             `json:"crop_photo"`
-	Deactivated            string                    `json:"deactivated"`
-	Domain                 string                    `json:"domain"`
-	EducationForm          string                    `json:"education_form"`
-	EducationStatus        string                    `json:"education_status"`
-	Exports                UsersExports              `json:"exports"`
-	Faculty                int64                     `json:"faculty"`
-	FacultyName            string                    `json:"faculty_name"`
-	FirstName              string                    `json:"first_name"`
-	FirstNameAbl           string                    `json:"first_name_abl"`
-	FirstNameAcc           string                    `json:"first_name_acc"`
-	FirstNameDat           string                    `json:"first_name_dat"`
-	FirstNameGen           string                    `json:"first_name_gen"`
-	FirstNameIns           string                    `json:"first_name_ins"`
-	FirstNameNom           string                    `json:"first_name_nom"`
-	FollowersCount         int64                     `json:"followers_count"`
-	FriendStatus           FriendsFriendStatusStatus `json:"friend_status"`
-	Graduation             int64                     `json:"graduation"`
-	HasMobile              BaseBoolInt               `json:"has_mobile"`
-	HasPhoto               BaseBoolInt               `json:"has_photo"`
-	Hidden                 int64                     `json:"hidden"`
-	HomePhone              string                    `json:"home_phone"`
-	HomeTown               string                    `json:"home_town"`
-	ID                     int64                     `json:"id"`
-	IsClosed               bool                      `json:"is_closed"`
-	IsFavorite             BaseBoolInt               `json:"is_favorite"`
-	IsFriend               BaseBoolInt               `json:"is_friend"`
-	IsHiddenFromFeed       BaseBoolInt               `json:"is_hidden_from_feed"`
-	IsSubscribedPodcasts   bool                      `json:"is_subscribed_podcasts"`
-	LastName               string                    `json:"last_name"`
-	LastNameAbl            string                    `json:"last_name_abl"`
-	LastNameAcc            string                    `json:"last_name_acc"`
-	LastNameDat            string                    `json:"last_name_dat"`
-	LastNameGen            string                    `json:"last_name_gen"`
-	LastNameIns            string                    `json:"last_name_ins"`
-	LastNameNom            string                    `json:"last_name_nom"`
-	LastSeen               UsersLastSeen             `json:"last_seen"`
-	MaidenName             string                    `json:"maiden_name"`
-	Military               []UsersMilitary           `json:"military"`
-	MobilePhone            string                    `json:"mobile_phone"`
-	Mutual                 FriendsRequestsMutual     `json:"mutual"`
-	Nickname               string                    `json:"nickname"`
-	Occupation             UsersOccupation           `json:"occupation"`
-	Online                 BaseBoolInt               `json:"online"`
-	OnlineApp              int64                     `json:"online_app"`
-	OnlineInfo             UsersOnlineInfo           `json:"online_info"`
-	OnlineMobile           BaseBoolInt               `json:"online_mobile"`
-	OwnerState             OwnerState                `json:"owner_state"`
-	Personal               UsersPersonal             `json:"personal"`
-	Photo100               string                    `json:"photo_100"`
-	Photo200               string                    `json:"photo_200"`
-	Photo200Orig           string                    `json:"photo_200_orig"`
-	Photo400Orig           string                    `json:"photo_400_orig"`
-	Photo50                string                    `json:"photo_50"`
-	PhotoID                string                    `json:"photo_id"`
-	PhotoMax               string                    `json:"photo_max"`
-	PhotoMaxOrig           string                    `json:"photo_max_orig"`
-	Relation               UsersUserRelation         `json:"relation"`
-	RelationPartner        UsersUserMin              `json:"relation_partner"`
-	Relatives              []UsersRelative           `json:"relatives"`
-	Role                   GroupsRoleOptions         `json:"role"`
-	Schools                []UsersSchool             `json:"schools"`
-	ScreenName             string                    `json:"screen_name"`
-	Sex                    BaseSex                   `json:"sex"`
-	Site                   string                    `json:"site"`
-	Status                 string                    `json:"status"`
-	StatusAudio            AudioAudio                `json:"status_audio"`
-	Timezone               int64                     `json:"timezone"`
-	Trending               BaseBoolInt               `json:"trending"`
-	Universities           []UsersUniversity         `json:"universities"`
-	University             int64                     `json:"university"`
-	UniversityName         string                    `json:"university_name"`
-	Verified               BaseBoolInt               `json:"verified"`
-	VideoLiveCount         int64                     `json:"video_live_count"`
-	VideoLiveLevel         int64                     `json:"video_live_level"`
-	WallComments           BaseBoolInt               `json:"wall_comments"`
+	// users_user_full
+	Activity               *string                    `json:"activity,omitempty"`          // User's status
+	Bdate                  *string                    `json:"bdate,omitempty"`             // User's date of birth
+	Blacklisted            *BaseBoolInt               `json:"blacklisted,omitempty"`       // Information whether current user is in the requested user's blacklist.
+	BlacklistedByMe        *BaseBoolInt               `json:"blacklisted_by_me,omitempty"` // Information whether the requested user is in current user's blacklist
+	CanAccessClosed        *bool                      `json:"can_access_closed,omitempty"`
+	CanBeInvitedGroup      *bool                      `json:"can_be_invited_group,omitempty"`      // Information whether current user can be invited to the community
+	CanPost                *BaseBoolInt               `json:"can_post,omitempty"`                  // Information whether current user can post on the user's wall
+	CanSeeAllPosts         *BaseBoolInt               `json:"can_see_all_posts,omitempty"`         // Information whether current user can see other users' audio on the wall
+	CanSeeAudio            *BaseBoolInt               `json:"can_see_audio,omitempty"`             // Information whether current user can see the user's audio
+	CanSendFriendRequest   *BaseBoolInt               `json:"can_send_friend_request,omitempty"`   // Information whether current user can send a friend request
+	CanSubscribePodcasts   *bool                      `json:"can_subscribe_podcasts,omitempty"`    // Owner in whitelist or not
+	CanSubscribePosts      *bool                      `json:"can_subscribe_posts,omitempty"`       // Can subscribe to wall
+	CanWritePrivateMessage *BaseBoolInt               `json:"can_write_private_message,omitempty"` // Information whether current user can write private message
+	Career                 *[]UsersCareer             `json:"career,omitempty"`
+	City                   *BaseObject                `json:"city,omitempty"`
+	CommonCount            *int64                     `json:"common_count,omitempty"` // Number of common friends with current user
+	Country                *BaseCountry               `json:"country,omitempty"`
+	CropPhoto              *BaseCropPhoto             `json:"crop_photo,omitempty"`
+	Deactivated            *string                    `json:"deactivated,omitempty"`      // Returns if a profile is deleted or blocked
+	Domain                 *string                    `json:"domain,omitempty"`           // Domain name of the user's page
+	EducationForm          *string                    `json:"education_form,omitempty"`   // Education form
+	EducationStatus        *string                    `json:"education_status,omitempty"` // User's education status
+	Exports                *UsersExports              `json:"exports,omitempty"`
+	Faculty                *int64                     `json:"faculty,omitempty"`         // Faculty ID
+	FacultyName            *string                    `json:"faculty_name,omitempty"`    // Faculty name
+	FirstName              *string                    `json:"first_name,omitempty"`      // User first name
+	FirstNameAbl           *string                    `json:"first_name_abl,omitempty"`  // User's first name in prepositional case
+	FirstNameAcc           *string                    `json:"first_name_acc,omitempty"`  // User's first name in accusative case
+	FirstNameDat           *string                    `json:"first_name_dat,omitempty"`  // User's first name in dative case
+	FirstNameGen           *string                    `json:"first_name_gen,omitempty"`  // User's first name in genitive case
+	FirstNameIns           *string                    `json:"first_name_ins,omitempty"`  // User's first name in instrumental case
+	FirstNameNom           *string                    `json:"first_name_nom,omitempty"`  // User's first name in nominative case
+	FollowersCount         *int64                     `json:"followers_count,omitempty"` // Number of user's followers
+	FriendStatus           *FriendsFriendStatusStatus `json:"friend_status,omitempty"`
+	Graduation             *int64                     `json:"graduation,omitempty"` // Graduation year
+	HasMobile              *BaseBoolInt               `json:"has_mobile,omitempty"` // Information whether the user specified his phone number
+	HasPhoto               *BaseBoolInt               `json:"has_photo,omitempty"`  // Information whether the user has main photo
+	Hidden                 *int64                     `json:"hidden,omitempty"`     // Returns if a profile is hidden.
+	HomePhone              *string                    `json:"home_phone,omitempty"` // User's additional phone number
+	HomeTown               *string                    `json:"home_town,omitempty"`  // User hometown
+	ID                     *int64                     `json:"id,omitempty"`         // User ID
+	IsClosed               *bool                      `json:"is_closed,omitempty"`
+	IsFavorite             *BaseBoolInt               `json:"is_favorite,omitempty"`            // Information whether the requested user is in faves of current user
+	IsFriend               *BaseBoolInt               `json:"is_friend,omitempty"`              // Information whether the user is a friend of current user
+	IsHiddenFromFeed       *BaseBoolInt               `json:"is_hidden_from_feed,omitempty"`    // Information whether the requested user is hidden from current user's newsfeed
+	IsSubscribedPodcasts   *bool                      `json:"is_subscribed_podcasts,omitempty"` // Information whether current user is subscribed to podcasts
+	LastName               *string                    `json:"last_name,omitempty"`              // User last name
+	LastNameAbl            *string                    `json:"last_name_abl,omitempty"`          // User's last name in prepositional case
+	LastNameAcc            *string                    `json:"last_name_acc,omitempty"`          // User's last name in accusative case
+	LastNameDat            *string                    `json:"last_name_dat,omitempty"`          // User's last name in dative case
+	LastNameGen            *string                    `json:"last_name_gen,omitempty"`          // User's last name in genitive case
+	LastNameIns            *string                    `json:"last_name_ins,omitempty"`          // User's last name in instrumental case
+	LastNameNom            *string                    `json:"last_name_nom,omitempty"`          // User's last name in nominative case
+	LastSeen               *UsersLastSeen             `json:"last_seen,omitempty"`
+	MaidenName             *string                    `json:"maiden_name,omitempty"` // User maiden name
+	Military               *[]UsersMilitary           `json:"military,omitempty"`
+	MobilePhone            *string                    `json:"mobile_phone,omitempty"` // User's mobile phone number
+	Mutual                 *FriendsRequestsMutual     `json:"mutual,omitempty"`
+	Nickname               *string                    `json:"nickname,omitempty"` // User nickname
+	Occupation             *UsersOccupation           `json:"occupation,omitempty"`
+	Online                 *BaseBoolInt               `json:"online,omitempty"`     // Information whether the user is online
+	OnlineApp              *int64                     `json:"online_app,omitempty"` // Application ID
+	OnlineInfo             *UsersOnlineInfo           `json:"online_info,omitempty"`
+	OnlineMobile           *BaseBoolInt               `json:"online_mobile,omitempty"` // Information whether the user is online in mobile site or application
+	OwnerState             *OwnerState                `json:"owner_state,omitempty"`
+	Personal               *UsersPersonal             `json:"personal,omitempty"`
+	Photo100               *string                    `json:"photo_100,omitempty"`      // URL of square photo of the user with 100 pixels in width
+	Photo200               *string                    `json:"photo_200,omitempty"`      // URL of square photo of the user with 200 pixels in width
+	Photo200Orig           *string                    `json:"photo_200_orig,omitempty"` // URL of user's photo with 200 pixels in width
+	Photo400Orig           *string                    `json:"photo_400_orig,omitempty"` // URL of user's photo with 400 pixels in width
+	Photo50                *string                    `json:"photo_50,omitempty"`       // URL of square photo of the user with 50 pixels in width
+	PhotoID                *string                    `json:"photo_id,omitempty"`       // ID of the user's main photo
+	PhotoMax               *string                    `json:"photo_max,omitempty"`      // URL of square photo of the user with maximum width
+	PhotoMaxOrig           *string                    `json:"photo_max_orig,omitempty"` // URL of user's photo of maximum size
+	Relation               *UsersUserRelation         `json:"relation,omitempty"`       // User relationship status
+	RelationPartner        *UsersUserMin              `json:"relation_partner,omitempty"`
+	Relatives              *[]UsersRelative           `json:"relatives,omitempty"`
+	Role                   *GroupsRoleOptions         `json:"role,omitempty"`
+	Schools                *[]UsersSchool             `json:"schools,omitempty"`
+	ScreenName             *string                    `json:"screen_name,omitempty"` // Domain name of the user's page
+	Sex                    *BaseSex                   `json:"sex,omitempty"`         // User sex
+	Site                   *string                    `json:"site,omitempty"`        // User's website
+	Status                 *string                    `json:"status,omitempty"`      // User's status
+	StatusAudio            *AudioAudio                `json:"status_audio,omitempty"`
+	Timezone               *int64                     `json:"timezone,omitempty"` // User's timezone
+	Trending               *BaseBoolInt               `json:"trending,omitempty"` // Information whether the user has a "fire" pictogram.
+	Universities           *[]UsersUniversity         `json:"universities,omitempty"`
+	University             *int64                     `json:"university,omitempty"`       // University ID
+	UniversityName         *string                    `json:"university_name,omitempty"`  // University name
+	Verified               *BaseBoolInt               `json:"verified,omitempty"`         // Information whether the user is verified
+	VideoLiveCount         *int64                     `json:"video_live_count,omitempty"` // Number of user's live streams
+	VideoLiveLevel         *int64                     `json:"video_live_level,omitempty"` // User level in live streams achievements
+	WallComments           *BaseBoolInt               `json:"wall_comments,omitempty"`    // Information whether current user can comment wall posts
 }
+
 type LeadsChecked struct {
 	Reason    string             `json:"reason"` // Reason why user can't start the lead
 	Result    LeadsCheckedResult `json:"result"`
@@ -2726,30 +2746,32 @@ const (
 )
 
 type MarketMarketItemFull struct {
-	AccessKey          string                       `json:"access_key"`
-	AlbumsIDs          []int64                      `json:"albums_ids"`
-	Availability       MarketMarketItemAvailability `json:"availability"`
-	ButtonTitle        string                       `json:"button_title"`
-	CanComment         BaseBoolInt                  `json:"can_comment"`
-	CanRepost          BaseBoolInt                  `json:"can_repost"`
-	Category           MarketMarketCategory         `json:"category"`
-	Date               int64                        `json:"date"`
-	Description        string                       `json:"description"`
-	ExternalID         string                       `json:"external_id"`
-	ID                 int64                        `json:"id"`
-	IsFavorite         bool                         `json:"is_favorite"`
-	IsMainVariant      bool                         `json:"is_main_variant"`
-	Likes              BaseLikes                    `json:"likes"`
-	OwnerID            int64                        `json:"owner_id"`
-	Photos             []PhotosPhoto                `json:"photos"`
-	Price              MarketPrice                  `json:"price"`
-	Reposts            BaseRepostsInfo              `json:"reposts"`
-	ThumbPhoto         string                       `json:"thumb_photo"`
-	Title              string                       `json:"title"`
-	URL                string                       `json:"url"`
-	VariantsGroupingID int64                        `json:"variants_grouping_id"`
-	ViewsCount         int64                        `json:"views_count"`
+	// market_market_item
+	AccessKey          *string                       `json:"access_key,omitempty"` // Access key for the market item
+	AlbumsIDs          *[]int64                      `json:"albums_ids,omitempty"`
+	Availability       *MarketMarketItemAvailability `json:"availability,omitempty"`
+	ButtonTitle        *string                       `json:"button_title,omitempty"` // Title for button for url
+	CanComment         *BaseBoolInt                  `json:"can_comment,omitempty"`  // Information whether current use can comment the item
+	CanRepost          *BaseBoolInt                  `json:"can_repost,omitempty"`   // Information whether current use can repost the item
+	Category           *MarketMarketCategory         `json:"category,omitempty"`
+	Date               *int64                        `json:"date,omitempty"`        // Date when the item has been created in Unixtime
+	Description        *string                       `json:"description,omitempty"` // Item description
+	ExternalID         *string                       `json:"external_id,omitempty"`
+	ID                 *int64                        `json:"id,omitempty"` // Item ID
+	IsFavorite         *bool                         `json:"is_favorite,omitempty"`
+	IsMainVariant      *bool                         `json:"is_main_variant,omitempty"`
+	Likes              *BaseLikes                    `json:"likes,omitempty"`
+	OwnerID            *int64                        `json:"owner_id,omitempty"` // Item owner's ID
+	Photos             *[]PhotosPhoto                `json:"photos,omitempty"`
+	Price              *MarketPrice                  `json:"price,omitempty"`
+	Reposts            *BaseRepostsInfo              `json:"reposts,omitempty"`
+	ThumbPhoto         *string                       `json:"thumb_photo,omitempty"` // URL of the preview image
+	Title              *string                       `json:"title,omitempty"`       // Item title
+	URL                *string                       `json:"url,omitempty"`         // URL to item
+	VariantsGroupingID *int64                        `json:"variants_grouping_id,omitempty"`
+	ViewsCount         *int64                        `json:"views_count,omitempty"` // Views number
 }
+
 type MarketPrice struct {
 	Amount       string         `json:"amount"` // Amount
 	Currency     MarketCurrency `json:"currency"`
@@ -3117,28 +3139,30 @@ const (
 )
 
 type MessagesUserXtrInvitedBy struct {
-	CanAccessClosed bool                      `json:"can_access_closed"`
-	Deactivated     string                    `json:"deactivated"`
-	FirstName       string                    `json:"first_name"`
-	FriendStatus    FriendsFriendStatusStatus `json:"friend_status"`
-	Hidden          int64                     `json:"hidden"`
-	ID              int64                     `json:"id"`
-	InvitedBy       int64                     `json:"invited_by"`
-	IsClosed        bool                      `json:"is_closed"`
-	LastName        string                    `json:"last_name"`
-	Mutual          FriendsRequestsMutual     `json:"mutual"`
-	Online          BaseBoolInt               `json:"online"`
-	OnlineApp       int64                     `json:"online_app"`
-	OnlineInfo      UsersOnlineInfo           `json:"online_info"`
-	OnlineMobile    BaseBoolInt               `json:"online_mobile"`
-	Photo100        string                    `json:"photo_100"`
-	Photo50         string                    `json:"photo_50"`
-	ScreenName      string                    `json:"screen_name"`
-	Sex             BaseSex                   `json:"sex"`
-	Trending        BaseBoolInt               `json:"trending"`
-	Type            UsersUserType             `json:"type"`
-	Verified        BaseBoolInt               `json:"verified"`
+	// users_user_xtr_type
+	CanAccessClosed *bool                      `json:"can_access_closed,omitempty"`
+	Deactivated     *string                    `json:"deactivated,omitempty"` // Returns if a profile is deleted or blocked
+	FirstName       *string                    `json:"first_name,omitempty"`  // User first name
+	FriendStatus    *FriendsFriendStatusStatus `json:"friend_status,omitempty"`
+	Hidden          *int64                     `json:"hidden,omitempty"`     // Returns if a profile is hidden.
+	ID              *int64                     `json:"id,omitempty"`         // User ID
+	InvitedBy       *int64                     `json:"invited_by,omitempty"` // ID of the inviter
+	IsClosed        *bool                      `json:"is_closed,omitempty"`
+	LastName        *string                    `json:"last_name,omitempty"` // User last name
+	Mutual          *FriendsRequestsMutual     `json:"mutual,omitempty"`
+	Online          *BaseBoolInt               `json:"online,omitempty"`     // Information whether the user is online
+	OnlineApp       *int64                     `json:"online_app,omitempty"` // Application ID
+	OnlineInfo      *UsersOnlineInfo           `json:"online_info,omitempty"`
+	OnlineMobile    *BaseBoolInt               `json:"online_mobile,omitempty"` // Information whether the user is online in mobile site or application
+	Photo100        *string                    `json:"photo_100,omitempty"`     // URL of square photo of the user with 100 pixels in width
+	Photo50         *string                    `json:"photo_50,omitempty"`      // URL of square photo of the user with 50 pixels in width
+	ScreenName      *string                    `json:"screen_name,omitempty"`   // Domain name of the user's page
+	Sex             *BaseSex                   `json:"sex,omitempty"`           // User sex
+	Trending        *BaseBoolInt               `json:"trending,omitempty"`      // Information whether the user has a "fire" pictogram.
+	Type            *UsersUserType             `json:"type,omitempty"`
+	Verified        *BaseBoolInt               `json:"verified,omitempty"` // Information whether the user is verified
 }
+
 type NewsfeedCommentsFilters string
 
 const (
@@ -3186,12 +3210,14 @@ const (
 )
 
 type NewsfeedItemAudio struct {
-	Audio    NewsfeedItemAudioAudio   `json:"audio"`
-	Date     int64                    `json:"date"`
-	PostID   int64                    `json:"post_id"`
-	SourceID int64                    `json:"source_id"`
-	Type     NewsfeedNewsfeedItemType `json:"type"`
+	// newsfeed_item_base
+	Audio    *NewsfeedItemAudioAudio   `json:"audio,omitempty"`
+	Date     *int64                    `json:"date,omitempty"`      // Date when item has been added in Unixtime
+	PostID   *int64                    `json:"post_id,omitempty"`   // Post ID
+	SourceID *int64                    `json:"source_id,omitempty"` // Item source ID
+	Type     *NewsfeedNewsfeedItemType `json:"type,omitempty"`
 }
+
 type NewsfeedItemAudioAudio struct {
 	Count int64        `json:"count"` // Audios number
 	Items []AudioAudio `json:"items"`
@@ -3204,23 +3230,27 @@ type NewsfeedItemBase struct {
 }
 
 type NewsfeedItemDigest struct {
-	ButtonText  string                   `json:"button_text"`
-	Date        int64                    `json:"date"`
-	FeedID      string                   `json:"feed_id"`
-	Items       []WallWallpost           `json:"items"`
-	MainPostIDs []string                 `json:"main_post_ids"`
-	SourceID    int64                    `json:"source_id"`
-	Template    string                   `json:"template"`
-	Title       string                   `json:"title"`
-	TrackCode   string                   `json:"track_code"`
-	Type        NewsfeedNewsfeedItemType `json:"type"`
+	// newsfeed_item_base
+	ButtonText  *string                   `json:"button_text,omitempty"`
+	Date        *int64                    `json:"date,omitempty"`    // Date when item has been added in Unixtime
+	FeedID      *string                   `json:"feed_id,omitempty"` // id of feed in digest
+	Items       *[]WallWallpost           `json:"items,omitempty"`
+	MainPostIDs *[]string                 `json:"main_post_ids,omitempty"`
+	SourceID    *int64                    `json:"source_id,omitempty"` // Item source ID
+	Template    *string                   `json:"template,omitempty"`  // type of digest
+	Title       *string                   `json:"title,omitempty"`
+	TrackCode   *string                   `json:"track_code,omitempty"`
+	Type        *NewsfeedNewsfeedItemType `json:"type,omitempty"`
 }
+
 type NewsfeedItemFriend struct {
-	Date     int64                     `json:"date"`
-	Friends  NewsfeedItemFriendFriends `json:"friends"`
-	SourceID int64                     `json:"source_id"`
-	Type     NewsfeedNewsfeedItemType  `json:"type"`
+	// newsfeed_item_base
+	Date     *int64                     `json:"date,omitempty"` // Date when item has been added in Unixtime
+	Friends  *NewsfeedItemFriendFriends `json:"friends,omitempty"`
+	SourceID *int64                     `json:"source_id,omitempty"` // Item source ID
+	Type     *NewsfeedNewsfeedItemType  `json:"type,omitempty"`
 }
+
 type NewsfeedItemFriendFriends struct {
 	Count int64        `json:"count"` // Number of friends has been added
 	Items []BaseUserID `json:"items"`
@@ -3234,52 +3264,62 @@ type NewsfeedItemHolidayRecommendationsBlockHeader struct {
 }
 
 type NewsfeedItemNote struct {
-	Date     int64                    `json:"date"`
-	Notes    NewsfeedItemNoteNotes    `json:"notes"`
-	SourceID int64                    `json:"source_id"`
-	Type     NewsfeedNewsfeedItemType `json:"type"`
+	// newsfeed_item_base
+	Date     *int64                    `json:"date,omitempty"` // Date when item has been added in Unixtime
+	Notes    *NewsfeedItemNoteNotes    `json:"notes,omitempty"`
+	SourceID *int64                    `json:"source_id,omitempty"` // Item source ID
+	Type     *NewsfeedNewsfeedItemType `json:"type,omitempty"`
 }
+
 type NewsfeedItemNoteNotes struct {
 	Count int64                  `json:"count"` // Notes number
 	Items []NewsfeedNewsfeedNote `json:"items"`
 }
 
 type NewsfeedItemPhoto struct {
-	CarouselOffset int64                    `json:"carousel_offset"`
-	Date           int64                    `json:"date"`
-	Photos         NewsfeedItemPhotoPhotos  `json:"photos"`
-	PostID         int64                    `json:"post_id"`
-	SourceID       int64                    `json:"source_id"`
-	Type           NewsfeedNewsfeedItemType `json:"type"`
+	// wall_carousel_base
+	// newsfeed_item_base
+	CarouselOffset *int64                    `json:"carousel_offset,omitempty"` // Index of current carousel element
+	Date           *int64                    `json:"date,omitempty"`            // Date when item has been added in Unixtime
+	Photos         *NewsfeedItemPhotoPhotos  `json:"photos,omitempty"`
+	PostID         *int64                    `json:"post_id,omitempty"`   // Post ID
+	SourceID       *int64                    `json:"source_id,omitempty"` // Item source ID
+	Type           *NewsfeedNewsfeedItemType `json:"type,omitempty"`
 }
+
 type NewsfeedItemPhotoPhotos struct {
 	Count int64                   `json:"count"` // Photos number
 	Items []NewsfeedNewsfeedPhoto `json:"items"`
 }
 
 type NewsfeedItemPhotoTag struct {
-	CarouselOffset int64                         `json:"carousel_offset"`
-	Date           int64                         `json:"date"`
-	PhotoTags      NewsfeedItemPhotoTagPhotoTags `json:"photo_tags"`
-	PostID         int64                         `json:"post_id"`
-	SourceID       int64                         `json:"source_id"`
-	Type           NewsfeedNewsfeedItemType      `json:"type"`
+	// wall_carousel_base
+	// newsfeed_item_base
+	CarouselOffset *int64                         `json:"carousel_offset,omitempty"` // Index of current carousel element
+	Date           *int64                         `json:"date,omitempty"`            // Date when item has been added in Unixtime
+	PhotoTags      *NewsfeedItemPhotoTagPhotoTags `json:"photo_tags,omitempty"`
+	PostID         *int64                         `json:"post_id,omitempty"`   // Post ID
+	SourceID       *int64                         `json:"source_id,omitempty"` // Item source ID
+	Type           *NewsfeedNewsfeedItemType      `json:"type,omitempty"`
 }
+
 type NewsfeedItemPhotoTagPhotoTags struct {
 	Count int64                   `json:"count"` // Tags number
 	Items []NewsfeedNewsfeedPhoto `json:"items"`
 }
 
 type NewsfeedItemPromoButton struct {
-	Action    NewsfeedItemPromoButtonAction  `json:"action"`
-	Date      int64                          `json:"date"`
-	Images    []NewsfeedItemPromoButtonImage `json:"images"`
-	SourceID  int64                          `json:"source_id"`
-	Text      string                         `json:"text"`
-	Title     string                         `json:"title"`
-	TrackCode string                         `json:"track_code"`
-	Type      NewsfeedNewsfeedItemType       `json:"type"`
+	// newsfeed_item_base
+	Action    *NewsfeedItemPromoButtonAction  `json:"action,omitempty"`
+	Date      *int64                          `json:"date,omitempty"` // Date when item has been added in Unixtime
+	Images    *[]NewsfeedItemPromoButtonImage `json:"images,omitempty"`
+	SourceID  *int64                          `json:"source_id,omitempty"` // Item source ID
+	Text      *string                         `json:"text,omitempty"`
+	Title     *string                         `json:"title,omitempty"`
+	TrackCode *string                         `json:"track_code,omitempty"`
+	Type      *NewsfeedNewsfeedItemType       `json:"type,omitempty"`
 }
+
 type NewsfeedItemPromoButtonAction struct {
 	URL    string `json:"url"`
 	Type   string `json:"type"`
@@ -3293,49 +3333,57 @@ type NewsfeedItemPromoButtonImage struct {
 }
 
 type NewsfeedItemTopic struct {
-	Comments BaseCommentsInfo         `json:"comments"`
-	Date     int64                    `json:"date"`
-	Likes    BaseLikesInfo            `json:"likes"`
-	PostID   int64                    `json:"post_id"`
-	SourceID int64                    `json:"source_id"`
-	Text     string                   `json:"text"`
-	Type     NewsfeedNewsfeedItemType `json:"type"`
+	// newsfeed_item_base
+	Comments *BaseCommentsInfo         `json:"comments,omitempty"`
+	Date     *int64                    `json:"date,omitempty"` // Date when item has been added in Unixtime
+	Likes    *BaseLikesInfo            `json:"likes,omitempty"`
+	PostID   *int64                    `json:"post_id,omitempty"`   // Topic post ID
+	SourceID *int64                    `json:"source_id,omitempty"` // Item source ID
+	Text     *string                   `json:"text,omitempty"`      // Post text
+	Type     *NewsfeedNewsfeedItemType `json:"type,omitempty"`
 }
+
 type NewsfeedItemVideo struct {
-	CarouselOffset int64                    `json:"carousel_offset"`
-	Date           int64                    `json:"date"`
-	SourceID       int64                    `json:"source_id"`
-	Type           NewsfeedNewsfeedItemType `json:"type"`
-	Video          NewsfeedItemVideoVideo   `json:"video"`
+	// wall_carousel_base
+	// newsfeed_item_base
+	CarouselOffset *int64                    `json:"carousel_offset,omitempty"` // Index of current carousel element
+	Date           *int64                    `json:"date,omitempty"`            // Date when item has been added in Unixtime
+	SourceID       *int64                    `json:"source_id,omitempty"`       // Item source ID
+	Type           *NewsfeedNewsfeedItemType `json:"type,omitempty"`
+	Video          *NewsfeedItemVideoVideo   `json:"video,omitempty"`
 }
+
 type NewsfeedItemVideoVideo struct {
 	Count int64        `json:"count"` // Tags number
 	Items []VideoVideo `json:"items"`
 }
 
 type NewsfeedItemWallpost struct {
-	Activity       NewsfeedEventActivity        `json:"activity"`
-	Attachments    []WallWallpostAttachment     `json:"attachments"`
-	CarouselOffset int64                        `json:"carousel_offset"`
-	Comments       BaseCommentsInfo             `json:"comments"`
-	CopyHistory    []WallWallpost               `json:"copy_history"`
-	Date           int64                        `json:"date"`
-	Feedback       NewsfeedItemWallpostFeedback `json:"feedback"`
-	Geo            BaseGeo                      `json:"geo"`
-	IsFavorite     bool                         `json:"is_favorite"`
-	Likes          BaseLikesInfo                `json:"likes"`
-	MarkedAsAds    BaseBoolInt                  `json:"marked_as_ads"`
-	PostID         int64                        `json:"post_id"`
-	PostSource     WallPostSource               `json:"post_source"`
-	PostType       NewsfeedItemWallpostType     `json:"post_type"`
-	Reposts        BaseRepostsInfo              `json:"reposts"`
-	ShortTextRate  float64                      `json:"short_text_rate"`
-	SignerID       int64                        `json:"signer_id"`
-	SourceID       int64                        `json:"source_id"`
-	Text           string                       `json:"text"`
-	Type           NewsfeedNewsfeedItemType     `json:"type"`
-	Views          WallViews                    `json:"views"`
+	// wall_carousel_base
+	// newsfeed_item_base
+	Activity       *NewsfeedEventActivity        `json:"activity,omitempty"`
+	Attachments    *[]WallWallpostAttachment     `json:"attachments,omitempty"`
+	CarouselOffset *int64                        `json:"carousel_offset,omitempty"` // Index of current carousel element
+	Comments       *BaseCommentsInfo             `json:"comments,omitempty"`
+	CopyHistory    *[]WallWallpost               `json:"copy_history,omitempty"`
+	Date           *int64                        `json:"date,omitempty"` // Date when item has been added in Unixtime
+	Feedback       *NewsfeedItemWallpostFeedback `json:"feedback,omitempty"`
+	Geo            *BaseGeo                      `json:"geo,omitempty"`
+	IsFavorite     *bool                         `json:"is_favorite,omitempty"` // Information whether the post in favorites list
+	Likes          *BaseLikesInfo                `json:"likes,omitempty"`
+	MarkedAsAds    *BaseBoolInt                  `json:"marked_as_ads,omitempty"` // Information whether the post is marked as ads
+	PostID         *int64                        `json:"post_id,omitempty"`       // Post ID
+	PostSource     *WallPostSource               `json:"post_source,omitempty"`
+	PostType       *NewsfeedItemWallpostType     `json:"post_type,omitempty"`
+	Reposts        *BaseRepostsInfo              `json:"reposts,omitempty"`
+	ShortTextRate  *float64                      `json:"short_text_rate,omitempty"` // Preview length control parameter
+	SignerID       *int64                        `json:"signer_id,omitempty"`       // Post signer ID
+	SourceID       *int64                        `json:"source_id,omitempty"`       // Item source ID
+	Text           *string                       `json:"text,omitempty"`            // Post text
+	Type           *NewsfeedNewsfeedItemType     `json:"type,omitempty"`
+	Views          *WallViews                    `json:"views,omitempty"` // Count of views
 }
+
 type NewsfeedItemWallpostFeedback struct {
 	Type       NewsfeedItemWallpostFeedbackType     `json:"type"`
 	Question   string                               `json:"question"`
@@ -3371,22 +3419,60 @@ type NewsfeedList struct {
 }
 
 type NewsfeedListFull struct {
-	ID        int64       `json:"id"`
-	NoReposts BaseBoolInt `json:"no_reposts"`
-	SourceIDs []int64     `json:"source_ids"`
-	Title     string      `json:"title"`
+	// newsfeed_list
+	ID        *int64       `json:"id,omitempty"`         // List ID
+	NoReposts *BaseBoolInt `json:"no_reposts,omitempty"` // Information whether reposts hiding is enabled
+	SourceIDs *[]int64     `json:"source_ids,omitempty"`
+	Title     *string      `json:"title,omitempty"` // List title
 }
+
 type NewsfeedNewsfeedItem struct {
-	*NewsfeedItemWallpost    `json:"newsfeed_item_wallpost,omitempty"`
-	*NewsfeedItemPhoto       `json:"newsfeed_item_photo,omitempty"`
-	*NewsfeedItemPhotoTag    `json:"newsfeed_item_photo_tag,omitempty"`
-	*NewsfeedItemFriend      `json:"newsfeed_item_friend,omitempty"`
-	*NewsfeedItemNote        `json:"newsfeed_item_note,omitempty"`
-	*NewsfeedItemAudio       `json:"newsfeed_item_audio,omitempty"`
-	*NewsfeedItemVideo       `json:"newsfeed_item_video,omitempty"`
-	*NewsfeedItemTopic       `json:"newsfeed_item_topic,omitempty"`
-	*NewsfeedItemDigest      `json:"newsfeed_item_digest,omitempty"`
-	*NewsfeedItemPromoButton `json:"newsfeed_item_promo_button,omitempty"`
+	// newsfeed_item_wallpost
+	// newsfeed_item_photo
+	// newsfeed_item_photo_tag
+	// newsfeed_item_friend
+	// newsfeed_item_note
+	// newsfeed_item_audio
+	// newsfeed_item_video
+	// newsfeed_item_topic
+	// newsfeed_item_digest
+	// newsfeed_item_promo_button
+	Action         *NewsfeedItemPromoButtonAction  `json:"action,omitempty"`
+	Activity       *NewsfeedEventActivity          `json:"activity,omitempty"`
+	Attachments    *[]WallWallpostAttachment       `json:"attachments,omitempty"`
+	Audio          *NewsfeedItemAudioAudio         `json:"audio,omitempty"`
+	ButtonText     *string                         `json:"button_text,omitempty"`
+	CarouselOffset *int64                          `json:"carousel_offset,omitempty"` // Index of current carousel element
+	Comments       *BaseCommentsInfo               `json:"comments,omitempty"`
+	CopyHistory    *[]WallWallpost                 `json:"copy_history,omitempty"`
+	Date           *int64                          `json:"date,omitempty"`    // Date when item has been added in Unixtime
+	FeedID         *string                         `json:"feed_id,omitempty"` // id of feed in digest
+	Feedback       *NewsfeedItemWallpostFeedback   `json:"feedback,omitempty"`
+	Friends        *NewsfeedItemFriendFriends      `json:"friends,omitempty"`
+	Geo            *BaseGeo                        `json:"geo,omitempty"`
+	Images         *[]NewsfeedItemPromoButtonImage `json:"images,omitempty"`
+	IsFavorite     *bool                           `json:"is_favorite,omitempty"` // Information whether the post in favorites list
+	Items          *[]WallWallpost                 `json:"items,omitempty"`
+	Likes          *BaseLikesInfo                  `json:"likes,omitempty"`
+	MainPostIDs    *[]string                       `json:"main_post_ids,omitempty"`
+	MarkedAsAds    *BaseBoolInt                    `json:"marked_as_ads,omitempty"` // Information whether the post is marked as ads
+	Notes          *NewsfeedItemNoteNotes          `json:"notes,omitempty"`
+	PhotoTags      *NewsfeedItemPhotoTagPhotoTags  `json:"photo_tags,omitempty"`
+	Photos         *NewsfeedItemPhotoPhotos        `json:"photos,omitempty"`
+	PostID         *int64                          `json:"post_id,omitempty"` // Post ID
+	PostSource     *WallPostSource                 `json:"post_source,omitempty"`
+	PostType       *NewsfeedItemWallpostType       `json:"post_type,omitempty"`
+	Reposts        *BaseRepostsInfo                `json:"reposts,omitempty"`
+	ShortTextRate  *float64                        `json:"short_text_rate,omitempty"` // Preview length control parameter
+	SignerID       *int64                          `json:"signer_id,omitempty"`       // Post signer ID
+	SourceID       *int64                          `json:"source_id,omitempty"`       // Item source ID
+	Template       *string                         `json:"template,omitempty"`        // type of digest
+	Text           *string                         `json:"text,omitempty"`            // Post text
+	Title          *string                         `json:"title,omitempty"`
+	TrackCode      *string                         `json:"track_code,omitempty"`
+	Type           *NewsfeedNewsfeedItemType       `json:"type,omitempty"`
+	Video          *NewsfeedItemVideoVideo         `json:"video,omitempty"`
+	Views          *WallViews                      `json:"views,omitempty"` // Count of views
 }
 
 // Item type
@@ -3415,29 +3501,31 @@ type NewsfeedNewsfeedNote struct {
 }
 
 type NewsfeedNewsfeedPhoto struct {
-	AccessKey    string             `json:"access_key"`
-	AlbumID      int64              `json:"album_id"`
-	CanComment   BaseBoolInt        `json:"can_comment"`
-	CanRepost    BaseBoolInt        `json:"can_repost"`
-	Comments     BaseObjectCount    `json:"comments"`
-	Date         int64              `json:"date"`
-	HasTags      bool               `json:"has_tags"`
-	Height       int64              `json:"height"`
-	ID           int64              `json:"id"`
-	Images       []PhotosImage      `json:"images"`
-	Lat          float64            `json:"lat"`
-	Likes        BaseLikes          `json:"likes"`
-	Long         float64            `json:"long"`
-	OwnerID      int64              `json:"owner_id"`
-	Photo256     string             `json:"photo_256"`
-	Place        string             `json:"place"`
-	PostID       int64              `json:"post_id"`
-	Restrictions MediaRestriction   `json:"restrictions"`
-	Sizes        []PhotosPhotoSizes `json:"sizes"`
-	Text         string             `json:"text"`
-	UserID       int64              `json:"user_id"`
-	Width        int64              `json:"width"`
+	// photos_photo
+	AccessKey    *string             `json:"access_key,omitempty"`  // Access key for the photo
+	AlbumID      *int64              `json:"album_id,omitempty"`    // Album ID
+	CanComment   *BaseBoolInt        `json:"can_comment,omitempty"` // Information whether current user can comment the photo
+	CanRepost    *BaseBoolInt        `json:"can_repost,omitempty"`  // Information whether current user can repost the photo
+	Comments     *BaseObjectCount    `json:"comments,omitempty"`
+	Date         *int64              `json:"date,omitempty"`     // Date when uploaded
+	HasTags      *bool               `json:"has_tags,omitempty"` // Whether photo has attached tag links
+	Height       *int64              `json:"height,omitempty"`   // Original photo height
+	ID           *int64              `json:"id,omitempty"`       // Photo ID
+	Images       *[]PhotosImage      `json:"images,omitempty"`
+	Lat          *float64            `json:"lat,omitempty"` // Latitude
+	Likes        *BaseLikes          `json:"likes,omitempty"`
+	Long         *float64            `json:"long,omitempty"`      // Longitude
+	OwnerID      *int64              `json:"owner_id,omitempty"`  // Photo owner's ID
+	Photo256     *string             `json:"photo_256,omitempty"` // URL of image with 2560 px width
+	Place        *string             `json:"place,omitempty"`
+	PostID       *int64              `json:"post_id,omitempty"` // Post ID
+	Restrictions *MediaRestriction   `json:"restrictions,omitempty"`
+	Sizes        *[]PhotosPhotoSizes `json:"sizes,omitempty"`
+	Text         *string             `json:"text,omitempty"`    // Photo caption
+	UserID       *int64              `json:"user_id,omitempty"` // ID of the user who have uploaded the photo
+	Width        *int64              `json:"width,omitempty"`   // Original photo width
 }
+
 type NotesNote struct {
 	ReadComments int64       `json:"read_comments"`
 	CanComment   BaseBoolInt `json:"can_comment"` // Information whether current user can comment the note
@@ -3482,82 +3570,88 @@ type NotificationsNotification struct {
 type NotificationsNotificationItem interface{}
 
 type NotificationsNotificationParent struct {
-	AccessKey                string                   `json:"access_key"`
-	Added                    BaseBoolInt              `json:"added"`
-	AddingDate               int64                    `json:"adding_date"`
-	AlbumID                  int64                    `json:"album_id"`
-	Attachments              []WallWallpostAttachment `json:"attachments"`
-	Balance                  int64                    `json:"balance"`
-	CanAdd                   BaseBoolInt              `json:"can_add"`
-	CanAddToFaves            BaseBoolInt              `json:"can_add_to_faves"`
-	CanAttachLink            BaseBoolInt              `json:"can_attach_link"`
-	CanComment               BaseBoolInt              `json:"can_comment"`
-	CanEdit                  BaseBoolInt              `json:"can_edit"`
-	CanLike                  BaseBoolInt              `json:"can_like"`
-	CanRepost                BaseBoolInt              `json:"can_repost"`
-	CanSubscribe             BaseBoolInt              `json:"can_subscribe"`
-	Comments                 json.RawMessage          `json:"comments"`
-	ContentRestricted        int64                    `json:"content_restricted"`
-	ContentRestrictedMessage string                   `json:"content_restricted_message"`
-	Converting               BaseBoolInt              `json:"converting"`
-	CopyOwnerID              int64                    `json:"copy_owner_id"`
-	CopyPostID               int64                    `json:"copy_post_id"`
-	Created                  int64                    `json:"created"`
-	CreatedBy                int64                    `json:"created_by"`
-	Date                     int64                    `json:"date"`
-	Description              string                   `json:"description"`
-	Duration                 int64                    `json:"duration"`
-	FirstFrame               []VideoVideoImage        `json:"first_frame"`
-	FromID                   int64                    `json:"from_id"`
-	Geo                      WallGeo                  `json:"geo"`
-	HasTags                  bool                     `json:"has_tags"`
-	Height                   int64                    `json:"height"`
-	ID                       int64                    `json:"id"`
-	Image                    []VideoVideoImage        `json:"image"`
-	Images                   []PhotosImage            `json:"images"`
-	IsClosed                 BaseBoolInt              `json:"is_closed"`
-	IsFavorite               bool                     `json:"is_favorite"`
-	IsFixed                  BaseBoolInt              `json:"is_fixed"`
-	IsPrivate                BaseBoolInt              `json:"is_private"`
-	IsSubscribed             BaseBoolInt              `json:"is_subscribed"`
-	Lat                      float64                  `json:"lat"`
-	Likes                    json.RawMessage          `json:"likes"`
-	Live                     BasePropertyExists       `json:"live"`
-	LiveStatus               string                   `json:"live_status"`
-	LocalViews               int64                    `json:"local_views"`
-	Long                     float64                  `json:"long"`
-	OwnerID                  int64                    `json:"owner_id"`
-	Photo                    PhotosPhoto              `json:"photo"`
-	Photo256                 string                   `json:"photo_256"`
-	Place                    string                   `json:"place"`
-	Platform                 string                   `json:"platform"`
-	Player                   string                   `json:"player"`
-	Post                     WallWallpost             `json:"post"`
-	PostID                   int64                    `json:"post_id"`
-	PostSource               WallPostSource           `json:"post_source"`
-	PostType                 WallPostType             `json:"post_type"`
-	Processing               BasePropertyExists       `json:"processing"`
-	Repeat                   BasePropertyExists       `json:"repeat"`
-	Reposts                  BaseRepostsInfo          `json:"reposts"`
-	Restriction              MediaRestriction         `json:"restriction"`
-	Restrictions             MediaRestriction         `json:"restrictions"`
-	SignerID                 int64                    `json:"signer_id"`
-	Sizes                    []PhotosPhotoSizes       `json:"sizes"`
-	Spectators               int64                    `json:"spectators"`
-	Text                     string                   `json:"text"`
-	Title                    string                   `json:"title"`
-	ToID                     int64                    `json:"to_id"`
-	Topic                    BoardTopic               `json:"topic"`
-	TrackCode                string                   `json:"track_code"`
-	Type                     string                   `json:"type"`
-	Upcoming                 BasePropertyExists       `json:"upcoming"`
-	Updated                  int64                    `json:"updated"`
-	UpdatedBy                int64                    `json:"updated_by"`
-	UserID                   int64                    `json:"user_id"`
-	Video                    VideoVideo               `json:"video"`
-	Views                    int64                    `json:"views"`
-	Width                    int64                    `json:"width"`
+	// wall_wallpost_to_id
+	// photos_photo
+	// board_topic
+	// video_video
+	// notifications_notifications_comment
+	AccessKey                *string                   `json:"access_key,omitempty"`  // Access key for the photo
+	Added                    *BaseBoolInt              `json:"added,omitempty"`       // 1 if video is added to user's albums
+	AddingDate               *int64                    `json:"adding_date,omitempty"` // Date when the video has been added in Unixtime
+	AlbumID                  *int64                    `json:"album_id,omitempty"`    // Album ID
+	Attachments              *[]WallWallpostAttachment `json:"attachments,omitempty"`
+	Balance                  *int64                    `json:"balance,omitempty"`          // Live donations balance
+	CanAdd                   *BaseBoolInt              `json:"can_add,omitempty"`          // Information whether current user can add the video
+	CanAddToFaves            *BaseBoolInt              `json:"can_add_to_faves,omitempty"` // Information whether current user can add the video to favourites
+	CanAttachLink            *BaseBoolInt              `json:"can_attach_link,omitempty"`  // Information whether current user can attach action button to the video
+	CanComment               *BaseBoolInt              `json:"can_comment,omitempty"`      // Information whether current user can comment the photo
+	CanEdit                  *BaseBoolInt              `json:"can_edit,omitempty"`         // Information whether current user can edit the video
+	CanLike                  *BaseBoolInt              `json:"can_like,omitempty"`         // Information whether current user can like the video
+	CanRepost                *BaseBoolInt              `json:"can_repost,omitempty"`       // Information whether current user can repost the video
+	CanSubscribe             *BaseBoolInt              `json:"can_subscribe,omitempty"`    // Information whether current user can subscribe to author of the video
+	Comments                 json.RawMessage           `json:"comments,omitempty"`
+	ContentRestricted        *int64                    `json:"content_restricted,omitempty"`         // Restriction code
+	ContentRestrictedMessage *string                   `json:"content_restricted_message,omitempty"` // Restriction text
+	Converting               *BaseBoolInt              `json:"converting,omitempty"`                 // 1 if  video is being converted
+	CopyOwnerID              *int64                    `json:"copy_owner_id,omitempty"`              // ID of the source post owner
+	CopyPostID               *int64                    `json:"copy_post_id,omitempty"`               // ID of the source post
+	Created                  *int64                    `json:"created,omitempty"`                    // Date when the topic has been created in Unixtime
+	CreatedBy                *int64                    `json:"created_by,omitempty"`                 // Creator ID
+	Date                     *int64                    `json:"date,omitempty"`                       // Date of publishing in Unixtime
+	Description              *string                   `json:"description,omitempty"`                // Video description
+	Duration                 *int64                    `json:"duration,omitempty"`                   // Video duration in seconds
+	FirstFrame               *[]VideoVideoImage        `json:"first_frame,omitempty"`
+	FromID                   *int64                    `json:"from_id,omitempty"` // Post author ID
+	Geo                      *WallGeo                  `json:"geo,omitempty"`
+	HasTags                  *bool                     `json:"has_tags,omitempty"` // Whether photo has attached tag links
+	Height                   *int64                    `json:"height,omitempty"`   // Original photo height
+	ID                       *int64                    `json:"id,omitempty"`       // Post ID
+	Image                    *[]VideoVideoImage        `json:"image,omitempty"`
+	Images                   *[]PhotosImage            `json:"images,omitempty"`
+	IsClosed                 *BaseBoolInt              `json:"is_closed,omitempty"`     // Information whether the topic is closed
+	IsFavorite               *bool                     `json:"is_favorite,omitempty"`   // Information whether the post in favorites list
+	IsFixed                  *BaseBoolInt              `json:"is_fixed,omitempty"`      // Information whether the topic is fixed
+	IsPrivate                *BaseBoolInt              `json:"is_private,omitempty"`    // 1 if video is private
+	IsSubscribed             *BaseBoolInt              `json:"is_subscribed,omitempty"` // 1 if user is subscribed to author of the video
+	Lat                      *float64                  `json:"lat,omitempty"`           // Latitude
+	Likes                    *BaseLikesInfo            `json:"likes,omitempty"`
+	Live                     *BasePropertyExists       `json:"live,omitempty"`        // 1 if the video is a live stream
+	LiveStatus               *string                   `json:"live_status,omitempty"` // Live stream status
+	LocalViews               *int64                    `json:"local_views,omitempty"` // If video is external, number of views on vk
+	Long                     *float64                  `json:"long,omitempty"`        // Longitude
+	OwnerID                  *int64                    `json:"owner_id,omitempty"`    // Photo owner's ID
+	Photo                    *PhotosPhoto              `json:"photo,omitempty"`
+	Photo256                 *string                   `json:"photo_256,omitempty"` // URL of image with 2560 px width
+	Place                    *string                   `json:"place,omitempty"`
+	Platform                 *string                   `json:"platform,omitempty"` // External platform
+	Player                   *string                   `json:"player,omitempty"`   // Video embed URL
+	Post                     *WallWallpost             `json:"post,omitempty"`
+	PostID                   *int64                    `json:"post_id,omitempty"` // wall post ID (if comment)
+	PostSource               *WallPostSource           `json:"post_source,omitempty"`
+	PostType                 *WallPostType             `json:"post_type,omitempty"`
+	Processing               *BasePropertyExists       `json:"processing,omitempty"` // Returns if the video is processing
+	Repeat                   *BasePropertyExists       `json:"repeat,omitempty"`     // Information whether the video is repeated
+	Reposts                  *BaseRepostsInfo          `json:"reposts,omitempty"`
+	Restriction              *MediaRestriction         `json:"restriction,omitempty"`
+	Restrictions             *MediaRestriction         `json:"restrictions,omitempty"`
+	SignerID                 *int64                    `json:"signer_id,omitempty"` // Post signer ID
+	Sizes                    *[]PhotosPhotoSizes       `json:"sizes,omitempty"`
+	Spectators               *int64                    `json:"spectators,omitempty"` // Number of spectators of the stream
+	Text                     *string                   `json:"text,omitempty"`       // Post text
+	Title                    *string                   `json:"title,omitempty"`      // Topic title
+	ToID                     *int64                    `json:"to_id,omitempty"`      // Wall owner's ID
+	Topic                    *BoardTopic               `json:"topic,omitempty"`
+	TrackCode                *string                   `json:"track_code,omitempty"`
+	Type                     *string                   `json:"type,omitempty"`
+	Upcoming                 *BasePropertyExists       `json:"upcoming,omitempty"`   // 1 if the video is an upcoming stream
+	Updated                  *int64                    `json:"updated,omitempty"`    // Date when the topic has been updated in Unixtime
+	UpdatedBy                *int64                    `json:"updated_by,omitempty"` // ID of user who updated the topic
+	UserID                   *int64                    `json:"user_id,omitempty"`    // ID of the user who have uploaded the photo
+	Video                    *VideoVideo               `json:"video,omitempty"`
+	Views                    *int64                    `json:"views,omitempty"` // Number of views
+	Width                    *int64                    `json:"width,omitempty"` // Original photo width
 }
+
 type NotificationsNotificationsComment struct {
 	Date    int64        `json:"date"`     // Date when the comment has been added in Unixtime
 	ID      int64        `json:"id"`       // Comment ID
@@ -4529,10 +4623,81 @@ type UsersSchool struct {
 }
 
 type UsersSubscriptionsItem struct {
-	*UsersUserXtrType `json:"users_user_xtr_type,omitempty"`
-	*GroupsGroupFull  `json:"groups_group_full,omitempty"`
+	// users_user_xtr_type
+	// groups_group_full
+	Activity             *string                      `json:"activity,omitempty"`  // Type of group, start date of event or category of public page
+	Addresses            *GroupsAddressesInfo         `json:"addresses,omitempty"` // Info about addresses in groups
+	AdminLevel           *GroupsGroupAdminLevel       `json:"admin_level,omitempty"`
+	AgeLimits            *GroupsGroupFullAgeLimits    `json:"age_limits,omitempty"` // Information whether age limit
+	BanInfo              *GroupsGroupBanInfo          `json:"ban_info,omitempty"`   // User ban info
+	CanAccessClosed      *bool                        `json:"can_access_closed,omitempty"`
+	CanCreateTopic       *BaseBoolInt                 `json:"can_create_topic,omitempty"`       // Information whether current user can create topic
+	CanMessage           *BaseBoolInt                 `json:"can_message,omitempty"`            // Information whether current user can send a message to community
+	CanPost              *BaseBoolInt                 `json:"can_post,omitempty"`               // Information whether current user can post on community's wall
+	CanSeeAllPosts       *BaseBoolInt                 `json:"can_see_all_posts,omitempty"`      // Information whether current user can see all posts on community's wall
+	CanSendNotify        *BaseBoolInt                 `json:"can_send_notify,omitempty"`        // Information whether community can send notifications by phone number to current user
+	CanSubscribePodcasts *bool                        `json:"can_subscribe_podcasts,omitempty"` // Owner in whitelist or not
+	CanSubscribePosts    *bool                        `json:"can_subscribe_posts,omitempty"`    // Can subscribe to wall
+	CanUploadDoc         *BaseBoolInt                 `json:"can_upload_doc,omitempty"`         // Information whether current user can upload doc
+	CanUploadStory       *BaseBoolInt                 `json:"can_upload_story,omitempty"`       // Information whether current user can upload story
+	CanUploadVideo       *BaseBoolInt                 `json:"can_upload_video,omitempty"`       // Information whether current user can upload video
+	City                 *BaseObject                  `json:"city,omitempty"`
+	Contacts             *[]GroupsContactsItem        `json:"contacts,omitempty"`
+	Counters             *GroupsCountersGroup         `json:"counters,omitempty"`
+	Country              *BaseCountry                 `json:"country,omitempty"`
+	Cover                *GroupsCover                 `json:"cover,omitempty"`
+	CropPhoto            *BaseCropPhoto               `json:"crop_photo,omitempty"`  // Данные о точках, по которым вырезаны профильная и миниатюрная фотографии сообщества
+	Deactivated          *string                      `json:"deactivated,omitempty"` // Returns if a profile is deleted or blocked
+	Description          *string                      `json:"description,omitempty"` // Community description
+	FinishDate           *int64                       `json:"finish_date,omitempty"` // Finish date in Unixtime format
+	FirstName            *string                      `json:"first_name,omitempty"`  // User first name
+	FixedPost            *int64                       `json:"fixed_post,omitempty"`  // Fixed post ID
+	FriendStatus         *FriendsFriendStatusStatus   `json:"friend_status,omitempty"`
+	HasMarketApp         *bool                        `json:"has_market_app,omitempty"` // Information whether community has installed market app
+	HasPhoto             *BaseBoolInt                 `json:"has_photo,omitempty"`      // Information whether community has photo
+	Hidden               *int64                       `json:"hidden,omitempty"`         // Returns if a profile is hidden.
+	ID                   *int64                       `json:"id,omitempty"`             // User ID
+	IsAdmin              *BaseBoolInt                 `json:"is_admin,omitempty"`       // Information whether current user is administrator
+	IsAdult              *BaseBoolInt                 `json:"is_adult,omitempty"`       // Information whether community is adult
+	IsAdvertiser         *BaseBoolInt                 `json:"is_advertiser,omitempty"`  // Information whether current user is advertiser
+	IsClosed             json.RawMessage              `json:"is_closed,omitempty"`
+	IsFavorite           *BaseBoolInt                 `json:"is_favorite,omitempty"`            // Information whether community is in faves
+	IsHiddenFromFeed     *BaseBoolInt                 `json:"is_hidden_from_feed,omitempty"`    // Information whether community is hidden from current user's newsfeed
+	IsMember             *BaseBoolInt                 `json:"is_member,omitempty"`              // Information whether current user is member
+	IsMessagesBlocked    *BaseBoolInt                 `json:"is_messages_blocked,omitempty"`    // Information whether community can send a message to current user
+	IsSubscribed         *BaseBoolInt                 `json:"is_subscribed,omitempty"`          // Information whether current user is subscribed
+	IsSubscribedPodcasts *bool                        `json:"is_subscribed_podcasts,omitempty"` // Information whether current user is subscribed to podcasts
+	LastName             *string                      `json:"last_name,omitempty"`              // User last name
+	Links                *[]GroupsLinksItem           `json:"links,omitempty"`
+	LiveCovers           *GroupsLiveCovers            `json:"live_covers,omitempty"`   // Live covers state
+	MainAlbumID          *int64                       `json:"main_album_id,omitempty"` // Community's main photo album ID
+	MainSection          *GroupsGroupFullMainSection  `json:"main_section,omitempty"`
+	Market               *GroupsMarketInfo            `json:"market,omitempty"`
+	MemberStatus         *GroupsGroupFullMemberStatus `json:"member_status,omitempty"` // Current user's member status
+	MembersCount         *int64                       `json:"members_count,omitempty"` // Community members number
+	Mutual               *FriendsRequestsMutual       `json:"mutual,omitempty"`
+	Name                 *string                      `json:"name,omitempty"`       // Community name
+	Online               *BaseBoolInt                 `json:"online,omitempty"`     // Information whether the user is online
+	OnlineApp            *int64                       `json:"online_app,omitempty"` // Application ID
+	OnlineInfo           *UsersOnlineInfo             `json:"online_info,omitempty"`
+	OnlineMobile         *BaseBoolInt                 `json:"online_mobile,omitempty"` // Information whether the user is online in mobile site or application
+	OnlineStatus         *GroupsOnlineStatus          `json:"online_status,omitempty"` // Status of replies in community messages
+	Photo100             *string                      `json:"photo_100,omitempty"`     // URL of square photo of the user with 100 pixels in width
+	Photo200             *string                      `json:"photo_200,omitempty"`     // URL of square photo of the community with 200 pixels in width
+	Photo50              *string                      `json:"photo_50,omitempty"`      // URL of square photo of the user with 50 pixels in width
+	ScreenName           *string                      `json:"screen_name,omitempty"`   // Domain name of the user's page
+	Sex                  *BaseSex                     `json:"sex,omitempty"`           // User sex
+	Site                 *string                      `json:"site,omitempty"`          // Community's website
+	StartDate            *int64                       `json:"start_date,omitempty"`    // Start date in Unixtime format
+	Status               *string                      `json:"status,omitempty"`        // Community status
+	Trending             *BaseBoolInt                 `json:"trending,omitempty"`      // Information whether the user has a "fire" pictogram.
+	Type                 json.RawMessage              `json:"type,omitempty"`
+	Verified             *BaseBoolInt                 `json:"verified,omitempty"`         // Information whether the user is verified
+	VideoLiveCount       *int64                       `json:"video_live_count,omitempty"` // Number of community's live streams
+	VideoLiveLevel       *int64                       `json:"video_live_level,omitempty"` // Community level live streams achievements
+	Wall                 *int64                       `json:"wall,omitempty"`             // Information about wall status in community
+	WikiPage             *string                      `json:"wiki_page,omitempty"`        // Community's main wiki page title
 }
-
 type UsersUniversity struct {
 	Chair           int64  `json:"chair"`            // Chair ID
 	ChairName       string `json:"chair_name"`       // Chair name
@@ -4548,26 +4713,28 @@ type UsersUniversity struct {
 }
 
 type UsersUser struct {
-	CanAccessClosed bool                      `json:"can_access_closed"`
-	Deactivated     string                    `json:"deactivated"`
-	FirstName       string                    `json:"first_name"`
-	FriendStatus    FriendsFriendStatusStatus `json:"friend_status"`
-	Hidden          int64                     `json:"hidden"`
-	ID              int64                     `json:"id"`
-	IsClosed        bool                      `json:"is_closed"`
-	LastName        string                    `json:"last_name"`
-	Mutual          FriendsRequestsMutual     `json:"mutual"`
-	Online          BaseBoolInt               `json:"online"`
-	OnlineApp       int64                     `json:"online_app"`
-	OnlineInfo      UsersOnlineInfo           `json:"online_info"`
-	OnlineMobile    BaseBoolInt               `json:"online_mobile"`
-	Photo100        string                    `json:"photo_100"`
-	Photo50         string                    `json:"photo_50"`
-	ScreenName      string                    `json:"screen_name"`
-	Sex             BaseSex                   `json:"sex"`
-	Trending        BaseBoolInt               `json:"trending"`
-	Verified        BaseBoolInt               `json:"verified"`
+	// users_user_min
+	CanAccessClosed *bool                      `json:"can_access_closed,omitempty"`
+	Deactivated     *string                    `json:"deactivated,omitempty"` // Returns if a profile is deleted or blocked
+	FirstName       *string                    `json:"first_name,omitempty"`  // User first name
+	FriendStatus    *FriendsFriendStatusStatus `json:"friend_status,omitempty"`
+	Hidden          *int64                     `json:"hidden,omitempty"` // Returns if a profile is hidden.
+	ID              *int64                     `json:"id,omitempty"`     // User ID
+	IsClosed        *bool                      `json:"is_closed,omitempty"`
+	LastName        *string                    `json:"last_name,omitempty"` // User last name
+	Mutual          *FriendsRequestsMutual     `json:"mutual,omitempty"`
+	Online          *BaseBoolInt               `json:"online,omitempty"`     // Information whether the user is online
+	OnlineApp       *int64                     `json:"online_app,omitempty"` // Application ID
+	OnlineInfo      *UsersOnlineInfo           `json:"online_info,omitempty"`
+	OnlineMobile    *BaseBoolInt               `json:"online_mobile,omitempty"` // Information whether the user is online in mobile site or application
+	Photo100        *string                    `json:"photo_100,omitempty"`     // URL of square photo of the user with 100 pixels in width
+	Photo50         *string                    `json:"photo_50,omitempty"`      // URL of square photo of the user with 50 pixels in width
+	ScreenName      *string                    `json:"screen_name,omitempty"`   // Domain name of the user's page
+	Sex             *BaseSex                   `json:"sex,omitempty"`           // User sex
+	Trending        *BaseBoolInt               `json:"trending,omitempty"`      // Information whether the user has a "fire" pictogram.
+	Verified        *BaseBoolInt               `json:"verified,omitempty"`      // Information whether the user is verified
 }
+
 type UsersUserConnections struct {
 	Skype        string `json:"skype"`         // User's Skype nickname
 	Facebook     string `json:"facebook"`      // User's Facebook account
@@ -4595,99 +4762,101 @@ type UsersUserCounters struct {
 }
 
 type UsersUserFull struct {
-	Activity               string                    `json:"activity"`
-	Bdate                  string                    `json:"bdate"`
-	Blacklisted            BaseBoolInt               `json:"blacklisted"`
-	BlacklistedByMe        BaseBoolInt               `json:"blacklisted_by_me"`
-	CanAccessClosed        bool                      `json:"can_access_closed"`
-	CanBeInvitedGroup      bool                      `json:"can_be_invited_group"`
-	CanPost                BaseBoolInt               `json:"can_post"`
-	CanSeeAllPosts         BaseBoolInt               `json:"can_see_all_posts"`
-	CanSeeAudio            BaseBoolInt               `json:"can_see_audio"`
-	CanSendFriendRequest   BaseBoolInt               `json:"can_send_friend_request"`
-	CanSubscribePodcasts   bool                      `json:"can_subscribe_podcasts"`
-	CanSubscribePosts      bool                      `json:"can_subscribe_posts"`
-	CanWritePrivateMessage BaseBoolInt               `json:"can_write_private_message"`
-	Career                 []UsersCareer             `json:"career"`
-	City                   BaseObject                `json:"city"`
-	CommonCount            int64                     `json:"common_count"`
-	Country                BaseCountry               `json:"country"`
-	CropPhoto              BaseCropPhoto             `json:"crop_photo"`
-	Deactivated            string                    `json:"deactivated"`
-	Domain                 string                    `json:"domain"`
-	EducationForm          string                    `json:"education_form"`
-	EducationStatus        string                    `json:"education_status"`
-	Exports                UsersExports              `json:"exports"`
-	Faculty                int64                     `json:"faculty"`
-	FacultyName            string                    `json:"faculty_name"`
-	FirstName              string                    `json:"first_name"`
-	FirstNameAbl           string                    `json:"first_name_abl"`
-	FirstNameAcc           string                    `json:"first_name_acc"`
-	FirstNameDat           string                    `json:"first_name_dat"`
-	FirstNameGen           string                    `json:"first_name_gen"`
-	FirstNameIns           string                    `json:"first_name_ins"`
-	FirstNameNom           string                    `json:"first_name_nom"`
-	FollowersCount         int64                     `json:"followers_count"`
-	FriendStatus           FriendsFriendStatusStatus `json:"friend_status"`
-	Graduation             int64                     `json:"graduation"`
-	HasMobile              BaseBoolInt               `json:"has_mobile"`
-	HasPhoto               BaseBoolInt               `json:"has_photo"`
-	Hidden                 int64                     `json:"hidden"`
-	HomePhone              string                    `json:"home_phone"`
-	HomeTown               string                    `json:"home_town"`
-	ID                     int64                     `json:"id"`
-	IsClosed               bool                      `json:"is_closed"`
-	IsFavorite             BaseBoolInt               `json:"is_favorite"`
-	IsFriend               BaseBoolInt               `json:"is_friend"`
-	IsHiddenFromFeed       BaseBoolInt               `json:"is_hidden_from_feed"`
-	IsSubscribedPodcasts   bool                      `json:"is_subscribed_podcasts"`
-	LastName               string                    `json:"last_name"`
-	LastNameAbl            string                    `json:"last_name_abl"`
-	LastNameAcc            string                    `json:"last_name_acc"`
-	LastNameDat            string                    `json:"last_name_dat"`
-	LastNameGen            string                    `json:"last_name_gen"`
-	LastNameIns            string                    `json:"last_name_ins"`
-	LastNameNom            string                    `json:"last_name_nom"`
-	LastSeen               UsersLastSeen             `json:"last_seen"`
-	MaidenName             string                    `json:"maiden_name"`
-	Military               []UsersMilitary           `json:"military"`
-	MobilePhone            string                    `json:"mobile_phone"`
-	Mutual                 FriendsRequestsMutual     `json:"mutual"`
-	Nickname               string                    `json:"nickname"`
-	Occupation             UsersOccupation           `json:"occupation"`
-	Online                 BaseBoolInt               `json:"online"`
-	OnlineApp              int64                     `json:"online_app"`
-	OnlineInfo             UsersOnlineInfo           `json:"online_info"`
-	OnlineMobile           BaseBoolInt               `json:"online_mobile"`
-	OwnerState             OwnerState                `json:"owner_state"`
-	Personal               UsersPersonal             `json:"personal"`
-	Photo100               string                    `json:"photo_100"`
-	Photo200               string                    `json:"photo_200"`
-	Photo200Orig           string                    `json:"photo_200_orig"`
-	Photo400Orig           string                    `json:"photo_400_orig"`
-	Photo50                string                    `json:"photo_50"`
-	PhotoID                string                    `json:"photo_id"`
-	PhotoMax               string                    `json:"photo_max"`
-	PhotoMaxOrig           string                    `json:"photo_max_orig"`
-	Relation               UsersUserRelation         `json:"relation"`
-	RelationPartner        UsersUserMin              `json:"relation_partner"`
-	Relatives              []UsersRelative           `json:"relatives"`
-	Schools                []UsersSchool             `json:"schools"`
-	ScreenName             string                    `json:"screen_name"`
-	Sex                    BaseSex                   `json:"sex"`
-	Site                   string                    `json:"site"`
-	Status                 string                    `json:"status"`
-	StatusAudio            AudioAudio                `json:"status_audio"`
-	Timezone               int64                     `json:"timezone"`
-	Trending               BaseBoolInt               `json:"trending"`
-	Universities           []UsersUniversity         `json:"universities"`
-	University             int64                     `json:"university"`
-	UniversityName         string                    `json:"university_name"`
-	Verified               BaseBoolInt               `json:"verified"`
-	VideoLiveCount         int64                     `json:"video_live_count"`
-	VideoLiveLevel         int64                     `json:"video_live_level"`
-	WallComments           BaseBoolInt               `json:"wall_comments"`
+	// users_user
+	Activity               *string                    `json:"activity,omitempty"`          // User's status
+	Bdate                  *string                    `json:"bdate,omitempty"`             // User's date of birth
+	Blacklisted            *BaseBoolInt               `json:"blacklisted,omitempty"`       // Information whether current user is in the requested user's blacklist.
+	BlacklistedByMe        *BaseBoolInt               `json:"blacklisted_by_me,omitempty"` // Information whether the requested user is in current user's blacklist
+	CanAccessClosed        *bool                      `json:"can_access_closed,omitempty"`
+	CanBeInvitedGroup      *bool                      `json:"can_be_invited_group,omitempty"`      // Information whether current user can be invited to the community
+	CanPost                *BaseBoolInt               `json:"can_post,omitempty"`                  // Information whether current user can post on the user's wall
+	CanSeeAllPosts         *BaseBoolInt               `json:"can_see_all_posts,omitempty"`         // Information whether current user can see other users' audio on the wall
+	CanSeeAudio            *BaseBoolInt               `json:"can_see_audio,omitempty"`             // Information whether current user can see the user's audio
+	CanSendFriendRequest   *BaseBoolInt               `json:"can_send_friend_request,omitempty"`   // Information whether current user can send a friend request
+	CanSubscribePodcasts   *bool                      `json:"can_subscribe_podcasts,omitempty"`    // Owner in whitelist or not
+	CanSubscribePosts      *bool                      `json:"can_subscribe_posts,omitempty"`       // Can subscribe to wall
+	CanWritePrivateMessage *BaseBoolInt               `json:"can_write_private_message,omitempty"` // Information whether current user can write private message
+	Career                 *[]UsersCareer             `json:"career,omitempty"`
+	City                   *BaseObject                `json:"city,omitempty"`
+	CommonCount            *int64                     `json:"common_count,omitempty"` // Number of common friends with current user
+	Country                *BaseCountry               `json:"country,omitempty"`
+	CropPhoto              *BaseCropPhoto             `json:"crop_photo,omitempty"`
+	Deactivated            *string                    `json:"deactivated,omitempty"`      // Returns if a profile is deleted or blocked
+	Domain                 *string                    `json:"domain,omitempty"`           // Domain name of the user's page
+	EducationForm          *string                    `json:"education_form,omitempty"`   // Education form
+	EducationStatus        *string                    `json:"education_status,omitempty"` // User's education status
+	Exports                *UsersExports              `json:"exports,omitempty"`
+	Faculty                *int64                     `json:"faculty,omitempty"`         // Faculty ID
+	FacultyName            *string                    `json:"faculty_name,omitempty"`    // Faculty name
+	FirstName              *string                    `json:"first_name,omitempty"`      // User first name
+	FirstNameAbl           *string                    `json:"first_name_abl,omitempty"`  // User's first name in prepositional case
+	FirstNameAcc           *string                    `json:"first_name_acc,omitempty"`  // User's first name in accusative case
+	FirstNameDat           *string                    `json:"first_name_dat,omitempty"`  // User's first name in dative case
+	FirstNameGen           *string                    `json:"first_name_gen,omitempty"`  // User's first name in genitive case
+	FirstNameIns           *string                    `json:"first_name_ins,omitempty"`  // User's first name in instrumental case
+	FirstNameNom           *string                    `json:"first_name_nom,omitempty"`  // User's first name in nominative case
+	FollowersCount         *int64                     `json:"followers_count,omitempty"` // Number of user's followers
+	FriendStatus           *FriendsFriendStatusStatus `json:"friend_status,omitempty"`
+	Graduation             *int64                     `json:"graduation,omitempty"` // Graduation year
+	HasMobile              *BaseBoolInt               `json:"has_mobile,omitempty"` // Information whether the user specified his phone number
+	HasPhoto               *BaseBoolInt               `json:"has_photo,omitempty"`  // Information whether the user has main photo
+	Hidden                 *int64                     `json:"hidden,omitempty"`     // Returns if a profile is hidden.
+	HomePhone              *string                    `json:"home_phone,omitempty"` // User's additional phone number
+	HomeTown               *string                    `json:"home_town,omitempty"`  // User hometown
+	ID                     *int64                     `json:"id,omitempty"`         // User ID
+	IsClosed               *bool                      `json:"is_closed,omitempty"`
+	IsFavorite             *BaseBoolInt               `json:"is_favorite,omitempty"`            // Information whether the requested user is in faves of current user
+	IsFriend               *BaseBoolInt               `json:"is_friend,omitempty"`              // Information whether the user is a friend of current user
+	IsHiddenFromFeed       *BaseBoolInt               `json:"is_hidden_from_feed,omitempty"`    // Information whether the requested user is hidden from current user's newsfeed
+	IsSubscribedPodcasts   *bool                      `json:"is_subscribed_podcasts,omitempty"` // Information whether current user is subscribed to podcasts
+	LastName               *string                    `json:"last_name,omitempty"`              // User last name
+	LastNameAbl            *string                    `json:"last_name_abl,omitempty"`          // User's last name in prepositional case
+	LastNameAcc            *string                    `json:"last_name_acc,omitempty"`          // User's last name in accusative case
+	LastNameDat            *string                    `json:"last_name_dat,omitempty"`          // User's last name in dative case
+	LastNameGen            *string                    `json:"last_name_gen,omitempty"`          // User's last name in genitive case
+	LastNameIns            *string                    `json:"last_name_ins,omitempty"`          // User's last name in instrumental case
+	LastNameNom            *string                    `json:"last_name_nom,omitempty"`          // User's last name in nominative case
+	LastSeen               *UsersLastSeen             `json:"last_seen,omitempty"`
+	MaidenName             *string                    `json:"maiden_name,omitempty"` // User maiden name
+	Military               *[]UsersMilitary           `json:"military,omitempty"`
+	MobilePhone            *string                    `json:"mobile_phone,omitempty"` // User's mobile phone number
+	Mutual                 *FriendsRequestsMutual     `json:"mutual,omitempty"`
+	Nickname               *string                    `json:"nickname,omitempty"` // User nickname
+	Occupation             *UsersOccupation           `json:"occupation,omitempty"`
+	Online                 *BaseBoolInt               `json:"online,omitempty"`     // Information whether the user is online
+	OnlineApp              *int64                     `json:"online_app,omitempty"` // Application ID
+	OnlineInfo             *UsersOnlineInfo           `json:"online_info,omitempty"`
+	OnlineMobile           *BaseBoolInt               `json:"online_mobile,omitempty"` // Information whether the user is online in mobile site or application
+	OwnerState             *OwnerState                `json:"owner_state,omitempty"`
+	Personal               *UsersPersonal             `json:"personal,omitempty"`
+	Photo100               *string                    `json:"photo_100,omitempty"`      // URL of square photo of the user with 100 pixels in width
+	Photo200               *string                    `json:"photo_200,omitempty"`      // URL of square photo of the user with 200 pixels in width
+	Photo200Orig           *string                    `json:"photo_200_orig,omitempty"` // URL of user's photo with 200 pixels in width
+	Photo400Orig           *string                    `json:"photo_400_orig,omitempty"` // URL of user's photo with 400 pixels in width
+	Photo50                *string                    `json:"photo_50,omitempty"`       // URL of square photo of the user with 50 pixels in width
+	PhotoID                *string                    `json:"photo_id,omitempty"`       // ID of the user's main photo
+	PhotoMax               *string                    `json:"photo_max,omitempty"`      // URL of square photo of the user with maximum width
+	PhotoMaxOrig           *string                    `json:"photo_max_orig,omitempty"` // URL of user's photo of maximum size
+	Relation               *UsersUserRelation         `json:"relation,omitempty"`       // User relationship status
+	RelationPartner        *UsersUserMin              `json:"relation_partner,omitempty"`
+	Relatives              *[]UsersRelative           `json:"relatives,omitempty"`
+	Schools                *[]UsersSchool             `json:"schools,omitempty"`
+	ScreenName             *string                    `json:"screen_name,omitempty"` // Domain name of the user's page
+	Sex                    *BaseSex                   `json:"sex,omitempty"`         // User sex
+	Site                   *string                    `json:"site,omitempty"`        // User's website
+	Status                 *string                    `json:"status,omitempty"`      // User's status
+	StatusAudio            *AudioAudio                `json:"status_audio,omitempty"`
+	Timezone               *int64                     `json:"timezone,omitempty"` // User's timezone
+	Trending               *BaseBoolInt               `json:"trending,omitempty"` // Information whether the user has a "fire" pictogram.
+	Universities           *[]UsersUniversity         `json:"universities,omitempty"`
+	University             *int64                     `json:"university,omitempty"`       // University ID
+	UniversityName         *string                    `json:"university_name,omitempty"`  // University name
+	Verified               *BaseBoolInt               `json:"verified,omitempty"`         // Information whether the user is verified
+	VideoLiveCount         *int64                     `json:"video_live_count,omitempty"` // Number of user's live streams
+	VideoLiveLevel         *int64                     `json:"video_live_level,omitempty"` // User level in live streams achievements
+	WallComments           *BaseBoolInt               `json:"wall_comments,omitempty"`    // Information whether current user can comment wall posts
 }
+
 type UsersUserMin struct {
 	Deactivated     string `json:"deactivated"` // Returns if a profile is deleted or blocked
 	FirstName       string `json:"first_name"`  // User first name
@@ -4745,122 +4914,126 @@ const (
 )
 
 type UsersUserXtrCounters struct {
-	Activity               string                    `json:"activity"`
-	Bdate                  string                    `json:"bdate"`
-	Blacklisted            BaseBoolInt               `json:"blacklisted"`
-	BlacklistedByMe        BaseBoolInt               `json:"blacklisted_by_me"`
-	CanAccessClosed        bool                      `json:"can_access_closed"`
-	CanBeInvitedGroup      bool                      `json:"can_be_invited_group"`
-	CanPost                BaseBoolInt               `json:"can_post"`
-	CanSeeAllPosts         BaseBoolInt               `json:"can_see_all_posts"`
-	CanSeeAudio            BaseBoolInt               `json:"can_see_audio"`
-	CanSendFriendRequest   BaseBoolInt               `json:"can_send_friend_request"`
-	CanSubscribePodcasts   bool                      `json:"can_subscribe_podcasts"`
-	CanSubscribePosts      bool                      `json:"can_subscribe_posts"`
-	CanWritePrivateMessage BaseBoolInt               `json:"can_write_private_message"`
-	Career                 []UsersCareer             `json:"career"`
-	City                   BaseObject                `json:"city"`
-	CommonCount            int64                     `json:"common_count"`
-	Counters               UsersUserCounters         `json:"counters"`
-	Country                BaseCountry               `json:"country"`
-	CropPhoto              BaseCropPhoto             `json:"crop_photo"`
-	Deactivated            string                    `json:"deactivated"`
-	Domain                 string                    `json:"domain"`
-	EducationForm          string                    `json:"education_form"`
-	EducationStatus        string                    `json:"education_status"`
-	Exports                UsersExports              `json:"exports"`
-	Faculty                int64                     `json:"faculty"`
-	FacultyName            string                    `json:"faculty_name"`
-	FirstName              string                    `json:"first_name"`
-	FirstNameAbl           string                    `json:"first_name_abl"`
-	FirstNameAcc           string                    `json:"first_name_acc"`
-	FirstNameDat           string                    `json:"first_name_dat"`
-	FirstNameGen           string                    `json:"first_name_gen"`
-	FirstNameIns           string                    `json:"first_name_ins"`
-	FirstNameNom           string                    `json:"first_name_nom"`
-	FollowersCount         int64                     `json:"followers_count"`
-	FriendStatus           FriendsFriendStatusStatus `json:"friend_status"`
-	Graduation             int64                     `json:"graduation"`
-	HasMobile              BaseBoolInt               `json:"has_mobile"`
-	HasPhoto               BaseBoolInt               `json:"has_photo"`
-	Hidden                 int64                     `json:"hidden"`
-	HomePhone              string                    `json:"home_phone"`
-	HomeTown               string                    `json:"home_town"`
-	ID                     int64                     `json:"id"`
-	IsClosed               bool                      `json:"is_closed"`
-	IsFavorite             BaseBoolInt               `json:"is_favorite"`
-	IsFriend               BaseBoolInt               `json:"is_friend"`
-	IsHiddenFromFeed       BaseBoolInt               `json:"is_hidden_from_feed"`
-	IsSubscribedPodcasts   bool                      `json:"is_subscribed_podcasts"`
-	LastName               string                    `json:"last_name"`
-	LastNameAbl            string                    `json:"last_name_abl"`
-	LastNameAcc            string                    `json:"last_name_acc"`
-	LastNameDat            string                    `json:"last_name_dat"`
-	LastNameGen            string                    `json:"last_name_gen"`
-	LastNameIns            string                    `json:"last_name_ins"`
-	LastNameNom            string                    `json:"last_name_nom"`
-	LastSeen               UsersLastSeen             `json:"last_seen"`
-	MaidenName             string                    `json:"maiden_name"`
-	Military               []UsersMilitary           `json:"military"`
-	MobilePhone            string                    `json:"mobile_phone"`
-	Mutual                 FriendsRequestsMutual     `json:"mutual"`
-	Nickname               string                    `json:"nickname"`
-	Occupation             UsersOccupation           `json:"occupation"`
-	Online                 BaseBoolInt               `json:"online"`
-	OnlineApp              int64                     `json:"online_app"`
-	OnlineInfo             UsersOnlineInfo           `json:"online_info"`
-	OnlineMobile           BaseBoolInt               `json:"online_mobile"`
-	OwnerState             OwnerState                `json:"owner_state"`
-	Personal               UsersPersonal             `json:"personal"`
-	Photo100               string                    `json:"photo_100"`
-	Photo200               string                    `json:"photo_200"`
-	Photo200Orig           string                    `json:"photo_200_orig"`
-	Photo400Orig           string                    `json:"photo_400_orig"`
-	Photo50                string                    `json:"photo_50"`
-	PhotoID                string                    `json:"photo_id"`
-	PhotoMax               string                    `json:"photo_max"`
-	PhotoMaxOrig           string                    `json:"photo_max_orig"`
-	Relation               UsersUserRelation         `json:"relation"`
-	RelationPartner        UsersUserMin              `json:"relation_partner"`
-	Relatives              []UsersRelative           `json:"relatives"`
-	Schools                []UsersSchool             `json:"schools"`
-	ScreenName             string                    `json:"screen_name"`
-	Sex                    BaseSex                   `json:"sex"`
-	Site                   string                    `json:"site"`
-	Status                 string                    `json:"status"`
-	StatusAudio            AudioAudio                `json:"status_audio"`
-	Timezone               int64                     `json:"timezone"`
-	Trending               BaseBoolInt               `json:"trending"`
-	Universities           []UsersUniversity         `json:"universities"`
-	University             int64                     `json:"university"`
-	UniversityName         string                    `json:"university_name"`
-	Verified               BaseBoolInt               `json:"verified"`
-	VideoLiveCount         int64                     `json:"video_live_count"`
-	VideoLiveLevel         int64                     `json:"video_live_level"`
-	WallComments           BaseBoolInt               `json:"wall_comments"`
+	// users_user_full
+	Activity               *string                    `json:"activity,omitempty"`          // User's status
+	Bdate                  *string                    `json:"bdate,omitempty"`             // User's date of birth
+	Blacklisted            *BaseBoolInt               `json:"blacklisted,omitempty"`       // Information whether current user is in the requested user's blacklist.
+	BlacklistedByMe        *BaseBoolInt               `json:"blacklisted_by_me,omitempty"` // Information whether the requested user is in current user's blacklist
+	CanAccessClosed        *bool                      `json:"can_access_closed,omitempty"`
+	CanBeInvitedGroup      *bool                      `json:"can_be_invited_group,omitempty"`      // Information whether current user can be invited to the community
+	CanPost                *BaseBoolInt               `json:"can_post,omitempty"`                  // Information whether current user can post on the user's wall
+	CanSeeAllPosts         *BaseBoolInt               `json:"can_see_all_posts,omitempty"`         // Information whether current user can see other users' audio on the wall
+	CanSeeAudio            *BaseBoolInt               `json:"can_see_audio,omitempty"`             // Information whether current user can see the user's audio
+	CanSendFriendRequest   *BaseBoolInt               `json:"can_send_friend_request,omitempty"`   // Information whether current user can send a friend request
+	CanSubscribePodcasts   *bool                      `json:"can_subscribe_podcasts,omitempty"`    // Owner in whitelist or not
+	CanSubscribePosts      *bool                      `json:"can_subscribe_posts,omitempty"`       // Can subscribe to wall
+	CanWritePrivateMessage *BaseBoolInt               `json:"can_write_private_message,omitempty"` // Information whether current user can write private message
+	Career                 *[]UsersCareer             `json:"career,omitempty"`
+	City                   *BaseObject                `json:"city,omitempty"`
+	CommonCount            *int64                     `json:"common_count,omitempty"` // Number of common friends with current user
+	Counters               *UsersUserCounters         `json:"counters,omitempty"`
+	Country                *BaseCountry               `json:"country,omitempty"`
+	CropPhoto              *BaseCropPhoto             `json:"crop_photo,omitempty"`
+	Deactivated            *string                    `json:"deactivated,omitempty"`      // Returns if a profile is deleted or blocked
+	Domain                 *string                    `json:"domain,omitempty"`           // Domain name of the user's page
+	EducationForm          *string                    `json:"education_form,omitempty"`   // Education form
+	EducationStatus        *string                    `json:"education_status,omitempty"` // User's education status
+	Exports                *UsersExports              `json:"exports,omitempty"`
+	Faculty                *int64                     `json:"faculty,omitempty"`         // Faculty ID
+	FacultyName            *string                    `json:"faculty_name,omitempty"`    // Faculty name
+	FirstName              *string                    `json:"first_name,omitempty"`      // User first name
+	FirstNameAbl           *string                    `json:"first_name_abl,omitempty"`  // User's first name in prepositional case
+	FirstNameAcc           *string                    `json:"first_name_acc,omitempty"`  // User's first name in accusative case
+	FirstNameDat           *string                    `json:"first_name_dat,omitempty"`  // User's first name in dative case
+	FirstNameGen           *string                    `json:"first_name_gen,omitempty"`  // User's first name in genitive case
+	FirstNameIns           *string                    `json:"first_name_ins,omitempty"`  // User's first name in instrumental case
+	FirstNameNom           *string                    `json:"first_name_nom,omitempty"`  // User's first name in nominative case
+	FollowersCount         *int64                     `json:"followers_count,omitempty"` // Number of user's followers
+	FriendStatus           *FriendsFriendStatusStatus `json:"friend_status,omitempty"`
+	Graduation             *int64                     `json:"graduation,omitempty"` // Graduation year
+	HasMobile              *BaseBoolInt               `json:"has_mobile,omitempty"` // Information whether the user specified his phone number
+	HasPhoto               *BaseBoolInt               `json:"has_photo,omitempty"`  // Information whether the user has main photo
+	Hidden                 *int64                     `json:"hidden,omitempty"`     // Returns if a profile is hidden.
+	HomePhone              *string                    `json:"home_phone,omitempty"` // User's additional phone number
+	HomeTown               *string                    `json:"home_town,omitempty"`  // User hometown
+	ID                     *int64                     `json:"id,omitempty"`         // User ID
+	IsClosed               *bool                      `json:"is_closed,omitempty"`
+	IsFavorite             *BaseBoolInt               `json:"is_favorite,omitempty"`            // Information whether the requested user is in faves of current user
+	IsFriend               *BaseBoolInt               `json:"is_friend,omitempty"`              // Information whether the user is a friend of current user
+	IsHiddenFromFeed       *BaseBoolInt               `json:"is_hidden_from_feed,omitempty"`    // Information whether the requested user is hidden from current user's newsfeed
+	IsSubscribedPodcasts   *bool                      `json:"is_subscribed_podcasts,omitempty"` // Information whether current user is subscribed to podcasts
+	LastName               *string                    `json:"last_name,omitempty"`              // User last name
+	LastNameAbl            *string                    `json:"last_name_abl,omitempty"`          // User's last name in prepositional case
+	LastNameAcc            *string                    `json:"last_name_acc,omitempty"`          // User's last name in accusative case
+	LastNameDat            *string                    `json:"last_name_dat,omitempty"`          // User's last name in dative case
+	LastNameGen            *string                    `json:"last_name_gen,omitempty"`          // User's last name in genitive case
+	LastNameIns            *string                    `json:"last_name_ins,omitempty"`          // User's last name in instrumental case
+	LastNameNom            *string                    `json:"last_name_nom,omitempty"`          // User's last name in nominative case
+	LastSeen               *UsersLastSeen             `json:"last_seen,omitempty"`
+	MaidenName             *string                    `json:"maiden_name,omitempty"` // User maiden name
+	Military               *[]UsersMilitary           `json:"military,omitempty"`
+	MobilePhone            *string                    `json:"mobile_phone,omitempty"` // User's mobile phone number
+	Mutual                 *FriendsRequestsMutual     `json:"mutual,omitempty"`
+	Nickname               *string                    `json:"nickname,omitempty"` // User nickname
+	Occupation             *UsersOccupation           `json:"occupation,omitempty"`
+	Online                 *BaseBoolInt               `json:"online,omitempty"`     // Information whether the user is online
+	OnlineApp              *int64                     `json:"online_app,omitempty"` // Application ID
+	OnlineInfo             *UsersOnlineInfo           `json:"online_info,omitempty"`
+	OnlineMobile           *BaseBoolInt               `json:"online_mobile,omitempty"` // Information whether the user is online in mobile site or application
+	OwnerState             *OwnerState                `json:"owner_state,omitempty"`
+	Personal               *UsersPersonal             `json:"personal,omitempty"`
+	Photo100               *string                    `json:"photo_100,omitempty"`      // URL of square photo of the user with 100 pixels in width
+	Photo200               *string                    `json:"photo_200,omitempty"`      // URL of square photo of the user with 200 pixels in width
+	Photo200Orig           *string                    `json:"photo_200_orig,omitempty"` // URL of user's photo with 200 pixels in width
+	Photo400Orig           *string                    `json:"photo_400_orig,omitempty"` // URL of user's photo with 400 pixels in width
+	Photo50                *string                    `json:"photo_50,omitempty"`       // URL of square photo of the user with 50 pixels in width
+	PhotoID                *string                    `json:"photo_id,omitempty"`       // ID of the user's main photo
+	PhotoMax               *string                    `json:"photo_max,omitempty"`      // URL of square photo of the user with maximum width
+	PhotoMaxOrig           *string                    `json:"photo_max_orig,omitempty"` // URL of user's photo of maximum size
+	Relation               *UsersUserRelation         `json:"relation,omitempty"`       // User relationship status
+	RelationPartner        *UsersUserMin              `json:"relation_partner,omitempty"`
+	Relatives              *[]UsersRelative           `json:"relatives,omitempty"`
+	Schools                *[]UsersSchool             `json:"schools,omitempty"`
+	ScreenName             *string                    `json:"screen_name,omitempty"` // Domain name of the user's page
+	Sex                    *BaseSex                   `json:"sex,omitempty"`         // User sex
+	Site                   *string                    `json:"site,omitempty"`        // User's website
+	Status                 *string                    `json:"status,omitempty"`      // User's status
+	StatusAudio            *AudioAudio                `json:"status_audio,omitempty"`
+	Timezone               *int64                     `json:"timezone,omitempty"` // User's timezone
+	Trending               *BaseBoolInt               `json:"trending,omitempty"` // Information whether the user has a "fire" pictogram.
+	Universities           *[]UsersUniversity         `json:"universities,omitempty"`
+	University             *int64                     `json:"university,omitempty"`       // University ID
+	UniversityName         *string                    `json:"university_name,omitempty"`  // University name
+	Verified               *BaseBoolInt               `json:"verified,omitempty"`         // Information whether the user is verified
+	VideoLiveCount         *int64                     `json:"video_live_count,omitempty"` // Number of user's live streams
+	VideoLiveLevel         *int64                     `json:"video_live_level,omitempty"` // User level in live streams achievements
+	WallComments           *BaseBoolInt               `json:"wall_comments,omitempty"`    // Information whether current user can comment wall posts
 }
+
 type UsersUserXtrType struct {
-	CanAccessClosed bool                      `json:"can_access_closed"`
-	Deactivated     string                    `json:"deactivated"`
-	FirstName       string                    `json:"first_name"`
-	FriendStatus    FriendsFriendStatusStatus `json:"friend_status"`
-	Hidden          int64                     `json:"hidden"`
-	ID              int64                     `json:"id"`
-	IsClosed        bool                      `json:"is_closed"`
-	LastName        string                    `json:"last_name"`
-	Mutual          FriendsRequestsMutual     `json:"mutual"`
-	Online          BaseBoolInt               `json:"online"`
-	OnlineApp       int64                     `json:"online_app"`
-	OnlineInfo      UsersOnlineInfo           `json:"online_info"`
-	OnlineMobile    BaseBoolInt               `json:"online_mobile"`
-	Photo100        string                    `json:"photo_100"`
-	Photo50         string                    `json:"photo_50"`
-	ScreenName      string                    `json:"screen_name"`
-	Sex             BaseSex                   `json:"sex"`
-	Trending        BaseBoolInt               `json:"trending"`
-	Type            UsersUserType             `json:"type"`
-	Verified        BaseBoolInt               `json:"verified"`
+	// users_user
+	CanAccessClosed *bool                      `json:"can_access_closed,omitempty"`
+	Deactivated     *string                    `json:"deactivated,omitempty"` // Returns if a profile is deleted or blocked
+	FirstName       *string                    `json:"first_name,omitempty"`  // User first name
+	FriendStatus    *FriendsFriendStatusStatus `json:"friend_status,omitempty"`
+	Hidden          *int64                     `json:"hidden,omitempty"` // Returns if a profile is hidden.
+	ID              *int64                     `json:"id,omitempty"`     // User ID
+	IsClosed        *bool                      `json:"is_closed,omitempty"`
+	LastName        *string                    `json:"last_name,omitempty"` // User last name
+	Mutual          *FriendsRequestsMutual     `json:"mutual,omitempty"`
+	Online          *BaseBoolInt               `json:"online,omitempty"`     // Information whether the user is online
+	OnlineApp       *int64                     `json:"online_app,omitempty"` // Application ID
+	OnlineInfo      *UsersOnlineInfo           `json:"online_info,omitempty"`
+	OnlineMobile    *BaseBoolInt               `json:"online_mobile,omitempty"` // Information whether the user is online in mobile site or application
+	Photo100        *string                    `json:"photo_100,omitempty"`     // URL of square photo of the user with 100 pixels in width
+	Photo50         *string                    `json:"photo_50,omitempty"`      // URL of square photo of the user with 50 pixels in width
+	ScreenName      *string                    `json:"screen_name,omitempty"`   // Domain name of the user's page
+	Sex             *BaseSex                   `json:"sex,omitempty"`           // User sex
+	Trending        *BaseBoolInt               `json:"trending,omitempty"`      // Information whether the user has a "fire" pictogram.
+	Type            *UsersUserType             `json:"type,omitempty"`
+	Verified        *BaseBoolInt               `json:"verified,omitempty"` // Information whether the user is verified
 }
+
 type UsersUsersArray struct {
 	Count int64   `json:"count"` // Users number
 	Items []int64 `json:"items"`
@@ -4974,52 +5147,53 @@ type VideoSaveResult struct {
 }
 
 type VideoVideo struct {
-	AccessKey                string             `json:"access_key"`
-	Added                    BaseBoolInt        `json:"added"`
-	AddingDate               int64              `json:"adding_date"`
-	Balance                  int64              `json:"balance"`
-	CanAdd                   BaseBoolInt        `json:"can_add"`
-	CanAddToFaves            BaseBoolInt        `json:"can_add_to_faves"`
-	CanAttachLink            BaseBoolInt        `json:"can_attach_link"`
-	CanComment               BaseBoolInt        `json:"can_comment"`
-	CanEdit                  BaseBoolInt        `json:"can_edit"`
-	CanLike                  BaseBoolInt        `json:"can_like"`
-	CanRepost                BaseBoolInt        `json:"can_repost"`
-	CanSubscribe             BaseBoolInt        `json:"can_subscribe"`
-	Comments                 int64              `json:"comments"`
-	ContentRestricted        int64              `json:"content_restricted"`
-	ContentRestrictedMessage string             `json:"content_restricted_message"`
-	Converting               BaseBoolInt        `json:"converting"`
-	Date                     int64              `json:"date"`
-	Description              string             `json:"description"`
-	Duration                 int64              `json:"duration"`
-	FirstFrame               []VideoVideoImage  `json:"first_frame"`
-	Height                   int64              `json:"height"`
-	ID                       int64              `json:"id"`
-	Image                    []VideoVideoImage  `json:"image"`
-	IsFavorite               bool               `json:"is_favorite"`
-	IsPrivate                BaseBoolInt        `json:"is_private"`
-	IsSubscribed             BaseBoolInt        `json:"is_subscribed"`
-	Likes                    BaseLikes          `json:"likes"`
-	Live                     BasePropertyExists `json:"live"`
-	LiveStatus               string             `json:"live_status"`
-	LocalViews               int64              `json:"local_views"`
-	OwnerID                  int64              `json:"owner_id"`
-	Platform                 string             `json:"platform"`
-	Player                   string             `json:"player"`
-	Processing               BasePropertyExists `json:"processing"`
-	Repeat                   BasePropertyExists `json:"repeat"`
-	Reposts                  BaseRepostsInfo    `json:"reposts"`
-	Restriction              MediaRestriction   `json:"restriction"`
-	Spectators               int64              `json:"spectators"`
-	Title                    string             `json:"title"`
-	TrackCode                string             `json:"track_code"`
-	Type                     string             `json:"type"`
-	Upcoming                 BasePropertyExists `json:"upcoming"`
-	UserID                   int64              `json:"user_id"`
-	Views                    int64              `json:"views"`
-	Width                    int64              `json:"width"`
+	AccessKey                *string             `json:"access_key,omitempty"`                 // Video access key
+	Added                    *BaseBoolInt        `json:"added,omitempty"`                      // 1 if video is added to user's albums
+	AddingDate               *int64              `json:"adding_date,omitempty"`                // Date when the video has been added in Unixtime
+	Balance                  *int64              `json:"balance,omitempty"`                    // Live donations balance
+	CanAdd                   *BaseBoolInt        `json:"can_add,omitempty"`                    // Information whether current user can add the video
+	CanAddToFaves            *BaseBoolInt        `json:"can_add_to_faves,omitempty"`           // Information whether current user can add the video to favourites
+	CanAttachLink            *BaseBoolInt        `json:"can_attach_link,omitempty"`            // Information whether current user can attach action button to the video
+	CanComment               *BaseBoolInt        `json:"can_comment,omitempty"`                // Information whether current user can comment the video
+	CanEdit                  *BaseBoolInt        `json:"can_edit,omitempty"`                   // Information whether current user can edit the video
+	CanLike                  *BaseBoolInt        `json:"can_like,omitempty"`                   // Information whether current user can like the video
+	CanRepost                *BaseBoolInt        `json:"can_repost,omitempty"`                 // Information whether current user can repost the video
+	CanSubscribe             *BaseBoolInt        `json:"can_subscribe,omitempty"`              // Information whether current user can subscribe to author of the video
+	Comments                 *int64              `json:"comments,omitempty"`                   // Number of comments
+	ContentRestricted        *int64              `json:"content_restricted,omitempty"`         // Restriction code
+	ContentRestrictedMessage *string             `json:"content_restricted_message,omitempty"` // Restriction text
+	Converting               *BaseBoolInt        `json:"converting,omitempty"`                 // 1 if  video is being converted
+	Date                     *int64              `json:"date,omitempty"`                       // Date when video has been uploaded in Unixtime
+	Description              *string             `json:"description,omitempty"`                // Video description
+	Duration                 *int64              `json:"duration,omitempty"`                   // Video duration in seconds
+	FirstFrame               *[]VideoVideoImage  `json:"first_frame,omitempty"`
+	Height                   *int64              `json:"height,omitempty"` // Video height
+	ID                       *int64              `json:"id,omitempty"`     // Video ID
+	Image                    *[]VideoVideoImage  `json:"image,omitempty"`
+	IsFavorite               *bool               `json:"is_favorite,omitempty"`   // Whether video is added to bookmarks
+	IsPrivate                *BaseBoolInt        `json:"is_private,omitempty"`    // 1 if video is private
+	IsSubscribed             *BaseBoolInt        `json:"is_subscribed,omitempty"` // 1 if user is subscribed to author of the video
+	Likes                    *BaseLikes          `json:"likes,omitempty"`
+	Live                     *BasePropertyExists `json:"live,omitempty"`        // 1 if the video is a live stream
+	LiveStatus               *string             `json:"live_status,omitempty"` // Live stream status
+	LocalViews               *int64              `json:"local_views,omitempty"` // If video is external, number of views on vk
+	OwnerID                  *int64              `json:"owner_id,omitempty"`    // Video owner ID
+	Platform                 *string             `json:"platform,omitempty"`    // External platform
+	Player                   *string             `json:"player,omitempty"`      // Video embed URL
+	Processing               *BasePropertyExists `json:"processing,omitempty"`  // Returns if the video is processing
+	Repeat                   *BasePropertyExists `json:"repeat,omitempty"`      // Information whether the video is repeated
+	Reposts                  *BaseRepostsInfo    `json:"reposts,omitempty"`
+	Restriction              *MediaRestriction   `json:"restriction,omitempty"`
+	Spectators               *int64              `json:"spectators,omitempty"` // Number of spectators of the stream
+	Title                    *string             `json:"title,omitempty"`      // Video title
+	TrackCode                *string             `json:"track_code,omitempty"`
+	Type                     *string             `json:"type,omitempty"`
+	Upcoming                 *BasePropertyExists `json:"upcoming,omitempty"` // 1 if the video is an upcoming stream
+	UserID                   *int64              `json:"user_id,omitempty"`  // Id of the user who uploaded the video if it was uploaded to a group by member
+	Views                    *int64              `json:"views,omitempty"`    // Number of views
+	Width                    *int64              `json:"width,omitempty"`    // Video width
 }
+
 type VideoVideoAlbumFull struct {
 	Count       int64              `json:"count"`        // Total number of videos in album
 	ID          int64              `json:"id"`           // Album ID
@@ -5042,61 +5216,65 @@ type VideoVideoFiles struct {
 }
 
 type VideoVideoFull struct {
-	AccessKey                string             `json:"access_key"`
-	Added                    BaseBoolInt        `json:"added"`
-	AddingDate               int64              `json:"adding_date"`
-	Balance                  int64              `json:"balance"`
-	CanAdd                   BaseBoolInt        `json:"can_add"`
-	CanAddToFaves            BaseBoolInt        `json:"can_add_to_faves"`
-	CanAttachLink            BaseBoolInt        `json:"can_attach_link"`
-	CanComment               BaseBoolInt        `json:"can_comment"`
-	CanEdit                  BaseBoolInt        `json:"can_edit"`
-	CanLike                  BaseBoolInt        `json:"can_like"`
-	CanRepost                BaseBoolInt        `json:"can_repost"`
-	CanSubscribe             BaseBoolInt        `json:"can_subscribe"`
-	Comments                 int64              `json:"comments"`
-	ContentRestricted        int64              `json:"content_restricted"`
-	ContentRestrictedMessage string             `json:"content_restricted_message"`
-	Converting               BaseBoolInt        `json:"converting"`
-	Date                     int64              `json:"date"`
-	Description              string             `json:"description"`
-	Duration                 int64              `json:"duration"`
-	Files                    VideoVideoFiles    `json:"files"`
-	FirstFrame               []VideoVideoImage  `json:"first_frame"`
-	Height                   int64              `json:"height"`
-	ID                       int64              `json:"id"`
-	Image                    []VideoVideoImage  `json:"image"`
-	IsFavorite               bool               `json:"is_favorite"`
-	IsPrivate                BaseBoolInt        `json:"is_private"`
-	IsSubscribed             BaseBoolInt        `json:"is_subscribed"`
-	Likes                    BaseLikes          `json:"likes"`
-	Live                     BasePropertyExists `json:"live"`
-	LiveSettings             VideoLiveSettings  `json:"live_settings"`
-	LiveStatus               string             `json:"live_status"`
-	LocalViews               int64              `json:"local_views"`
-	OwnerID                  int64              `json:"owner_id"`
-	Platform                 string             `json:"platform"`
-	Player                   string             `json:"player"`
-	Processing               BasePropertyExists `json:"processing"`
-	Repeat                   BasePropertyExists `json:"repeat"`
-	Reposts                  BaseRepostsInfo    `json:"reposts"`
-	Restriction              MediaRestriction   `json:"restriction"`
-	Spectators               int64              `json:"spectators"`
-	Title                    string             `json:"title"`
-	TrackCode                string             `json:"track_code"`
-	Type                     string             `json:"type"`
-	Upcoming                 BasePropertyExists `json:"upcoming"`
-	UserID                   int64              `json:"user_id"`
-	Views                    int64              `json:"views"`
-	Width                    int64              `json:"width"`
+	// video_video
+	AccessKey                *string             `json:"access_key,omitempty"`                 // Video access key
+	Added                    *BaseBoolInt        `json:"added,omitempty"`                      // 1 if video is added to user's albums
+	AddingDate               *int64              `json:"adding_date,omitempty"`                // Date when the video has been added in Unixtime
+	Balance                  *int64              `json:"balance,omitempty"`                    // Live donations balance
+	CanAdd                   *BaseBoolInt        `json:"can_add,omitempty"`                    // Information whether current user can add the video
+	CanAddToFaves            *BaseBoolInt        `json:"can_add_to_faves,omitempty"`           // Information whether current user can add the video to favourites
+	CanAttachLink            *BaseBoolInt        `json:"can_attach_link,omitempty"`            // Information whether current user can attach action button to the video
+	CanComment               *BaseBoolInt        `json:"can_comment,omitempty"`                // Information whether current user can comment the video
+	CanEdit                  *BaseBoolInt        `json:"can_edit,omitempty"`                   // Information whether current user can edit the video
+	CanLike                  *BaseBoolInt        `json:"can_like,omitempty"`                   // Information whether current user can like the video
+	CanRepost                *BaseBoolInt        `json:"can_repost,omitempty"`                 // Information whether current user can repost the video
+	CanSubscribe             *BaseBoolInt        `json:"can_subscribe,omitempty"`              // Information whether current user can subscribe to author of the video
+	Comments                 *int64              `json:"comments,omitempty"`                   // Number of comments
+	ContentRestricted        *int64              `json:"content_restricted,omitempty"`         // Restriction code
+	ContentRestrictedMessage *string             `json:"content_restricted_message,omitempty"` // Restriction text
+	Converting               *BaseBoolInt        `json:"converting,omitempty"`                 // 1 if  video is being converted
+	Date                     *int64              `json:"date,omitempty"`                       // Date when video has been uploaded in Unixtime
+	Description              *string             `json:"description,omitempty"`                // Video description
+	Duration                 *int64              `json:"duration,omitempty"`                   // Video duration in seconds
+	Files                    *VideoVideoFiles    `json:"files,omitempty"`
+	FirstFrame               *[]VideoVideoImage  `json:"first_frame,omitempty"`
+	Height                   *int64              `json:"height,omitempty"` // Video height
+	ID                       *int64              `json:"id,omitempty"`     // Video ID
+	Image                    *[]VideoVideoImage  `json:"image,omitempty"`
+	IsFavorite               *bool               `json:"is_favorite,omitempty"`   // Whether video is added to bookmarks
+	IsPrivate                *BaseBoolInt        `json:"is_private,omitempty"`    // 1 if video is private
+	IsSubscribed             *BaseBoolInt        `json:"is_subscribed,omitempty"` // 1 if user is subscribed to author of the video
+	Likes                    *BaseLikes          `json:"likes,omitempty"`
+	Live                     *BasePropertyExists `json:"live,omitempty"`          // 1 if the video is a live stream
+	LiveSettings             *VideoLiveSettings  `json:"live_settings,omitempty"` // Settings for live stream
+	LiveStatus               *string             `json:"live_status,omitempty"`   // Live stream status
+	LocalViews               *int64              `json:"local_views,omitempty"`   // If video is external, number of views on vk
+	OwnerID                  *int64              `json:"owner_id,omitempty"`      // Video owner ID
+	Platform                 *string             `json:"platform,omitempty"`      // External platform
+	Player                   *string             `json:"player,omitempty"`        // Video embed URL
+	Processing               *BasePropertyExists `json:"processing,omitempty"`    // Returns if the video is processing
+	Repeat                   *BasePropertyExists `json:"repeat,omitempty"`        // Information whether the video is repeated
+	Reposts                  *BaseRepostsInfo    `json:"reposts,omitempty"`
+	Restriction              *MediaRestriction   `json:"restriction,omitempty"`
+	Spectators               *int64              `json:"spectators,omitempty"` // Number of spectators of the stream
+	Title                    *string             `json:"title,omitempty"`      // Video title
+	TrackCode                *string             `json:"track_code,omitempty"`
+	Type                     *string             `json:"type,omitempty"`
+	Upcoming                 *BasePropertyExists `json:"upcoming,omitempty"` // 1 if the video is an upcoming stream
+	UserID                   *int64              `json:"user_id,omitempty"`  // Id of the user who uploaded the video if it was uploaded to a group by member
+	Views                    *int64              `json:"views,omitempty"`    // Number of views
+	Width                    *int64              `json:"width,omitempty"`    // Video width
 }
+
 type VideoVideoImage struct {
-	Height      int64              `json:"height"`
-	ID          string             `json:"id"`
-	URL         string             `json:"url"`
-	Width       int64              `json:"width"`
-	WithPadding BasePropertyExists `json:"with_padding"`
+	// base_image
+	Height      *int64              `json:"height,omitempty"` // Image height
+	ID          *string             `json:"id,omitempty"`
+	URL         *string             `json:"url,omitempty"`   // Image url
+	Width       *int64              `json:"width,omitempty"` // Image width
+	WithPadding *BasePropertyExists `json:"with_padding,omitempty"`
 }
+
 type WallAppPost struct {
 	ID       int64  `json:"id"`        // Application ID
 	Name     string `json:"name"`      // Application name
@@ -5292,35 +5470,38 @@ const (
 )
 
 type WallWallpostFull struct {
-	AccessKey      string                   `json:"access_key"`
-	Attachments    []WallWallpostAttachment `json:"attachments"`
-	CanDelete      BaseBoolInt              `json:"can_delete"`
-	CanEdit        BaseBoolInt              `json:"can_edit"`
-	CanPin         BaseBoolInt              `json:"can_pin"`
-	CarouselOffset int64                    `json:"carousel_offset"`
-	Comments       BaseCommentsInfo         `json:"comments"`
-	CopyHistory    []WallWallpost           `json:"copy_history"`
-	Copyright      WallPostCopyright        `json:"copyright"`
-	CreatedBy      int64                    `json:"created_by"`
-	Date           int64                    `json:"date"`
-	Edited         int64                    `json:"edited"`
-	FromID         int64                    `json:"from_id"`
-	Geo            WallGeo                  `json:"geo"`
-	ID             int64                    `json:"id"`
-	IsArchived     bool                     `json:"is_archived"`
-	IsFavorite     bool                     `json:"is_favorite"`
-	IsPinned       int64                    `json:"is_pinned"`
-	Likes          BaseLikesInfo            `json:"likes"`
-	MarkedAsAds    BaseBoolInt              `json:"marked_as_ads"`
-	OwnerID        int64                    `json:"owner_id"`
-	PostSource     WallPostSource           `json:"post_source"`
-	PostType       WallPostType             `json:"post_type"`
-	Reposts        BaseRepostsInfo          `json:"reposts"`
-	ShortTextRate  float64                  `json:"short_text_rate"`
-	SignerID       int64                    `json:"signer_id"`
-	Text           string                   `json:"text"`
-	Views          WallViews                `json:"views"`
+	// wall_carousel_base
+	// wall_wallpost
+	AccessKey      *string                   `json:"access_key,omitempty"` // Access key to private object
+	Attachments    *[]WallWallpostAttachment `json:"attachments,omitempty"`
+	CanDelete      *BaseBoolInt              `json:"can_delete,omitempty"`      // Information whether current user can delete the post
+	CanEdit        *BaseBoolInt              `json:"can_edit,omitempty"`        // Information whether current user can edit the post
+	CanPin         *BaseBoolInt              `json:"can_pin,omitempty"`         // Information whether current user can pin the post
+	CarouselOffset *int64                    `json:"carousel_offset,omitempty"` // Index of current carousel element
+	Comments       *BaseCommentsInfo         `json:"comments,omitempty"`
+	CopyHistory    *[]WallWallpost           `json:"copy_history,omitempty"`
+	Copyright      *WallPostCopyright        `json:"copyright,omitempty"`  // Information about the source of the post
+	CreatedBy      *int64                    `json:"created_by,omitempty"` // Post creator ID (if post still can be edited)
+	Date           *int64                    `json:"date,omitempty"`       // Date of publishing in Unixtime
+	Edited         *int64                    `json:"edited,omitempty"`     // Date of editing in Unixtime
+	FromID         *int64                    `json:"from_id,omitempty"`    // Post author ID
+	Geo            *WallGeo                  `json:"geo,omitempty"`
+	ID             *int64                    `json:"id,omitempty"`            // Post ID
+	IsArchived     *bool                     `json:"is_archived,omitempty"`   // Is post archived, only for post owners
+	IsFavorite     *bool                     `json:"is_favorite,omitempty"`   // Information whether the post in favorites list
+	IsPinned       *int64                    `json:"is_pinned,omitempty"`     // Information whether the post is pinned
+	Likes          *BaseLikesInfo            `json:"likes,omitempty"`         // Count of likes
+	MarkedAsAds    *BaseBoolInt              `json:"marked_as_ads,omitempty"` // Information whether the post is marked as ads
+	OwnerID        *int64                    `json:"owner_id,omitempty"`      // Wall owner's ID
+	PostSource     *WallPostSource           `json:"post_source,omitempty"`
+	PostType       *WallPostType             `json:"post_type,omitempty"`
+	Reposts        *BaseRepostsInfo          `json:"reposts,omitempty"`         // Count of views
+	ShortTextRate  *float64                  `json:"short_text_rate,omitempty"` // Preview length control parameter
+	SignerID       *int64                    `json:"signer_id,omitempty"`       // Post signer ID
+	Text           *string                   `json:"text,omitempty"`            // Post text
+	Views          *WallViews                `json:"views,omitempty"`           // Count of views
 }
+
 type WallWallpostToID struct {
 	Attachments []WallWallpostAttachment `json:"attachments"`
 	Comments    BaseCommentsInfo         `json:"comments"`

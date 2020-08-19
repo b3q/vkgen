@@ -12105,7 +12105,7 @@
         },
         "additionalProperties": false
       },
-      "users_subscriptions_item": {
+      "oneo": {
         "type": "object",
         "oneOf": [
           {

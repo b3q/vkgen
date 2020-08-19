@@ -2,6 +2,7 @@ package schema
 
 import (
 	"fmt"
+	"reflect"
 
 	"github.com/tidwall/gjson"
 )
@@ -11,7 +12,27 @@ type ObjectDefinition struct {
 	Expr ObjectExpr
 }
 
+func (def ObjectDefinition) Equal(another ObjectDefinition) bool {
+	if def.Name != another.Name {
+		return false
+	}
+
+	return def.Expr.EqualType(another.Expr)
+}
+
+type ObjectType byte
+
+const (
+	Base ObjectType = 1 << iota
+	Ref
+	AllOf
+	OneOf
+	Enum
+	Array
+)
+
 type ObjectExpr struct {
+	objtype     ObjectType
 	Type        string
 	Description *string
 	Ref         func() (ObjectDefinition, error)
@@ -21,12 +42,99 @@ type ObjectExpr struct {
 	Enum        []interface{}
 	EnumNames   []string
 	ArrayOf     *ObjectExpr
-	IsBaseType  bool
-	IsReference bool
-	IsAllOf     bool
-	IsOneOf     bool
-	IsEnum      bool
-	//IsArray     bool
+}
+
+func (expr ObjectExpr) Is(typ ObjectType) bool {
+	return expr.objtype&typ != 0
+}
+
+func (expr ObjectExpr) EqualType(another ObjectExpr) bool {
+
+	if expr.Type != another.Type {
+		return false
+	}
+
+	if len(expr.Properties) != len(another.Properties) {
+		return false
+	}
+
+	for i := 0; i < len(expr.Properties); i++ {
+		def1, def2 := expr.Properties[i], another.Properties[i]
+		if !def1.Equal(def2) {
+			return false
+		}
+	}
+
+	if expr.Is(Ref) {
+		r1, err := expr.Ref()
+		if err != nil {
+			panic(err)
+		}
+
+		r2, err := another.Ref()
+		if err != nil {
+			panic(err)
+		}
+
+		if !r1.Equal(r2) {
+			return false
+		}
+	}
+
+	if expr.Is(AllOf) {
+		if len(expr.AllOf) != len(another.AllOf) {
+			return false
+		}
+
+		for i := 0; i < len(expr.AllOf); i++ {
+			item1, item2 := expr.AllOf[i], another.AllOf[i]
+			if !item1.EqualType(item2) {
+				return false
+			}
+		}
+	}
+
+	if expr.Is(OneOf) {
+		if len(expr.OneOf) != len(another.OneOf) {
+			return false
+		}
+
+		for i := 0; i < len(expr.OneOf); i++ {
+			item1, item2 := expr.OneOf[i], another.OneOf[i]
+			if !item1.EqualType(item2) {
+				return false
+			}
+		}
+	}
+
+	if expr.Is(Enum) {
+		if len(expr.Enum) != len(another.Enum) ||
+			len(expr.EnumNames) != len(another.EnumNames) {
+			return false
+		}
+
+		for i := 0; i < len(expr.Enum); i++ {
+			e1, e2 := expr.Enum[i], another.Enum[i]
+			if !reflect.DeepEqual(e1, e2) {
+				return false
+			}
+		}
+
+		for i := 0; i < len(expr.EnumNames); i++ {
+			n1, n2 := expr.EnumNames[i], another.EnumNames[i]
+			if n1 != n2 {
+				return false
+			}
+		}
+	}
+
+	if expr.Is(Array) {
+		if !expr.ArrayOf.EqualType(*another.ArrayOf) {
+			return false
+		}
+	}
+
+	return true
 }
 
 func (p *Parser) ParseObjects(schema []byte) ([]ObjectDefinition, error) {
@@ -81,7 +189,7 @@ func (p *Parser) parseObjectExpression(obj gjson.Result) (ObjectExpr, error) {
 			return p.resolveReference(ref.String())
 		}
 		expr.Ref = refFn
-		expr.IsReference = true
+		expr.objtype = Ref
 		return expr, nil
 	}
 
@@ -96,7 +204,7 @@ func (p *Parser) parseObjectExpression(obj gjson.Result) (ObjectExpr, error) {
 
 			expr.AllOf = append(expr.AllOf, itemObjExpr)
 		}
-		expr.IsAllOf = true
+		expr.objtype = AllOf
 		return expr, nil
 	}
 
@@ -128,19 +236,13 @@ func (p *Parser) parseObjectExpression(obj gjson.Result) (ObjectExpr, error) {
 			}
 		}
 
-		expr.IsEnum = true
+		expr.objtype = Enum
 		return expr, nil
 	}
 
 	switch typ.String() {
-	case "integer":
-		fallthrough
-	case "number":
-		fallthrough
-	case "string":
-		fallthrough
-	case "boolean":
-		expr.IsBaseType = true
+	case "integer", "number", "string", "boolean":
+		expr.objtype = Base
 	case "object":
 		if oneof := obj.Get("oneOf"); oneof.Exists() && oneof.IsArray() {
 			for _, item := range oneof.Array() {
@@ -151,7 +253,7 @@ func (p *Parser) parseObjectExpression(obj gjson.Result) (ObjectExpr, error) {
 
 				expr.OneOf = append(expr.OneOf, itemObjExpr)
 			}
-			expr.IsOneOf = true
+			expr.objtype = OneOf
 			return expr, nil
 		}
 	case "array":
@@ -164,7 +266,7 @@ func (p *Parser) parseObjectExpression(obj gjson.Result) (ObjectExpr, error) {
 		if parseErr != nil {
 			return expr, parseErr
 		}
-		expr.IsBaseType = true
+		expr.objtype = Array
 		//expr.IsArray = true
 		expr.ArrayOf = &arrayType
 		return expr, nil

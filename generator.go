@@ -11,6 +11,7 @@ import (
 	"unicode"
 
 	"github.com/cqln/vkgen/schema"
+	"github.com/yudai/pp"
 )
 
 const (
@@ -84,12 +85,46 @@ func (g Generator) Generate() (err error) {
 	return
 }
 
+var kekRules = map[string]map[string]map[string]string{
+	"generated/objects.gen.go": {
+		"NotificationsNotificationParent": {
+			"Likes": "*BaseLikesInfo",
+		},
+	},
+	// "generated/responses.gen.go": {
+	// 	"NewsfeedGetSuggestedSourcesResponse": {
+	// 		"Items.IsClosed": "omgkek",
+	// 	},
+	// },
+}
+
 func (g Generator) writeSource(name string, b *bytes.Buffer) error {
-	if g.nofmt {
-		return ioutil.WriteFile(name, b.Bytes(), 0677)
+	p, err := NewPatcher(b.Bytes())
+	if err != nil {
+		return fmt.Errorf("patcher: %w", err)
 	}
 
-	src, err := format.Source(b.Bytes())
+	rulesForThisFile, ok := kekRules[name]
+	if ok {
+		for structName, rules := range rulesForThisFile {
+			for fieldName, chTo := range rules {
+				err := p.PatchStruct(structName, ChangeField(fieldName, chTo))
+				if err != nil {
+					return fmt.Errorf("patcher: %w", err)
+				}
+			}
+		}
+	}
+
+	src, err := p.Src()
+	if err != nil {
+		return fmt.Errorf("patcher: %w", err)
+	}
+	if g.nofmt {
+		return ioutil.WriteFile(name, src, 0677)
+	}
+
+	src, err = format.Source(src)
 	if err != nil {
 		return err
 	}
@@ -123,6 +158,7 @@ func (g Generator) generateObjects() error {
 			if err != nil {
 				return err
 			}
+			b.WriteString("\nimport \"encoding/json\"\n\n")
 			for _, object := range objects {
 				b.WriteString(g.ObjectDefinitionToGolang(object) + "\n")
 			}
@@ -388,7 +424,7 @@ func (g Generator) ObjectDefinitionToGolang(obj schema.ObjectDefinition) string 
 	if gname == "LeadsComplete" || gname == "LeadsStart" {
 		gname += "Object"
 	}
-	if obj.Expr.IsBaseType || obj.Expr.IsReference {
+	if obj.Expr.Is(schema.Base | schema.Ref | schema.Array) {
 		gtype := g.objectExprToGolang(obj.Expr)
 		// alias
 		if isBuiltin(gtype) {
@@ -399,7 +435,7 @@ func (g Generator) ObjectDefinitionToGolang(obj schema.ObjectDefinition) string 
 		return sb.String()
 	}
 
-	if obj.Expr.IsEnum {
+	if obj.Expr.Is(schema.Enum) {
 		sb.WriteString("type " + gname + " " + g.objectExprToGolang(obj.Expr) + "\n")
 		if len(obj.Expr.Enum) == 0 {
 			return sb.String()
@@ -437,34 +473,16 @@ func (g Generator) ObjectDefinitionToGolang(obj schema.ObjectDefinition) string 
 		return sb.String()
 	}
 
-	if obj.Expr.IsAllOf {
+	if obj.Expr.Is(schema.AllOf) {
 		s := "// allof " + obj.Name
-		s = "type " + g.goify(obj.Name) + " " + g.allofExprToGolang(obj.Expr)
+		s = "type " + g.goify(obj.Name) + " " + g.allofOneofExprToGolang(obj.Expr) + "\n"
 		return s
 	}
 
-	if obj.Expr.IsOneOf {
-		var values []schema.ObjectExpr = obj.Expr.OneOf
-
-		sb.WriteString("type " + gname + " struct {\n")
-		for _, val := range values {
-			if val.IsReference {
-				ref, err := val.Ref()
-				if err != nil {
-					panic(err)
-				}
-				jtag := "`json:\"" + *&ref.Name + ",omitempty\"`"
-				sb.WriteString("\t*" + g.objectExprToGolang(val) + " " + jtag + "\n")
-				continue
-			}
-
-			for _, prop := range val.Properties {
-				jtag := "`json:\"" + prop.Name + ",omitempty\"`"
-				sb.WriteString("\t" + g.goify(prop.Name) + "*" + g.objectExprToGolang(prop.Expr) + " " + jtag + "\n")
-			}
-		}
-		sb.WriteString("}\n")
-		return sb.String()
+	if obj.Expr.Is(schema.OneOf) {
+		s := "// oneof" + obj.Name
+		s = "type " + g.goify(obj.Name) + " " + g.allofOneofExprToGolang(obj.Expr)
+		return s
 	}
 
 	sb.WriteString("type " + gname + " struct {\n")
@@ -473,7 +491,7 @@ func (g Generator) ObjectDefinitionToGolang(obj schema.ObjectDefinition) string 
 		jsonTag += "\"`"
 		goType := g.objectExprToGolang(prop.Expr)
 
-		if prop.Expr.IsReference {
+		if prop.Expr.Is(schema.Ref) {
 			ref, err := prop.Expr.Ref()
 			if err != nil {
 				panic(err)
@@ -495,7 +513,7 @@ func (g Generator) ObjectDefinitionToGolang(obj schema.ObjectDefinition) string 
 }
 
 func (g Generator) objectExprToGolang(expr schema.ObjectExpr) string {
-	if expr.IsReference {
+	if expr.Is(schema.Ref) {
 		ref, err := expr.Ref()
 		if err != nil {
 			panic(err)
@@ -503,8 +521,8 @@ func (g Generator) objectExprToGolang(expr schema.ObjectExpr) string {
 		return g.goify(*&ref.Name)
 	}
 
-	if expr.IsAllOf {
-		return g.allofExprToGolang(expr)
+	if expr.Is(schema.AllOf | schema.OneOf) {
+		return g.allofOneofExprToGolang(expr)
 	}
 
 	switch expr.Type {
@@ -553,7 +571,7 @@ func (g Generator) ResponseDefinitionToGolang(resp schema.ResponseDefinition) st
 		return sb.String()
 	}
 
-	if resp.Expr.IsBaseType || resp.Expr.IsReference {
+	if resp.Expr.Is(schema.Base | schema.Ref | schema.Array) {
 		gtype := g.objectExprToGolang(resp.Expr.ObjectExpr)
 		// alias
 		if isBuiltin(gtype) {
@@ -564,7 +582,7 @@ func (g Generator) ResponseDefinitionToGolang(resp schema.ResponseDefinition) st
 		return sb.String()
 	}
 
-	if resp.Expr.IsEnum {
+	if resp.Expr.Is(schema.Enum) {
 		if resp.Expr.Description != nil {
 			sb.WriteString("// " + *resp.Expr.Description + "\n")
 		}
@@ -605,34 +623,16 @@ func (g Generator) ResponseDefinitionToGolang(resp schema.ResponseDefinition) st
 		return sb.String()
 	}
 
-	if resp.Expr.IsAllOf {
+	if resp.Expr.Is(schema.AllOf) {
 		s := "// allof" + resp.Name
-		s = "type" + g.goify(resp.Name) + " " + g.allofExprToGolang(resp.Expr.ObjectExpr)
+		s = "type " + g.goify(resp.Name) + " " + g.allofOneofExprToGolang(resp.Expr.ObjectExpr)
 		return s
 	}
 
-	if resp.Expr.IsOneOf {
-		var values []schema.ObjectExpr = resp.Expr.OneOf
-
-		sb.WriteString("type " + gname + " struct {\n")
-		for _, val := range values {
-			if val.IsReference {
-				ref, err := val.Ref()
-				if err != nil {
-					panic(err)
-				}
-				jtag := "`json:\"" + *&ref.Name + ",omitempty\"`"
-				sb.WriteString("\t*" + g.objectExprToGolang(val) + " " + jtag + "\n")
-				continue
-			}
-
-			for _, prop := range val.Properties {
-				jtag := "`json:\"" + prop.Name + ",omitempty\"`"
-				sb.WriteString("\t" + g.goify(prop.Name) + "*" + g.objectExprToGolang(prop.Expr) + " " + jtag + "\n")
-			}
-		}
-		sb.WriteString("}\n")
-		return sb.String()
+	if resp.Expr.Is(schema.OneOf) {
+		s := "// oneof" + resp.Name
+		s = "type " + g.goify(resp.Name) + " " + g.allofOneofExprToGolang(resp.Expr.ObjectExpr)
+		return s
 	}
 
 	requiredFields := make(map[string]struct{})
@@ -651,7 +651,7 @@ func (g Generator) ResponseDefinitionToGolang(resp schema.ResponseDefinition) st
 		jsonTag += "\"`"
 		goType := g.objectExprToGolang(prop.Expr)
 
-		if prop.Expr.IsReference {
+		if prop.Expr.Is(schema.Ref) {
 			ref, err := prop.Expr.Ref()
 			if err != nil {
 				panic(err)
@@ -672,23 +672,27 @@ func (g Generator) ResponseDefinitionToGolang(resp schema.ResponseDefinition) st
 	return sb.String()
 }
 
-func (g Generator) allofExtractFields(expr schema.ObjectExpr) map[string][]schema.ObjectExpr {
-	if !expr.IsAllOf {
-		panic("expr is not allof")
+func (g Generator) allofOneofExtractFields(expr schema.ObjectExpr) map[string][]schema.ObjectExpr {
+	if !expr.Is(schema.AllOf | schema.OneOf) {
+		panic("unsupported obj type")
 	}
-	if len(expr.AllOf) == 0 {
-		panic("empty allof")
+
+	var iterValues []schema.ObjectExpr
+	if expr.Is(schema.AllOf) {
+		iterValues = expr.AllOf
+	} else {
+		iterValues = expr.OneOf
 	}
 
 	fields := make(map[string][]schema.ObjectExpr)
-	for _, val := range expr.AllOf {
-		if val.IsReference {
+	for _, val := range iterValues {
+		if val.Is(schema.Ref) {
 			ref, err := val.Ref()
 			if err != nil {
 				panic(err)
 			}
-			if ref.Expr.IsAllOf {
-				for name, allofFields := range g.allofExtractFields(ref.Expr) {
+			if ref.Expr.Is(schema.AllOf | schema.OneOf) {
+				for name, allofFields := range g.allofOneofExtractFields(ref.Expr) {
 					tmp, ok := fields[name]
 					if !ok {
 						tmp = make([]schema.ObjectExpr, 0)
@@ -699,8 +703,8 @@ func (g Generator) allofExtractFields(expr schema.ObjectExpr) map[string][]schem
 				continue
 			}
 
-			if ref.Expr.IsReference {
-				panic("reference extr. unimplemented")
+			if ref.Expr.Is(schema.Ref) {
+				panic("reference expr. unimplemented")
 			}
 
 			for _, prop := range ref.Expr.Properties {
@@ -729,36 +733,51 @@ func (g Generator) allofExtractFields(expr schema.ObjectExpr) map[string][]schem
 	return fields
 }
 
-func (g Generator) allofExprToGolang(expr schema.ObjectExpr) string {
+func (g Generator) allofOneofExprToGolang(expr schema.ObjectExpr) string {
 	var sb strings.Builder
-	mergingFields := g.allofExtractFields(expr)
+	mergingFields := g.allofOneofExtractFields(expr)
 	var keys []string
 	for name := range mergingFields {
 		keys = append(keys, name)
 	}
 	sort.Strings(keys)
 	sb.WriteString("struct{\n")
+	for _, name := range getAllofOneofFieldNames(expr) {
+		sb.WriteString("\t// " + name + "\n")
+	}
 	for _, propName := range keys {
 		fields := mergingFields[propName]
 		if len(fields) == 0 {
 			panic("no fields")
 		}
 		if len(fields) == 1 {
-			sb.WriteString("\t" + g.goify(propName) + " " + g.objectExprToGolang(fields[0]) + "`json:\"" + propName + "\"`\n")
+			f := fields[0]
+			sb.WriteString("\t" + g.goify(propName) + " *" + g.objectExprToGolang(f) + "`json:\"" + propName + ",omitempty\"`")
+			if f.Description != nil {
+				sb.WriteString("// " + *f.Description)
+			}
+			sb.WriteString("\n")
 			continue
 		}
+
 		equal := true
 		for i := 1; i < len(fields); i++ {
-			if isDifferentExprs(fields[i-1], fields[i]) {
+			if !fields[i-1].EqualType(fields[i]) {
 				equal = false
 				break
 			}
 		}
+
 		if equal {
-			sb.WriteString("\t" + g.goify(propName) + " " + g.objectExprToGolang(fields[0]) + "`json:\"" + propName + "\"`\n")
+			f := fields[0]
+			sb.WriteString("\t" + g.goify(propName) + " *" + g.objectExprToGolang(f) + "`json:\"" + propName + ",omitempty\"`")
+			if f.Description != nil {
+				sb.WriteString("// " + *f.Description)
+			}
+			sb.WriteString("\n")
 			continue
 		}
-		sb.WriteString("\t" + g.goify(propName) + " json.RawMessage `json:\"" + propName + "\"`\n")
+		sb.WriteString("\t" + g.goify(propName) + " json.RawMessage `json:\"" + propName + ",omitempty\"`\n")
 	}
 
 	if sb.Len() == 0 {
@@ -766,122 +785,6 @@ func (g Generator) allofExprToGolang(expr schema.ObjectExpr) string {
 	}
 	sb.WriteString("}")
 	return sb.String()
-}
-
-func isDifferentExprs(expr1, expr2 schema.ObjectExpr) bool {
-	if expr1.Type != expr2.Type {
-		return true
-	}
-
-	if expr1.IsBaseType && expr2.IsBaseType {
-		return false
-	}
-
-	if expr1.IsReference && expr2.IsReference {
-		ref1, err := expr1.Ref()
-		if err != nil {
-			panic("gfg")
-		}
-
-		ref2, err := expr2.Ref()
-		if err != nil {
-			panic("gfg2")
-		}
-		return isDifferentDefs(ref1, ref2)
-	} else if expr1.IsReference && !expr2.IsReference ||
-		!expr1.IsReference && expr2.IsReference {
-		return true
-	}
-
-	if len(expr1.Properties) != len(expr2.Properties) {
-		return true
-	}
-	for i := 0; i < len(expr1.Properties); i++ {
-		p1 := expr1.Properties[i]
-		p2 := expr2.Properties[i]
-		if isDifferentDefs(p1, p2) {
-			return true
-		}
-	}
-
-	if expr1.IsEnum && expr2.IsEnum {
-		if !testEqStrings(expr1.EnumNames, expr2.EnumNames) {
-			return true
-		}
-	} else if expr1.IsEnum && !expr2.IsEnum ||
-		!expr1.IsEnum && expr2.IsEnum {
-		return true
-	}
-
-	if expr1.IsAllOf && expr2.IsAllOf {
-		if len(expr1.AllOf) != len(expr2.AllOf) {
-			return true
-		}
-		for i := 0; i < len(expr1.AllOf); i++ {
-			a1 := expr1.AllOf[i]
-			a2 := expr2.AllOf[i]
-			if isDifferentExprs(a1, a2) {
-				return true
-			}
-		}
-	} else if expr1.IsAllOf && !expr2.IsAllOf ||
-		!expr1.IsAllOf && expr2.IsAllOf {
-		return true
-	}
-
-	if expr1.IsOneOf && expr2.IsOneOf {
-		if len(expr1.OneOf) != len(expr2.OneOf) {
-			return true
-		}
-		for i := 0; i < len(expr1.OneOf); i++ {
-			a1 := expr1.OneOf[i]
-			a2 := expr2.OneOf[i]
-			if isDifferentExprs(a1, a2) {
-				return true
-			}
-		}
-	} else if expr1.IsOneOf && !expr2.IsOneOf ||
-		!expr1.IsOneOf && expr2.IsOneOf {
-		return true
-	}
-
-	if expr1.ArrayOf != nil && expr2.ArrayOf != nil {
-		if isDifferentExprs(*expr1.ArrayOf, *expr2.ArrayOf) {
-			return true
-		}
-	} else if expr1.ArrayOf != nil && expr2.ArrayOf == nil ||
-		expr1.ArrayOf == nil && expr2.ArrayOf != nil {
-		return true
-	}
-
-	return false
-}
-
-func isDifferentDefs(def1, def2 schema.ObjectDefinition) bool {
-	if def1.Name != def2.Name {
-		return true
-	}
-	return isDifferentExprs(def1.Expr, def2.Expr)
-}
-
-func testEqStrings(a, b []string) bool {
-
-	// If one is nil, the other must also be nil.
-	if (a == nil) != (b == nil) {
-		return false
-	}
-
-	if len(a) != len(b) {
-		return false
-	}
-
-	for i := range a {
-		if a[i] != b[i] {
-			return false
-		}
-	}
-
-	return true
 }
 
 var builtinTypes = map[string]struct{}{
@@ -895,4 +798,38 @@ func isBuiltin(s string) bool {
 	s = strings.ReplaceAll(s, "[]", "")
 	_, ok := builtinTypes[s]
 	return ok
+}
+
+func getAllofOneofFieldNames(expr schema.ObjectExpr) []string {
+	var names []string
+	var fields []schema.ObjectExpr
+	if expr.Is(schema.AllOf) {
+		fields = expr.AllOf
+	} else if expr.Is(schema.OneOf) {
+		fields = expr.OneOf
+	} else {
+		panic("unsupported obj type")
+	}
+
+	for _, field := range fields {
+		if field.Is(schema.Ref) {
+			ref, err := field.Ref()
+			if err != nil {
+				panic(err)
+			}
+			names = append(names, ref.Name)
+			continue
+		}
+		if field.Type == "object" {
+			str := "struct{\n"
+			for _, prop := range field.Properties {
+				str += "\t" + prop.Name + "\n"
+			}
+			str += "}"
+			names = append(names, str)
+			continue
+		}
+		pp.Println(field)
+	}
+	return names
 }

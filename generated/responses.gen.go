@@ -880,78 +880,80 @@ type NewsfeedGetRecommendedResponse struct {
 type NewsfeedGetSuggestedSourcesResponse struct {
 	Count int64 `json:"count"` // Total number
 	Items []struct {
-		Activity             string                      `json:"activity"`
-		Addresses            GroupsAddressesInfo         `json:"addresses"`
-		AdminLevel           GroupsGroupAdminLevel       `json:"admin_level"`
-		AgeLimits            GroupsGroupFullAgeLimits    `json:"age_limits"`
-		BanInfo              GroupsGroupBanInfo          `json:"ban_info"`
-		CanAccessClosed      bool                        `json:"can_access_closed"`
-		CanCreateTopic       BaseBoolInt                 `json:"can_create_topic"`
-		CanMessage           BaseBoolInt                 `json:"can_message"`
-		CanPost              BaseBoolInt                 `json:"can_post"`
-		CanSeeAllPosts       BaseBoolInt                 `json:"can_see_all_posts"`
-		CanSendNotify        BaseBoolInt                 `json:"can_send_notify"`
-		CanSubscribePodcasts bool                        `json:"can_subscribe_podcasts"`
-		CanSubscribePosts    bool                        `json:"can_subscribe_posts"`
-		CanUploadDoc         BaseBoolInt                 `json:"can_upload_doc"`
-		CanUploadStory       BaseBoolInt                 `json:"can_upload_story"`
-		CanUploadVideo       BaseBoolInt                 `json:"can_upload_video"`
-		City                 BaseObject                  `json:"city"`
-		Contacts             []GroupsContactsItem        `json:"contacts"`
-		Counters             GroupsCountersGroup         `json:"counters"`
-		Country              BaseCountry                 `json:"country"`
-		Cover                GroupsCover                 `json:"cover"`
-		CropPhoto            BaseCropPhoto               `json:"crop_photo"`
-		Deactivated          string                      `json:"deactivated"`
-		Description          string                      `json:"description"`
-		FinishDate           int64                       `json:"finish_date"`
-		FirstName            string                      `json:"first_name"`
-		FixedPost            int64                       `json:"fixed_post"`
-		FriendStatus         FriendsFriendStatusStatus   `json:"friend_status"`
-		HasMarketApp         bool                        `json:"has_market_app"`
-		HasPhoto             BaseBoolInt                 `json:"has_photo"`
-		Hidden               int64                       `json:"hidden"`
-		ID                   int64                       `json:"id"`
-		IsAdmin              BaseBoolInt                 `json:"is_admin"`
-		IsAdult              BaseBoolInt                 `json:"is_adult"`
-		IsAdvertiser         BaseBoolInt                 `json:"is_advertiser"`
-		IsClosed             json.RawMessage             `json:"is_closed"`
-		IsFavorite           BaseBoolInt                 `json:"is_favorite"`
-		IsHiddenFromFeed     BaseBoolInt                 `json:"is_hidden_from_feed"`
-		IsMember             BaseBoolInt                 `json:"is_member"`
-		IsMessagesBlocked    BaseBoolInt                 `json:"is_messages_blocked"`
-		IsSubscribed         BaseBoolInt                 `json:"is_subscribed"`
-		IsSubscribedPodcasts bool                        `json:"is_subscribed_podcasts"`
-		LastName             string                      `json:"last_name"`
-		Links                []GroupsLinksItem           `json:"links"`
-		LiveCovers           GroupsLiveCovers            `json:"live_covers"`
-		MainAlbumID          int64                       `json:"main_album_id"`
-		MainSection          GroupsGroupFullMainSection  `json:"main_section"`
-		Market               GroupsMarketInfo            `json:"market"`
-		MemberStatus         GroupsGroupFullMemberStatus `json:"member_status"`
-		MembersCount         int64                       `json:"members_count"`
-		Mutual               FriendsRequestsMutual       `json:"mutual"`
-		Name                 string                      `json:"name"`
-		Online               BaseBoolInt                 `json:"online"`
-		OnlineApp            int64                       `json:"online_app"`
-		OnlineInfo           UsersOnlineInfo             `json:"online_info"`
-		OnlineMobile         BaseBoolInt                 `json:"online_mobile"`
-		OnlineStatus         GroupsOnlineStatus          `json:"online_status"`
-		Photo100             string                      `json:"photo_100"`
-		Photo200             string                      `json:"photo_200"`
-		Photo50              string                      `json:"photo_50"`
-		ScreenName           string                      `json:"screen_name"`
-		Sex                  BaseSex                     `json:"sex"`
-		Site                 string                      `json:"site"`
-		StartDate            int64                       `json:"start_date"`
-		Status               string                      `json:"status"`
-		Trending             BaseBoolInt                 `json:"trending"`
-		Type                 json.RawMessage             `json:"type"`
-		Verified             BaseBoolInt                 `json:"verified"`
-		VideoLiveCount       int64                       `json:"video_live_count"`
-		VideoLiveLevel       int64                       `json:"video_live_level"`
-		Wall                 int64                       `json:"wall"`
-		WikiPage             string                      `json:"wiki_page"`
+		// groups_group_full
+		// users_user_xtr_type
+		Activity             *string                      `json:"activity,omitempty"`  // Type of group, start date of event or category of public page
+		Addresses            *GroupsAddressesInfo         `json:"addresses,omitempty"` // Info about addresses in groups
+		AdminLevel           *GroupsGroupAdminLevel       `json:"admin_level,omitempty"`
+		AgeLimits            *GroupsGroupFullAgeLimits    `json:"age_limits,omitempty"` // Information whether age limit
+		BanInfo              *GroupsGroupBanInfo          `json:"ban_info,omitempty"`   // User ban info
+		CanAccessClosed      *bool                        `json:"can_access_closed,omitempty"`
+		CanCreateTopic       *BaseBoolInt                 `json:"can_create_topic,omitempty"`       // Information whether current user can create topic
+		CanMessage           *BaseBoolInt                 `json:"can_message,omitempty"`            // Information whether current user can send a message to community
+		CanPost              *BaseBoolInt                 `json:"can_post,omitempty"`               // Information whether current user can post on community's wall
+		CanSeeAllPosts       *BaseBoolInt                 `json:"can_see_all_posts,omitempty"`      // Information whether current user can see all posts on community's wall
+		CanSendNotify        *BaseBoolInt                 `json:"can_send_notify,omitempty"`        // Information whether community can send notifications by phone number to current user
+		CanSubscribePodcasts *bool                        `json:"can_subscribe_podcasts,omitempty"` // Owner in whitelist or not
+		CanSubscribePosts    *bool                        `json:"can_subscribe_posts,omitempty"`    // Can subscribe to wall
+		CanUploadDoc         *BaseBoolInt                 `json:"can_upload_doc,omitempty"`         // Information whether current user can upload doc
+		CanUploadStory       *BaseBoolInt                 `json:"can_upload_story,omitempty"`       // Information whether current user can upload story
+		CanUploadVideo       *BaseBoolInt                 `json:"can_upload_video,omitempty"`       // Information whether current user can upload video
+		City                 *BaseObject                  `json:"city,omitempty"`
+		Contacts             *[]GroupsContactsItem        `json:"contacts,omitempty"`
+		Counters             *GroupsCountersGroup         `json:"counters,omitempty"`
+		Country              *BaseCountry                 `json:"country,omitempty"`
+		Cover                *GroupsCover                 `json:"cover,omitempty"`
+		CropPhoto            *BaseCropPhoto               `json:"crop_photo,omitempty"`  // Данные о точках, по которым вырезаны профильная и миниатюрная фотографии сообщества
+		Deactivated          *string                      `json:"deactivated,omitempty"` // Information whether community is banned
+		Description          *string                      `json:"description,omitempty"` // Community description
+		FinishDate           *int64                       `json:"finish_date,omitempty"` // Finish date in Unixtime format
+		FirstName            *string                      `json:"first_name,omitempty"`  // User first name
+		FixedPost            *int64                       `json:"fixed_post,omitempty"`  // Fixed post ID
+		FriendStatus         *FriendsFriendStatusStatus   `json:"friend_status,omitempty"`
+		HasMarketApp         *bool                        `json:"has_market_app,omitempty"` // Information whether community has installed market app
+		HasPhoto             *BaseBoolInt                 `json:"has_photo,omitempty"`      // Information whether community has photo
+		Hidden               *int64                       `json:"hidden,omitempty"`         // Returns if a profile is hidden.
+		ID                   *int64                       `json:"id,omitempty"`             // Community ID
+		IsAdmin              *BaseBoolInt                 `json:"is_admin,omitempty"`       // Information whether current user is administrator
+		IsAdult              *BaseBoolInt                 `json:"is_adult,omitempty"`       // Information whether community is adult
+		IsAdvertiser         *BaseBoolInt                 `json:"is_advertiser,omitempty"`  // Information whether current user is advertiser
+		IsClosed             json.RawMessage              `json:"is_closed,omitempty"`
+		IsFavorite           *BaseBoolInt                 `json:"is_favorite,omitempty"`            // Information whether community is in faves
+		IsHiddenFromFeed     *BaseBoolInt                 `json:"is_hidden_from_feed,omitempty"`    // Information whether community is hidden from current user's newsfeed
+		IsMember             *BaseBoolInt                 `json:"is_member,omitempty"`              // Information whether current user is member
+		IsMessagesBlocked    *BaseBoolInt                 `json:"is_messages_blocked,omitempty"`    // Information whether community can send a message to current user
+		IsSubscribed         *BaseBoolInt                 `json:"is_subscribed,omitempty"`          // Information whether current user is subscribed
+		IsSubscribedPodcasts *bool                        `json:"is_subscribed_podcasts,omitempty"` // Information whether current user is subscribed to podcasts
+		LastName             *string                      `json:"last_name,omitempty"`              // User last name
+		Links                *[]GroupsLinksItem           `json:"links,omitempty"`
+		LiveCovers           *GroupsLiveCovers            `json:"live_covers,omitempty"`   // Live covers state
+		MainAlbumID          *int64                       `json:"main_album_id,omitempty"` // Community's main photo album ID
+		MainSection          *GroupsGroupFullMainSection  `json:"main_section,omitempty"`
+		Market               *GroupsMarketInfo            `json:"market,omitempty"`
+		MemberStatus         *GroupsGroupFullMemberStatus `json:"member_status,omitempty"` // Current user's member status
+		MembersCount         *int64                       `json:"members_count,omitempty"` // Community members number
+		Mutual               *FriendsRequestsMutual       `json:"mutual,omitempty"`
+		Name                 *string                      `json:"name,omitempty"`       // Community name
+		Online               *BaseBoolInt                 `json:"online,omitempty"`     // Information whether the user is online
+		OnlineApp            *int64                       `json:"online_app,omitempty"` // Application ID
+		OnlineInfo           *UsersOnlineInfo             `json:"online_info,omitempty"`
+		OnlineMobile         *BaseBoolInt                 `json:"online_mobile,omitempty"` // Information whether the user is online in mobile site or application
+		OnlineStatus         *GroupsOnlineStatus          `json:"online_status,omitempty"` // Status of replies in community messages
+		Photo100             *string                      `json:"photo_100,omitempty"`     // URL of square photo of the community with 100 pixels in width
+		Photo200             *string                      `json:"photo_200,omitempty"`     // URL of square photo of the community with 200 pixels in width
+		Photo50              *string                      `json:"photo_50,omitempty"`      // URL of square photo of the community with 50 pixels in width
+		ScreenName           *string                      `json:"screen_name,omitempty"`   // Domain of the community page
+		Sex                  *BaseSex                     `json:"sex,omitempty"`           // User sex
+		Site                 *string                      `json:"site,omitempty"`          // Community's website
+		StartDate            *int64                       `json:"start_date,omitempty"`    // Start date in Unixtime format
+		Status               *string                      `json:"status,omitempty"`        // Community status
+		Trending             *BaseBoolInt                 `json:"trending,omitempty"`      // Information whether the community has a "fire" pictogram.
+		Type                 json.RawMessage              `json:"type,omitempty"`
+		Verified             *BaseBoolInt                 `json:"verified,omitempty"`         // Information whether community is verified
+		VideoLiveCount       *int64                       `json:"video_live_count,omitempty"` // Number of community's live streams
+		VideoLiveLevel       *int64                       `json:"video_live_level,omitempty"` // Community level live streams achievements
+		Wall                 *int64                       `json:"wall,omitempty"`             // Information about wall status in community
+		WikiPage             *string                      `json:"wiki_page,omitempty"`        // Community's main wiki page title
 	} `json:"items"`
 }
 
